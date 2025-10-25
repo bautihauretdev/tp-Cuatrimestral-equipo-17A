@@ -1,2 +1,113 @@
 ﻿body {
+    background-color: #221810;
+    font-family: 'Lexend', sans-serif;
+    margin: 0;
+    height: 100vh;
 }
+
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+
+.login-left {
+    flex: 3;
+    background: url('https://img.freepik.com/foto-gratis/vista-angulo-hombre-musculoso-irreconocible-preparandose-levantar-barra-club-salud_637285-2497.jpg?semt=ais_hybrid&w=740&q=80') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+    .login-left::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+.login-quote {
+    position: relative;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    z-index: 1;
+    max-width: 500px;
+}
+
+.login-right {
+    flex: 2;
+    background-color: #221810;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-box {
+    background: transparent;
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+}
+
+.login-icon {
+    font-size: 48px;
+    color: #f77e21;
+    transform: rotate(-45deg);
+    margin-bottom: 1rem;
+}
+
+h2 {
+    color: white;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    color: #ccc;
+    margin-bottom: 1.5rem;
+}
+
+.input-field {
+    display: block;
+    width: 100%;
+    background-color: #1f1b16;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+}
+
+    .input-field::placeholder {
+        color: #888;
+    }
+
+.btn-login {
+    width: 100%;
+    background-color: #f77e21;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+    .btn-login:hover {
+        background-color: #ff8e3c;
+    }
+
+.forgot {
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+    .forgot a {
+        color: #f77e21;
+        text-decoration: none;
+    }
+
+        .forgot a:hover {
+            text-decoration: underline;
+        }
