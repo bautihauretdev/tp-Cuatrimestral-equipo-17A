@@ -17,7 +17,7 @@ namespace negocio
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=localhost\\SQLEXPRESS; database=GYM_DB; integrated security=true");
+            conexion = new SqlConnection("server=localhost\\SQLEXPRESS; database=EQUIPO17A_GYM_DB; integrated security=true");
             comando = new SqlCommand();
             comando.Connection = conexion;
         }
