@@ -1,5 +1,5 @@
 ﻿body {
-    background-color: #221810;
+    background-color: #191919;
     font-family: 'Lexend', sans-serif;
     margin: 0;
     height: 100vh;
@@ -79,9 +79,9 @@ p {
     border-radius: 6px;
 }
 
-    .input-field::placeholder {
-        color: #888;
-    }
+.input-field::placeholder {
+    color: #888;
+}
 
 .btn-login {
     width: 100%;

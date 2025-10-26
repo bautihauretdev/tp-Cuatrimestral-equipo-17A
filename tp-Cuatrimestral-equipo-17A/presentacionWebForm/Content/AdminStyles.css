@@ -1,0 +1,13 @@
+﻿body {
+    background-color: #191919;
+    font-family: 'Lexend', sans-serif;
+    margin: 0;
+    height: 100vh;
+}
+
+/* Hover de los links */
+.nav-link.custom-link:hover {
+    color: #FFA431 !important;
+    transform: scale(1.05);
+    transition: all 0.2s ease-in-out;
+}
