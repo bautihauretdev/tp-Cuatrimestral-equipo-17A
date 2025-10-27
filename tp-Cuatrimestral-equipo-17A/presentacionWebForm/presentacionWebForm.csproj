@@ -71,6 +71,7 @@
     <Content Include="Content\SocioStyles.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="SocioMiPerfil.aspx" />
     <Content Include="SocioTurnos.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -133,6 +134,13 @@
     </Compile>
     <Compile Include="SocioMasterPage.Master.designer.cs">
       <DependentUpon>SocioMasterPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="SocioMiPerfil.aspx.cs">
+      <DependentUpon>SocioMiPerfil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SocioMiPerfil.aspx.designer.cs">
+      <DependentUpon>SocioMiPerfil.aspx</DependentUpon>
     </Compile>
     <Compile Include="SocioTurnos.aspx.cs">
       <DependentUpon>SocioTurnos.aspx</DependentUpon>
