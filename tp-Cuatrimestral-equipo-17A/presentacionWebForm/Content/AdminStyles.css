@@ -5,9 +5,17 @@
     height: 100vh;
 }
 
+.navbar-brand {
+    margin-left: 20px;
+}
+
+.nav-link.custom-link {
+    margin-right: 20px;
+}
+
 /* Hover de los links */
 .nav-link.custom-link:hover {
     color: #FFA431 !important;
-    transform: scale(1.05);
+    transform: scale(1.02);
     transition: all 0.2s ease-in-out;
 }
