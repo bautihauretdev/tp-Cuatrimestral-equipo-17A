@@ -5,17 +5,62 @@
     height: 100vh;
 }
 
+
+/**** MASTER PAGE ****/
+
+.container-custom {
+    padding-left: 40px;
+    padding-right: 40px;
+    max-width: 100%; /* Mantener container responsive */
+}
+
+.navbar-dark {
+    background-color: #1a2831;
+}
+
 .navbar-brand {
-    margin-left: 20px;
+    margin-left: 28px;
 }
 
 .nav-link.custom-link {
-    margin-right: 20px;
+    margin-right: 28px;
 }
 
-/* Hover de los links */
 .nav-link.custom-link:hover {
     color: #FFA431 !important;
     transform: scale(1.02);
     transition: all 0.2s ease-in-out;
 }
+
+/**** PAGINA TURNOS ****/
+
+/* Cards arriba de todo */
+.card {
+    margin-top: 25px;
+    background-color: #1a2831;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0.9rem;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.iconoColor {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.tituloTurnos {
+    display: block;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.numeroTurnos {
+    display: block;
+    color: #fff;
+    font-size: 50px;
+    font-weight: 700;
+}
+
+
