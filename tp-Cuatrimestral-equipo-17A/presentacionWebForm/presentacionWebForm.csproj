@@ -68,8 +68,10 @@
     <Content Include="AdminTurnos.aspx" />
     <Content Include="Content\AdminStyles.css" />
     <Content Include="Content\Styles.css" />
+    <Content Include="Content\SocioStyles.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="SocioTurnos.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -126,11 +128,25 @@
       <DependentUpon>MasterPage.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SocioMasterPage.Master.cs">
+      <DependentUpon>SocioMasterPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="SocioMasterPage.Master.designer.cs">
+      <DependentUpon>SocioMasterPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="SocioTurnos.aspx.cs">
+      <DependentUpon>SocioTurnos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SocioTurnos.aspx.designer.cs">
+      <DependentUpon>SocioTurnos.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage.Master" />
     <Content Include="AdminMasterPage.Master" />
     <None Include="packages.config" />
+    <Content Include="SocioMasterPage.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
