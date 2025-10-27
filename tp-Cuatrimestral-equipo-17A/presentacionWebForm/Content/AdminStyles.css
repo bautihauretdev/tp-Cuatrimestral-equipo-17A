@@ -32,9 +32,9 @@
     transition: all 0.2s ease-in-out;
 }
 
-/***** PAGINA TURNOS *****/
+/* ========== PAGINA TURNOS ========== */
 
-/** CARDS INFORMACIÓN **/
+/* ===== CARDS INFORMACIÓN ===== */
 .card {
     margin-top: 25px;
     background-color: #1a2831;
@@ -64,7 +64,7 @@
 }
 
 
-/** CALENDARIO **/
+/* ===== CALENDARIO ===== */
 
 .calendarioTitulo {
     color: #fff;
@@ -79,13 +79,13 @@
     display: inline-block;
 }
 
-/* CONTENEDOR DEL HEADER */
+/* === CONTENEDOR DEL HEADER === */
 
 .header-calendario {
     display: flex;
     flex-direction: column; /* apila vertical en móviles */
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 0px !important;
     padding: 1rem 1rem 0 1rem; /* padding-top 1rem, padding-left/right 1rem, padding-bottom 0 */
 }
 
@@ -102,21 +102,27 @@
     }
 }
 
-/* == GRILLA DEL CALENDARIO == */
+/* === GRILLA DEL CALENDARIO === */
+/* Muestra scroll horizontal cuando hace falta */
+.calendar-scroll {
+    overflow-x: auto; /* muestra barra horizontal */
+    width: 100%; /* ocupa todo el ancho del card */
+
+}
+
 .calendar-grid {
     display: grid;
     grid-template-columns: auto repeat(7, minmax(140px, 1fr));
     gap: 0.5rem;
-    min-width: 1100px;
-    padding: 0 1rem 1rem 1rem;
+    min-width: 100%; /* ocupa todo el ancho disponible dentro del scroll */
+    width: max-content; /* se expande según contenido */
 }
 
 @media (min-width: 576px) {
     .calendar-grid {
-        padding: 32px 32px 32px 32px;
+        padding: 0px 32px 32px 32px;
     }
 }
-
 
 /* == CABECERA DE DÍAS == */
 .cabeceraDias {
@@ -127,6 +133,12 @@
     color: #6c757d; /* text-secondary */
     z-index: 1020;
     font-weight: 600;
+}
+
+.horaCol {
+    align-self: start; /* alinea la hora en la parte superior de la celda */
+    padding-top: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 /* == TURNOS BOTONES == */
