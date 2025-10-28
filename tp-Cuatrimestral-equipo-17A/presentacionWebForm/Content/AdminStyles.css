@@ -155,3 +155,310 @@
     .turnoButton:hover {
         background-color: #FFA431; /* hover sutil */
     }
+
+/* == VENTANA ADMIN SOCIOS == */
+
+:root {
+    --color-primary: #38e07b;
+    --color-background-dark: #1a202c;
+    --color-gray-900: #111827;
+    --color-gray-800: #1f2937;
+    --color-gray-700: #374151;
+    --color-gray-400: #9ca3af;
+    --color-text: #e5e7eb; 
+    --color-text-light: #f3f4f6; 
+    --font-inter: 'Inter', sans-serif;
+    --font-size-base: 1.125rem; 
+    --border-radius-xl: 0.75rem;
+}
+
+body {
+    font-family: var(--font-inter);
+    background-color: var(--color-background-dark);
+}
+
+/* Contenedores de Layout y Centrado */
+
+/* Centrado vertical y horizontal, altura de pantalla completa */
+.main-container {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Asegura que no haya scroll vertical */
+}
+
+.content-wrapper {
+    /* Mantiene el contenido centrado en una columna */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 900px;
+    
+    padding-left: 1rem;
+    padding-right: 1rem;
+    
+    padding-top: 0;
+    padding-bottom: 2.5rem;
+}
+
+/* 3. Cabecera y Búsqueda */
+.header-section {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.title-and-search {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.main-title {
+    font-size: 2.25rem; 
+    font-weight: 900; 
+    color: white;
+    line-height: 1.25;
+}
+
+.search-box-container {
+    position: relative;
+    max-width: 20rem; 
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    color: var(--color-gray-400);
+    font-size: 1.25rem;
+}
+
+.search-input {
+    display: block;
+    width: 100%;
+    height: 2.5rem;
+    padding-left: 2.5rem;
+    padding-right: 0.75rem;
+    font-size: 0.875rem; 
+    color: var(--color-text);
+    border: 1px solid var(--color-gray-700);
+    border-radius: 0.5rem;
+    background-color: var(--color-gray-800);
+    outline: none;
+}
+
+/* 4. Panel Principal de Socios */
+.socio-main-panel {
+    display: flex;
+    flex-direction: column; 
+    gap: 2rem;
+    margin-top: 0.5rem;
+    padding: 1rem;
+}
+
+@media (min-width: 1024px) { 
+    .socio-main-panel {
+        flex-direction: row;
+        padding: 0;
+    }
+}
+
+.panel-title {
+    color: white;
+    font-size: 1.25rem; 
+    font-weight: 700;
+    line-height: 1.25;
+    padding-bottom: 1.25rem;
+}
+
+/* Información Personal  */
+.info-personal-box {
+    flex: 1 1 0%;
+    background-color: rgba(17, 24, 39, 0.5); 
+    padding: 1.5rem;
+    border-radius: var(--border-radius-xl);
+    border: 1px solid var(--color-gray-800);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem 1rem;
+}
+
+@media (min-width: 640px) { 
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0 1rem;
+    }
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    border-top: 1px solid var(--color-gray-700);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.info-span-2 {
+    grid-column: span 2 / span 2;
+}
+
+.info-label {
+    color: var(--color-gray-400);
+    font-size: 0.875rem; 
+}
+
+.info-value {
+    color: var(--color-text-light);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+
+/* Paneles Laterales (Derecha) */
+.side-panels-wrapper {
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+@media (min-width: 1024px) { 
+    .side-panels-wrapper {
+        width: 20rem; 
+    }
+}
+
+.status-panel, .membership-panel {
+    background-color: rgba(17, 24, 39, 0.5);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-xl);
+    border: 1px solid var(--color-gray-800);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.socio-name {
+    color: white;
+    font-size: 1.875rem; 
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.status-dot-solid {
+    position: relative;
+    display: inline-flex;
+    height: 0.625rem; 
+    width: 0.625rem; 
+    border-radius: 9999px;
+    background-color: #10b981; 
+}
+
+.status-dot-animated {
+    position: absolute;
+    display: inline-flex;
+    height: 0.625rem;
+    width: 0.625rem;
+    border-radius: 9999px;
+    background-color: #4ade80; 
+    opacity: 0.75;
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.status-text-active {
+    color: #4ade80; 
+    font-size: 1.25rem; 
+    font-weight: 500;
+}
+
+@keyframes ping {
+    75%, 100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.membership-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* 5. Botones de Acción */
+.action-buttons-container {
+    display: flex;
+    flex-direction: column; 
+    gap: 1rem;
+    margin-top: 1rem; 
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width: 640px) { 
+    .action-buttons-container {
+        flex-direction: row;
+    }
+}
+
+.btn-primary-action,
+.btn-secondary-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem; 
+    font-size: 1rem; 
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: background-color 0.15s ease-in-out;
+    width: 100%; 
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+@media (min-width: 640px) { 
+    .btn-primary-action,
+    .btn-secondary-action {
+        width: auto; 
+    }
+}
+
+/* Estilo Primario (Verde) */
+.btn-primary-action {
+    color: black;
+    background-color: var(--color-primary);
+}
+
+    .btn-primary-action:hover {
+        background-color: #4ade80; 
+    }
+
+/* Estilo Secundario (Gris) */
+.btn-secondary-action {
+    color: white;
+    background-color: var(--color-gray-700);
+}
+
+    .btn-secondary-action:hover {
+        background-color: #4b5563;
+    }
