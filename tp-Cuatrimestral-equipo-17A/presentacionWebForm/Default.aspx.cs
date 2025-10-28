@@ -26,9 +26,9 @@ namespace presentacionWebForm
             {
                 Session["usuario"] = usuario;
                 if (usuario.Rol == RolUsuario.Administrador)
-                    Response.Redirect("AdminHome.aspx");
+                    Response.Redirect("AdminTurnos.aspx");
                 else
-                    Response.Redirect("SocioHome.aspx");
+                    Response.Redirect("SocioMiPerfil.aspx");
             }
             else
             {

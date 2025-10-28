@@ -136,3 +136,132 @@
     .turnoButton:hover {
         background-color: #FFA431; /* hover sutil */
     }
+
+/* == SOCIO MI PERFIL == */
+.perfil-container {
+    background-color: #231e0f;
+    color: #f9fafb;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    font-family: 'Lexend', sans-serif;
+}
+
+.perfil-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.perfil-icon {
+    font-size: 48px;
+    color: #997102;
+    margin-right: 1rem;
+}
+
+.perfil-header h2 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.perfil-header p {
+    color: #ccc;
+    margin-top: 0.3rem;
+    font-size: 0.95rem;
+}
+
+.perfil-mensaje {
+    display: block;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.perfil-seccion {
+    margin-bottom: 2rem;
+}
+
+    .perfil-seccion h3 {
+        border-bottom: 1px solid #444;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        color: #f9fafb;
+    }
+
+.perfil-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.perfil-campo label {
+    display: block;
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.perfil-input {
+    width: 100%;
+    padding: 0.6rem;
+    background-color: #1f1b16;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 6px;
+}
+
+    .perfil-input:focus {
+        outline: none;
+        border-color: #997102;
+    }
+
+.perfil-readonly {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.perfil-rutina {
+    background-color: #1f1b16;
+    padding: 1rem;
+    border-radius: 8px;
+    color: #ddd;
+}
+
+.perfil-rutina-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+    .perfil-rutina-header h4 {
+        margin: 0;
+        color: #f9fafb;
+    }
+
+.perfil-rutina ul {
+    list-style: disc;
+    margin-left: 1.5rem;
+}
+
+.perfil-botones {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.btn-perfil {
+    background-color: #997102;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .btn-perfil:hover {
+        background-color: #b28b17;
+    }
