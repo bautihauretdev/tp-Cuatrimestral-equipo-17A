@@ -160,7 +160,7 @@
 
 /* ========== SOCIO MI PERFIL ========== */
 .perfil-container {
-    background-color: #231e0f;
+    background-color: #1a2831;
     color: #f9fafb;
     max-width: 800px;
     margin: 40px auto;
@@ -244,28 +244,12 @@
     cursor: not-allowed;
 }
 
-.perfil-rutina {
-    background-color: #1f1b16;
-    padding: 1rem;
-    border-radius: 8px;
-    color: #ddd;
-}
 
-.perfil-rutina-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-}
 
-    .perfil-rutina-header h4 {
-        margin: 0;
-        color: #f9fafb;
-    }
 
-.perfil-rutina ul {
-    list-style: disc;
-    margin-left: 1.5rem;
-}
+
+
+
 
 .perfil-botones {
     display: flex;
@@ -274,7 +258,7 @@
 }
 
 .btn-perfil {
-    background-color: #997102;
+    background-color: #FFA431;
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
