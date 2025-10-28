@@ -59,7 +59,7 @@
                 <div class="header-calendario">
                     <asp:Label ID="lblCalendarioTitulo" runat="server" CssClass="calendarioTitulo" Text="Calendario Semanal"></asp:Label>
                     <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
-                    <asp:Label ID="lblCalendarioRango" runat="server" CssClass="calendarioRango" Text="20 Oct - 26 Oct"></asp:Label>               
+                    <asp:Label ID="lblCalendarioRango" runat="server" CssClass="calendarioRango" Text="20 Oct - 26 Oct"></asp:Label>
                 </div>
 
                 <!-- DIAS / HORA / TURNO -->
@@ -127,12 +127,69 @@
                 </div>
 
                 <!-- BOTONES -->
-                <div class="botonera">
+                <%--                <div class="botonera">
                     <asp:Button ID="btnAgregarTurno" runat="server" Text="Agregar turno" CssClass="agregarTurno" />
                     <asp:Button ID="btnEditarTurno" runat="server" Text="Editar turno" CssClass="modificarTurno" />
+                </div>--%>
+
+                <div class="botonera">
+                    <button type="button" class="editarTurno" data-bs-toggle="modal" data-bs-target="#modalEditarTurno">
+                        Editar turno
+                    </button>
                 </div>
 
             </div>
         </div>
     </div>
+
+    <!-- VENTANA FLOTANTE EDITAR TURNO -->
+    <div class="modal fade" id="modalEditarTurno" tabindex="-1" aria-labelledby="modalEditarTurnoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="modalEditarTurnoLabel">Editar turnos</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- FILA: FECHAS -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="txtFechaDesde" class="form-label">Fecha desde</label>
+                            <asp:TextBox ID="txtFechaDesde" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="txtFechaHasta" class="form-label">Fecha hasta</label>
+                            <asp:TextBox ID="txtFechaHasta" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+
+                    <!-- FILA: HORAS -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="txtHoraDesde" class="form-label">Hora desde</label>
+                            <asp:TextBox ID="txtHoraDesde" runat="server" TextMode="Time" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="txtHoraHasta" class="form-label">Hora hasta</label>
+                            <asp:TextBox ID="txtHoraHasta" runat="server" TextMode="Time" CssClass="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+
+                    <!-- CAPACIDAD -->
+                    <div class="mb-3">
+                        <label for="txtCapacidad" class="form-label">Capacidad máxima</label>
+                        <asp:TextBox ID="txtCapacidad" runat="server" TextMode="Number" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="guardarCambios" Text="Guardar cambios" />
+                </div>
+            </div>
+        </div>
+    </div>
+
 </asp:Content>

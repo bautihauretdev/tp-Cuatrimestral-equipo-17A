@@ -157,11 +157,6 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-    .turnoButton:hover {
-        background-color: #FFA431; /* hover sutil */
-    }
-
-
 /* == BOTONES AGREGAR/MODIFICAR TURNO ==*/
 
 .botonera {
@@ -174,23 +169,7 @@
     padding: 32px 32px 32px 32px; /* padding-top 0, padding-left/right 1rem, padding-bottom 1rem */
 }
 
-.agregarTurno {
-    padding: 0.5rem 1rem;
-    text-align: center;
-    border-radius: 0.5rem;
-    border: 0px solid;
-    background-color: #38e07b;
-    color: #000000;
-    font-size: 15px;
-    font-weight: 600;
-    transition: background-color 0.2s ease-in-out;
-}
-
-    .agregarTurno:hover {
-        background-color: #8df0b1;
-    }
-
-.modificarTurno {
+.editarTurno {
     padding: 0.5rem 20px;
     text-align: center;
     border-radius: 0.5rem;
@@ -203,8 +182,25 @@
     cursor: pointer;
 }
 
-    .modificarTurno:hover {
+    .editarTurno:hover {
         background-color: #9ca3af;
+    }
+
+.guardarCambios {
+    padding: 0.5rem 20px;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: 0px solid;
+    background-color: #38e07b;
+    color: #010402;
+    font-size: 15px;
+    font-weight: 600;   
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+    .guardarCambios:hover {
+        background-color: #65ef9c;
     }
 
 
