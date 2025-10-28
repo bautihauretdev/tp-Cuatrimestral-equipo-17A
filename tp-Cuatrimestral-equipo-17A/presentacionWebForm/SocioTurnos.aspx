@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SocioMasterPage.Master" AutoEventWireup="true" CodeBehind="SocioTurnos.aspx.cs" Inherits="presentacionWebForm.SocioTurnos" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -64,7 +65,7 @@
 
                         <!-- (!) CUANDO ESTÉ CONECTADA LA BD HACER CON REPEATER -->
                         <!-- Filas de horarios dinámicas -->
-<%--                        <asp:Repeater ID="rptHoras" runat="server">
+                        <%--                        <asp:Repeater ID="rptHoras" runat="server">
                             <ItemTemplate>
                                 <asp:Label ID="lblHora" runat="server" CssClass="horaCol text-end text-secondary font-monospace pe-2"
                                     Text='<%# Eval("Hora") %>'></asp:Label>
@@ -76,7 +77,6 @@
                                 </asp:Repeater>
                             </ItemTemplate>
                         </asp:Repeater>--%>
-
                     </div>
                 </div>
             </div>

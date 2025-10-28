@@ -26,11 +26,11 @@
     margin-right: 28px;
 }
 
-.nav-link.custom-link:hover {
-    color: #FFA431 !important;
-    transform: scale(1.02);
-    transition: all 0.2s ease-in-out;
-}
+    .nav-link.custom-link:hover {
+        color: #38e07b !important;
+        transform: scale(1.02);
+        transition: all 0.2s ease-in-out;
+    }
 
 /* ========== PAGINA TURNOS ========== */
 
@@ -49,11 +49,14 @@
 
 .iconoColor {
     color: rgba(255, 255, 255, 0.55);
+    color: #38e07b;
+    /* color: rgba(255, 255, 255, 0.55); gris */
 }
 
 .tituloTurnos {
     display: block;
-    color: rgba(255, 255, 255, 0.55);
+    color: #38e07b;
+    /* color: rgba(255, 255, 255, 0.55); gris */
 }
 
 .numeroTurnos {
@@ -86,7 +89,8 @@
     flex-direction: column; /* apila vertical en móviles */
     justify-content: space-between;
     margin-bottom: 0px !important;
-    padding: 1rem 1rem 0 1rem; /* padding-top 1rem, padding-left/right 1rem, padding-bottom 0 */
+    padding: 32px 32px 0 32px;
+    /*padding: 1rem 1rem 0 1rem;*/ /* padding-top 1rem, padding-left/right 1rem, padding-bottom 0 */
 }
 
     .header-calendario > * {
@@ -107,7 +111,7 @@
 .calendar-scroll {
     overflow-x: auto; /* muestra barra horizontal */
     width: 100%; /* ocupa todo el ancho del card */
-
+    padding: 0px 32px 32px 32px;
 }
 
 .calendar-grid {
@@ -118,11 +122,11 @@
     width: max-content; /* se expande según contenido */
 }
 
-@media (min-width: 576px) {
+/*@media (min-width: 576px) {
     .calendar-grid {
         padding: 0px 32px 32px 32px;
     }
-}
+}*/
 
 /* == CABECERA DE DÍAS == */
 .cabeceraDias {
@@ -141,9 +145,10 @@
     padding-right: 0.5rem;
 }
 
-/* == TURNOS BOTONES == */
+
+/* == CASILLEROS TURNOS == */
 .turnoButton {
-    padding: 0.5rem 1rem; /* mismo padding left/right que header, y top/bottom */
+    padding: 0.5rem 1rem;
     text-align: center;
     border-radius: 0.25rem;
     border: 1px solid #dee2e6;
@@ -156,7 +161,54 @@
         background-color: #FFA431; /* hover sutil */
     }
 
-/* == VENTANA ADMIN SOCIOS == */
+
+/* == BOTONES AGREGAR/MODIFICAR TURNO ==*/
+
+.botonera {
+    display: flex;
+    flex-direction: row; /* los pone uno al lado del otro */
+    justify-content: flex-end; /* alinea a la izquierda */
+    align-items: center;
+    gap: 10px; /* separa los botones entre sí */
+    margin-bottom: 0 !important;
+    padding: 32px 32px 32px 32px; /* padding-top 0, padding-left/right 1rem, padding-bottom 1rem */
+}
+
+.agregarTurno {
+    padding: 0.5rem 1rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: 0px solid;
+    background-color: #38e07b;
+    color: #000000;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+}
+
+    .agregarTurno:hover {
+        background-color: #8df0b1;
+    }
+
+.modificarTurno {
+    padding: 0.5rem 20px;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: 0px solid;
+    background-color: #374151;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+    .modificarTurno:hover {
+        background-color: #9ca3af;
+    }
+
+
+/* ========== VENTANA ADMIN SOCIOS ========== */
 
 :root {
     --color-primary: #38e07b;

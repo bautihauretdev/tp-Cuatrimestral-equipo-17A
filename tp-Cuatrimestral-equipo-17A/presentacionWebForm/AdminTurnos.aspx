@@ -59,7 +59,7 @@
                 <div class="header-calendario">
                     <asp:Label ID="lblCalendarioTitulo" runat="server" CssClass="calendarioTitulo" Text="Calendario Semanal"></asp:Label>
                     <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
-                    <asp:Label ID="lblCalendarioRango" runat="server" CssClass="calendarioRango" Text="20 Oct - 26 Oct"></asp:Label>
+                    <asp:Label ID="lblCalendarioRango" runat="server" CssClass="calendarioRango" Text="20 Oct - 26 Oct"></asp:Label>               
                 </div>
 
                 <!-- DIAS / HORA / TURNO -->
@@ -111,7 +111,7 @@
 
                         <!-- (!) CUANDO ESTÉ CONECTADA LA BD HACER CON REPEATER -->
                         <!-- Filas de horarios dinámicas -->
-<%--                        <asp:Repeater ID="rptHoras" runat="server">
+                        <%--                        <asp:Repeater ID="rptHoras" runat="server">
                             <ItemTemplate>
                                 <asp:Label ID="lblHora" runat="server" CssClass="horaCol text-end text-secondary font-monospace pe-2"
                                     Text='<%# Eval("Hora") %>'></asp:Label>
@@ -123,9 +123,15 @@
                                 </asp:Repeater>
                             </ItemTemplate>
                         </asp:Repeater>--%>
-
                     </div>
                 </div>
+
+                <!-- BOTONES -->
+                <div class="botonera">
+                    <asp:Button ID="btnAgregarTurno" runat="server" Text="Agregar turno" CssClass="agregarTurno" />
+                    <asp:Button ID="btnEditarTurno" runat="server" Text="Editar turno" CssClass="modificarTurno" />
+                </div>
+
             </div>
         </div>
     </div>
