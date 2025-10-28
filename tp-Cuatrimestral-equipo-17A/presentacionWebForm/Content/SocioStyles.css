@@ -137,7 +137,28 @@
         background-color: #FFA431; /* hover sutil */
     }
 
-/* == SOCIO MI PERFIL == */
+/* == BOTONES AGREGAR TURNO ==*/
+
+.guardarCambios {
+    padding: 0.5rem 20px !important;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: 0px solid;
+    background-color: #FFA431 !important;
+    color: #010402 !important;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+    .guardarCambios:hover {
+        background-color: #f6b15a !important;
+    }
+
+
+
+/* ========== SOCIO MI PERFIL ========== */
 .perfil-container {
     background-color: #231e0f;
     color: #f9fafb;

@@ -33,13 +33,13 @@
                         <%-- Hora --%>
                         <asp:Label ID="lblHora0800" runat="server" CssClass="horaCol text-end text-secondary font-monospace pe-2" Text="08:00"></asp:Label>
                         <%-- Turnos de la hora por día--%>
-                        <asp:Button ID="btn0800Lunes" runat="server" CssClass="turnoButton" Text="Disponible" />
-                        <asp:Button ID="btn0800Martes" runat="server" CssClass="turnoButton" Text="Disponible" />
-                        <asp:Button ID="btn0800Miercoles" runat="server" CssClass="turnoButton" Text="Disponible" />
-                        <asp:Button ID="btn0800Jueves" runat="server" CssClass="turnoButton" Text="Disponible" />
-                        <asp:Button ID="btn0800Viernes" runat="server" CssClass="turnoButton" Text="Disponible" />
-                        <asp:Button ID="btn0800Sabado" runat="server" CssClass="turnoButton" Text="Disponible" />
-                        <asp:Button ID="btn0800Domingo" runat="server" CssClass="turnoButton" Text="Disponible" />
+                        <button type="button" class="turnoButton" data-bs-toggle="modal" data-bs-target="#modalConfirmarReserva">Disponible</button>
+                        <button type="button" class="turnoButton" data-bs-toggle="modal" data-bs-target="#modalConfirmarReserva">Disponible</button>
+                        <button type="button" class="turnoButton" data-bs-toggle="modal" data-bs-target="#modalConfirmarReserva">Disponible</button>
+                        <button type="button" class="turnoButton" data-bs-toggle="modal" data-bs-target="#modalConfirmarReserva">Disponible</button>
+                        <button type="button" class="turnoButton" data-bs-toggle="modal" data-bs-target="#modalConfirmarReserva">Disponible</button>
+                        <button type="button" class="turnoButton" data-bs-toggle="modal" data-bs-target="#modalConfirmarReserva">Disponible</button>
+                        <button type="button" class="turnoButton" data-bs-toggle="modal" data-bs-target="#modalConfirmarReserva">Disponible</button>
 
                         <%-- Hora --%>
                         <asp:Label ID="lblHora0900" runat="server" CssClass="horaCol text-end text-secondary font-monospace pe-2" Text="09:00"></asp:Label>
@@ -78,6 +78,32 @@
                             </ItemTemplate>
                         </asp:Repeater>--%>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMAR RESERVA -->
+    <!-- CUANDO ESTÉ LA CONEXIÓN A BD PASAR A CONTROLES ASP.NET -->
+    <div class="modal fade" id="modalConfirmarReserva" tabindex="-1" aria-labelledby="modalConfirmarReservaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <!-- Encabezado -->
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="modalConfirmarReservaLabel">Reservar turno</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <!-- Cuerpo -->
+                <div class="modal-body text-center">
+                    <p class="mb-3">¿Desea reservar este turno?</p>
+                    <p class="text-info fw-bold">Lunes 08:00 - 09:00 hs</p>
+                </div>
+
+                <!-- Botones -->
+                <div class="modal-footer border-secondary justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="guardarCambios">Aceptar</button>
                 </div>
             </div>
         </div>
