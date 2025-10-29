@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cuota.cs" />
+    <Compile Include="EstadoCuota.cs" />
     <Compile Include="NombrePlan.cs" />
     <Compile Include="Pago.cs" />
     <Compile Include="Plan.cs" />
