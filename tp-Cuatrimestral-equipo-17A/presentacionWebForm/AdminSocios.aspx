@@ -1,34 +1,29 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminMasterPage.Master" AutoEventWireup="true" CodeBehind="AdminSocios.aspx.cs" Inherits="presentacionWebForm.AdminSocios" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <title>Perfil de Socio</title>
-    
     <link href="<%= ResolveUrl("~/Styles/AdminSociosStyles.css") %>" rel="stylesheet" type="text/css" />
-    
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
-    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    
+
     <div class="main-container">
-        
         <div class="content-wrapper">
-            
+
             <div class="header-section">
                 <div class="title-and-search">
-                    <asp:Label ID="lblTitulo" runat="server" Text="Ventana de Socios" CssClass="main-title" />
                     <div class="search-box-container">
                         <span class="material-symbols-outlined search-icon">search</span>
                         <asp:TextBox ID="txtSearchDNI" runat="server" CssClass="search-input" placeholder="Buscar socio por DNI..."></asp:TextBox>
                     </div>
+                    <asp:Button ID="btnAgregarSocio" runat="server" Text="Agregar nuevo socio" CssClass="boton-principal" />
                 </div>
             </div>
 
             <asp:Panel ID="pnlSocioPrincipal" runat="server" CssClass="socio-main-panel">
-                
-                <div class="info-personal-box">
+
+                <div class="card">
                     <h2 class="panel-title">Información Personal</h2>
                     <div class="info-grid">
                         <div class="info-item">
@@ -56,10 +51,13 @@
                             <asp:Label ID="lblEmail" runat="server" Text="juan.perez@email.com" CssClass="info-value" />
                         </div>
                     </div>
+                    <div class="action-buttons-container">
+                        <asp:Button ID="btnEditarPerfil" runat="server" Text="Editar perfil del socio" CssClass="boton-editar" />
+                    </div>
                 </div>
-                
+
                 <div class="side-panels-wrapper">
-                    <div class="status-panel">
+                    <div class="card">
                         <div class="socio-status">
                             <asp:Label ID="lblNombreCompleto" runat="server" Text="Juan Pérez" CssClass="socio-name" />
                             <div class="status-indicator">
@@ -69,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="membership-panel">
+                    <div class="card">
                         <h2 class="panel-title">Plan de Membresía</h2>
                         <div class="membership-details">
                             <div class="info-item">
@@ -88,11 +86,6 @@
                     </div>
                 </div>
             </asp:Panel>
-
-            <div class="action-buttons-container">
-                <asp:Button ID="btnAgregarSocio" runat="server" Text="Agregar nuevo socio" CssClass="btn-primary-action" />
-                <asp:Button ID="btnEditarPerfil" runat="server" Text="Editar perfil del socio" CssClass="btn-secondary-action" />
-            </div>
         </div>
     </div>
 </asp:Content>

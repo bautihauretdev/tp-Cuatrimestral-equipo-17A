@@ -1,9 +1,11 @@
 ﻿body {
-    background-color: #191919;
+    background-color: #121518;
+    color: #E8E8E8;
     font-family: 'Lexend', sans-serif;
     margin: 0;
     height: 100vh;
 }
+
 
 .login-container {
     display: flex;
@@ -27,9 +29,8 @@
     }
 
 .login-quote {
-    position: relative;
     color: white;
-    font-size: 2rem;
+    font-size: 25px;
     text-align: center;
     z-index: 1;
     max-width: 500px;
@@ -37,7 +38,6 @@
 
 .login-right {
     flex: 2;
-    background-color: #221810;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,7 +71,7 @@ p {
 .input-field {
     display: block;
     width: 100%;
-    background-color: #1f1b16;
+    background-color: #1E2328;
     border: 1px solid #444;
     color: #fff;
     padding: 0.75rem 1rem;
@@ -79,14 +79,14 @@ p {
     border-radius: 6px;
 }
 
-.input-field::placeholder {
-    color: #888;
-}
+    .input-field::placeholder {
+        color: #888;
+    }
 
 .btn-login {
     width: 100%;
-    background-color: #f77e21;
-    color: white;
+    background-color: #38e07b;
+    color: #121518;
     border: none;
     padding: 0.75rem;
     font-weight: bold;
@@ -95,7 +95,7 @@ p {
 }
 
     .btn-login:hover {
-        background-color: #ff8e3c;
+        background-color: #5aee95;
     }
 
 .forgot {
@@ -104,7 +104,7 @@ p {
 }
 
     .forgot a {
-        color: #f77e21;
+        color: #38e07b;
         text-decoration: none;
     }
 

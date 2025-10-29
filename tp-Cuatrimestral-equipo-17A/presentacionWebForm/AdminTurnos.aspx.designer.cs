@@ -15,31 +15,13 @@ namespace presentacionWebForm
     {
 
         /// <summary>
-        /// lblActivos control.
+        /// lblSociosActivosNum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblActivos;
-
-        /// <summary>
-        /// lblActivosNum control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblActivosNum;
-
-        /// <summary>
-        /// lblSociosHoy control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSociosHoy;
+        protected global::System.Web.UI.WebControls.Label lblSociosActivosNum;
 
         /// <summary>
         /// lblSociosHoyNum control.
@@ -51,22 +33,13 @@ namespace presentacionWebForm
         protected global::System.Web.UI.WebControls.Label lblSociosHoyNum;
 
         /// <summary>
-        /// lblCompletos control.
+        /// lblHorariosCompletosNum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCompletos;
-
-        /// <summary>
-        /// lblCompletosNum control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCompletosNum;
+        protected global::System.Web.UI.WebControls.Label lblHorariosCompletosNum;
 
         /// <summary>
         /// lblCalendarioTitulo control.

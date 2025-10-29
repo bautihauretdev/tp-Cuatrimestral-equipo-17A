@@ -1,12 +1,22 @@
 ﻿body {
-    background-color: #191919;
-    font-family: 'Lexend', sans-serif;
+    background-color: #121518;
+    color: #E8E8E8;
+    font-family: 'Inter', sans-serif;
     margin: 0;
     height: 100vh;
 }
 
+.card {
+    width: 100%; /* ✅ ocupa todo el ancho disponible del grid */
+    height: 100%; /* opcional si querés que todas las cards tengan la misma altura */
+    background-color: #1E2328;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0.9rem;
+    padding: 1.5rem;
+}
 
-/***** MASTER PAGE *****/
+/* ========== MASTER PAGE ========== */
 
 .container-custom {
     padding-left: 40px;
@@ -15,7 +25,7 @@
 }
 
 .navbar-dark {
-    background-color: #1a2831;
+    background-color: #1E2328;
 }
 
 .navbar-brand {
@@ -32,37 +42,26 @@
         transition: all 0.2s ease-in-out;
     }
 
-/* ========== PAGINA TURNOS ========== */
+/* ==================== VENTANA TURNOS ==================== */
 
 /* ===== CARDS INFORMACIÓN ===== */
-.card {
-    margin-top: 25px;
-    background-color: #1a2831;
-    border: none !important;
-    box-shadow: none !important;
-    border-radius: 0.9rem;
-}
 
-.card-body {
-    padding: 2rem;
+.header-turnos {
+    display: flex;
+    align-items: center; /* centra verticalmente el texto con el icono */
+    gap: 0.5rem; /* espacio entre icono y texto */
 }
 
 .iconoColor {
-    color: rgba(255, 255, 255, 0.55);
     color: #38e07b;
-    /* color: rgba(255, 255, 255, 0.55); gris */
+    display: flex;
+    align-items: center; /* asegura que el ícono se centre visualmente */
 }
 
-.tituloTurnos {
-    display: block;
-    color: #38e07b;
-    /* color: rgba(255, 255, 255, 0.55); gris */
-}
-
-.numeroTurnos {
+.card .numero-metricas {
     display: block;
     color: #fff;
-    font-size: 50px;
+    font-size: 33px;
     font-weight: 700;
 }
 
@@ -82,15 +81,14 @@
     display: inline-block;
 }
 
-/* === CONTENEDOR DEL HEADER === */
+/* === CONTENEDOR DEL HEADER CALENDARIO === */
 
 .header-calendario {
     display: flex;
     flex-direction: column; /* apila vertical en móviles */
     justify-content: space-between;
     margin-bottom: 0px !important;
-    padding: 32px 32px 0 32px;
-    /*padding: 1rem 1rem 0 1rem;*/ /* padding-top 1rem, padding-left/right 1rem, padding-bottom 0 */
+    padding: 0 32px 0 32px;
 }
 
     .header-calendario > * {
@@ -102,11 +100,12 @@
         flex-direction: row; /* horizontal */
         align-items: center;
         margin-bottom: 1.5rem;
-        padding: 32px 32px 0 32px;
+        padding: 0 32px 0 32px;
     }
 }
 
 /* === GRILLA DEL CALENDARIO === */
+
 /* Muestra scroll horizontal cuando hace falta */
 .calendar-scroll {
     overflow-x: auto; /* muestra barra horizontal */
@@ -122,13 +121,7 @@
     width: max-content; /* se expande según contenido */
 }
 
-/*@media (min-width: 576px) {
-    .calendar-grid {
-        padding: 0px 32px 32px 32px;
-    }
-}*/
-
-/* == CABECERA DE DÍAS == */
+/* == CABECERA DE DÍAS CALENDARIO == */
 .cabeceraDias {
     position: sticky;
     top: 0;
@@ -146,7 +139,7 @@
 }
 
 
-/* == CASILLEROS TURNOS == */
+/* == CASILLEROS TURNOS CALENDARIO == */
 .turnoButton {
     padding: 0.5rem 1rem;
     text-align: center;
@@ -157,19 +150,19 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-/* == BOTONES AGREGAR/MODIFICAR TURNO ==*/
+/* == BOTONES AGREGAR/MODIFICAR TURNO CALENDARIO ==*/
 
-.botonera {
+.footer-calendario {
     display: flex;
     flex-direction: row; /* los pone uno al lado del otro */
     justify-content: flex-end; /* alinea a la izquierda */
     align-items: center;
     gap: 10px; /* separa los botones entre sí */
     margin-bottom: 0 !important;
-    padding: 32px 32px 32px 32px; /* padding-top 0, padding-left/right 1rem, padding-bottom 1rem */
+    padding: 32px 32px 0 32px; /* padding-top 0, padding-left/right 1rem, padding-bottom 1rem */
 }
 
-.editarTurno {
+.boton-editar {
     padding: 0.5rem 20px;
     text-align: center;
     border-radius: 0.5rem;
@@ -182,11 +175,11 @@
     cursor: pointer;
 }
 
-    .editarTurno:hover {
+    .boton-editar:hover {
         background-color: #9ca3af;
     }
 
-.guardarCambios {
+.boton-principal {
     padding: 0.5rem 20px;
     text-align: center;
     border-radius: 0.5rem;
@@ -194,47 +187,26 @@
     background-color: #38e07b;
     color: #010402;
     font-size: 15px;
-    font-weight: 600;   
+    font-weight: 600;
     transition: background-color 0.2s ease-in-out;
     cursor: pointer;
 }
 
-    .guardarCambios:hover {
+    .boton-principal:hover {
         background-color: #65ef9c;
     }
 
 
-/* ========== VENTANA ADMIN SOCIOS ========== */
 
-:root {
-    --color-primary: #38e07b;
-    --color-background-dark: #1a202c;
-    --color-gray-900: #111827;
-    --color-gray-800: #1f2937;
-    --color-gray-700: #374151;
-    --color-gray-400: #9ca3af;
-    --color-text: #e5e7eb; 
-    --color-text-light: #f3f4f6; 
-    --font-inter: 'Inter', sans-serif;
-    --font-size-base: 1.125rem; 
-    --border-radius-xl: 0.75rem;
-}
-
-body {
-    font-family: var(--font-inter);
-    background-color: var(--color-background-dark);
-}
+/* ==================== VENTANA SOCIOS ==================== */
 
 /* Contenedores de Layout y Centrado */
-
 /* Centrado vertical y horizontal, altura de pantalla completa */
 .main-container {
-    font-size: var(--font-size-base);
-    color: var(--color-text);
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Asegura que no haya scroll vertical */
+    margin-top: 20px;
 }
 
 .content-wrapper {
@@ -243,15 +215,13 @@ body {
     flex-direction: column;
     width: 100%;
     max-width: 900px;
-    
     padding-left: 1rem;
     padding-right: 1rem;
-    
     padding-top: 0;
     padding-bottom: 2.5rem;
 }
 
-/* 3. Cabecera y Búsqueda */
+/* == CABECERA Y BUSQUEDA == */
 .header-section {
     display: flex;
     justify-content: center;
@@ -260,22 +230,18 @@ body {
 
 .title-and-search {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    justify-content: space-between; /* separa los elementos a los extremos */
+    align-items: stretch;
+    gap: 1rem;
     width: 100%;
-}
-
-.main-title {
-    font-size: 2.25rem; 
-    font-weight: 900; 
-    color: white;
-    line-height: 1.25;
 }
 
 .search-box-container {
     position: relative;
-    max-width: 20rem; 
+    max-width: 20rem;
     width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .search-icon {
@@ -283,7 +249,7 @@ body {
     top: 50%;
     left: 0.75rem;
     transform: translateY(-50%);
-    color: var(--color-gray-400);
+    color: #38e07b;
     font-size: 1.25rem;
 }
 
@@ -293,24 +259,24 @@ body {
     height: 2.5rem;
     padding-left: 2.5rem;
     padding-right: 0.75rem;
-    font-size: 0.875rem; 
-    color: var(--color-text);
-    border: 1px solid var(--color-gray-700);
+    font-size: 0.875rem;
+    color: #38e07b;
+    border: 1px solid #38e07b;
     border-radius: 0.5rem;
-    background-color: var(--color-gray-800);
+    background-color: #121518;
     outline: none;
 }
 
-/* 4. Panel Principal de Socios */
+/* == Panel Principal de Socios == */
 .socio-main-panel {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     gap: 2rem;
     margin-top: 0.5rem;
     padding: 1rem;
 }
 
-@media (min-width: 1024px) { 
+@media (min-width: 1024px) {
     .socio-main-panel {
         flex-direction: row;
         padding: 0;
@@ -319,28 +285,19 @@ body {
 
 .panel-title {
     color: white;
-    font-size: 1.25rem; 
+    font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.25;
-    padding-bottom: 1.25rem;
 }
 
 /* Información Personal  */
-.info-personal-box {
-    flex: 1 1 0%;
-    background-color: rgba(17, 24, 39, 0.5); 
-    padding: 1.5rem;
-    border-radius: var(--border-radius-xl);
-    border: 1px solid var(--color-gray-800);
-}
-
 .info-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem 1rem;
 }
 
-@media (min-width: 640px) { 
+@media (min-width: 640px) {
     .info-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0 1rem;
@@ -351,9 +308,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    border-top: 1px solid var(--color-gray-700);
+    border-top: 1px solid #A5A5A5;
     padding-top: 1rem;
-    padding-bottom: 1rem;
 }
 
 .info-span-2 {
@@ -361,13 +317,14 @@ body {
 }
 
 .info-label {
-    color: var(--color-gray-400);
-    font-size: 0.875rem; 
+    color: #A5A5A5;
+    font-size: 14px;
+    margin: 0;
 }
 
 .info-value {
-    color: var(--color-text-light);
-    font-size: 1rem;
+    color: #E8E8E8;
+    font-size: 15px;
     font-weight: 500;
 }
 
@@ -378,28 +335,18 @@ body {
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
 }
 
-@media (min-width: 1024px) { 
+@media (min-width: 1024px) {
     .side-panels-wrapper {
-        width: 20rem; 
+        width: 20rem;
     }
-}
-
-.status-panel, .membership-panel {
-    background-color: rgba(17, 24, 39, 0.5);
-    padding: 1.5rem;
-    border-radius: var(--border-radius-xl);
-    border: 1px solid var(--color-gray-800);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .socio-name {
     color: white;
-    font-size: 1.875rem; 
+    font-size: 1.875rem;
     font-weight: 700;
     line-height: 1.25;
 }
@@ -414,10 +361,10 @@ body {
 .status-dot-solid {
     position: relative;
     display: inline-flex;
-    height: 0.625rem; 
-    width: 0.625rem; 
+    height: 0.625rem;
+    width: 0.625rem;
     border-radius: 9999px;
-    background-color: #10b981; 
+    background-color: #10b981;
 }
 
 .status-dot-animated {
@@ -426,14 +373,14 @@ body {
     height: 0.625rem;
     width: 0.625rem;
     border-radius: 9999px;
-    background-color: #4ade80; 
+    background-color: #4ade80;
     opacity: 0.75;
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 .status-text-active {
-    color: #4ade80; 
-    font-size: 1.25rem; 
+    color: #4ade80;
+    font-size: 1.25rem;
     font-weight: 500;
 }
 
@@ -450,73 +397,22 @@ body {
     gap: 1.25rem;
 }
 
-/* 5. Botones de Acción */
+/* == Botones de Acción == */
 .action-buttons-container {
+    margin-top: auto; /* empuja hacia abajo */
     display: flex;
-    flex-direction: column; 
-    gap: 1rem;
-    margin-top: 1rem; 
-    width: 100%;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    padding-top: 1rem;
 }
 
-@media (min-width: 640px) { 
+@media (min-width: 640px) {
     .action-buttons-container {
         flex-direction: row;
     }
 }
 
-.btn-primary-action,
-.btn-secondary-action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem; 
-    font-size: 1rem; 
-    font-weight: 500;
-    border-radius: 0.5rem;
-    transition: background-color 0.15s ease-in-out;
-    width: 100%; 
-    cursor: pointer;
-    border: none;
-    outline: none;
-}
 
-@media (min-width: 640px) { 
-    .btn-primary-action,
-    .btn-secondary-action {
-        width: auto; 
-    }
-}
-
-/* Estilo Primario (Verde) */
-.btn-primary-action {
-    color: black;
-    background-color: var(--color-primary);
-}
-
-    .btn-primary-action:hover {
-        background-color: #4ade80; 
-    }
-
-/* Estilo Secundario (Gris) */
-.btn-secondary-action {
-    color: white;
-    background-color: var(--color-gray-700);
-}
-
-    .btn-secondary-action:hover {
-        background-color: #4b5563;
-    }
-
-/* VENTANA ADMIN COBROS */
-body {
-    background-color: #122017;
-    font-family: 'Lexend', sans-serif;
-    color: #f8f8f8;
-}
+/* ==================== VENTANA COBROS ==================== */
 
 .admin-cobros-container {
     padding: 2rem;
@@ -524,22 +420,12 @@ body {
     margin: auto;
 }
 
-.header {
+.header-cobros {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
-
-    .header h1 {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #fff;
-    }
-
-    .header p {
-        color: #9ca3af;
-    }
 
 .admin-grid {
     display: grid;
@@ -548,7 +434,7 @@ body {
 }
 
 .panel {
-    background-color: #1b3124;
+    background-color: #1E2328;
     border-radius: 1rem;
     padding: 1.5rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -573,8 +459,8 @@ body {
     width: 100%;
     padding: 0.75rem;
     border-radius: 0.5rem;
-    border: 1px solid #366348;
-    background-color: #122118;
+    border: 1px solid #38e07b;
+    background-color: #121518;
     color: #f8f8f8;
 }
 
@@ -596,8 +482,8 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: #122118;
-    border: 1px solid #366348;
+    background-color: #121518;
+    border: 1px solid #38e07b;
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
     cursor: pointer;
@@ -657,57 +543,42 @@ body {
         background-color: #dc2626;
     }
 
-/***** REPORTES *****/
 
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #122017;
-    color: #e5e7eb;
-    margin: 0;
-}
+
+/* ==================== REPORTES ==================== */
 
 /* DASHBOARD */
 .dashboard {
     padding: 2rem;
     max-width: 1300px;
     margin: auto;
+    width: 100%;
 }
 
-    .dashboard header h2 {
-        color: white;
+    .dashboard h2 {
         font-size: 2rem;
-        margin-bottom: 0.25rem;
+        margin-bottom: 1rem;
     }
 
-    .dashboard header p {
-        color: #9ca3af;
+    .dashboard p {
+        color: #A5A5A5;
     }
 
 /* MÉTRICAS */
 .metricas {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* un poco más ancho */
     gap: 1rem;
-    margin: 2rem 0;
+    margin: 0 0 2rem 0;
+    width: 100%;
 }
 
-.card {
-    background-color: #1F2937;
-    padding: 1.5rem;
-    border: 1px solid #374151;
-    border-radius: 0.75rem;
+.card h3 {
+    color: #A5A5A5;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0;
 }
-
-    .card h3 {
-        color: #9ca3af;
-        font-size: 0.9rem;
-    }
-
-    .card label, .card span, .card p, .card asp\:label {
-        color: white;
-        font-size: 1.75rem;
-        font-weight: bold;
-    }
 
 .text-red {
     color: #f87171;
@@ -716,7 +587,6 @@ body {
 /* LISTADOS */
 .listas h2 {
     font-size: 1.5rem;
-    color: white;
     margin-bottom: 1rem;
 }
 
@@ -727,16 +597,15 @@ body {
 }
 
 .lista-card {
-    background-color: #1F2937;
-    border: 1px solid #374151;
+    background-color: #1E2328;
     border-radius: 0.75rem;
     padding: 1.5rem;
 }
 
     .lista-card h3 {
-        color: white;
         margin-bottom: 1rem;
-        font-size: 1.1rem;
+        font-size: 18px;
+        font-weight: bold;
     }
 
 .lista-item {
@@ -752,12 +621,12 @@ body {
     }
 
 .nombre {
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .detalle {
     font-size: 0.85rem;
-    color: #9ca3af;
+    color: white;
 }
 
 .monto {
@@ -776,3 +645,35 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
+
+/* --- Asegura que el panel principal se comporte como flex horizontal --- */
+.socio-main-panel {
+    display: flex;
+    gap: 2rem;
+    align-items: stretch; /* los hijos se igualan en altura */
+}
+
+    /* --- Card izquierda se expande a la altura de su contenedor --- */
+    .socio-main-panel > .card {
+        flex: 1; /* ocupa todo el ancho disponible */
+        display: flex; /* para que su contenido interno se mantenga bien */
+        flex-direction: column;
+        height: auto;
+    }
+
+/* --- Contenedor derecho ocupa ancho fijo y se estira en alto --- */
+.side-panels-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 0 0 22rem; /* ancho fijo del bloque derecho */
+    height: auto;
+}
+
+    /* --- Cada card derecha ocupa la mitad de la altura total --- */
+    .side-panels-wrapper .card {
+        flex: 1; /* ambas cards se reparten la altura total */
+        display: flex;
+        flex-direction: column;
+    }

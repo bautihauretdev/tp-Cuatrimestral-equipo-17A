@@ -3,18 +3,16 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main class="admin-cobros-container">
-        <div class="header">
+        <div class="header-cobros">
             <div class="logo"></div>
             <div>
-                <h1>Administración de Gimnasio</h1>
-                <p>Gestión de Cuotas</p>
+                <h2>Cobro de cuotas</h2>
             </div>
         </div>
 
         <div class="admin-grid">
             <!-- SECCIÓN IZQUIERDA: REGISTRAR NUEVO COBRO -->
             <div class="panel">
-                <h2>Registrar Nuevo Cobro</h2>
                 <div class="form-group">
                     <label>Socio</label>
                     <asp:DropDownList ID="ddlSocio" runat="server" CssClass="form-input">
@@ -29,7 +27,7 @@
 
                 <div class="form-group">
                     <label>Recargo</label>
-                    <asp:TextBox ID="txtRecargo" runat="server" CssClass="form-input" placeholder="$ 0.00"></asp:TextBox>
+                    <asp:TextBox ID="txtRecargo" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="$ 0.00"></asp:TextBox>
                 </div>
 
                 <div class="form-group">
