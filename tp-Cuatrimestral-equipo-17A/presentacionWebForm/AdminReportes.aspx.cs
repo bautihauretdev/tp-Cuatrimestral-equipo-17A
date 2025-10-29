@@ -11,6 +11,20 @@ namespace presentacionWebForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                var topActivos = new List<dynamic>
+                {
+                    new { Nombre = "Juan Pérez", Asistencias = 1 },
+                    new { Nombre = "Sofía Castro", Asistencias = 0 },
+                    new { Nombre = "Diego Luna", Asistencias = 0 },
+                    new { Nombre = "Valeria Gil", Asistencias = 0 },
+                    new { Nombre = "Esteban Quito", Asistencias = 0 }
+                };
+
+                rptActivos.DataSource = topActivos;
+                rptActivos.DataBind();
+            }
 
         }
     }
