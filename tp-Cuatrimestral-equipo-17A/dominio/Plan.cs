@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dominio
 {
-    internal class Plan
+    public class Plan
     {
         public int IdPlan { get; set; }
         public NombrePlan Nombre { get; set; }   // "Básico", "Medio" o "Premium"

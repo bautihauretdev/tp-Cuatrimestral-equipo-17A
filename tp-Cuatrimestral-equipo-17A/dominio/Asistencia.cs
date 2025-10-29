@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dominio
 {
-    internal class Asistencia
+    public class Asistencia
     {
         public int IdAsistencia { get; set; }
         public Reserva Reserva { get; set; }

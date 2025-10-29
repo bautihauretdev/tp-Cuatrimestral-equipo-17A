@@ -510,3 +510,149 @@ body {
     .btn-secondary-action:hover {
         background-color: #4b5563;
     }
+
+/* VENTANA ADMIN COBROS */
+body {
+    background-color: #122017;
+    font-family: 'Lexend', sans-serif;
+    color: #f8f8f8;
+}
+
+.admin-cobros-container {
+    padding: 2rem;
+    max-width: 1300px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+    .header h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .header p {
+        color: #9ca3af;
+    }
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+
+.panel {
+    background-color: #1b3124;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+    .panel h2 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #366348;
+    background-color: #122118;
+    color: #f8f8f8;
+}
+
+    .form-input::placeholder {
+        color: #96c5a9;
+    }
+
+    .form-input.readonly {
+        background-color: #1f3b2a;
+        cursor: not-allowed;
+    }
+
+.radio-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #122118;
+    border: 1px solid #366348;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+    .radio-option input:checked + span {
+        color: #38e07b;
+        font-weight: 600;
+    }
+
+.btn-guardar {
+    width: 100%;
+    background-color: #38e07b;
+    color: #122118;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .btn-guardar:hover {
+        background-color: #2ad96a;
+    }
+
+.tabla-cobros {
+    width: 100%;
+    border-collapse: collapse;
+    color: #f8f8f8;
+    margin-top: 1rem;
+}
+
+    .tabla-cobros th, .tabla-cobros td {
+        padding: 0.75rem;
+        text-align: left;
+    }
+
+    .tabla-cobros th {
+        background-color: #214030;
+    }
+
+    .tabla-cobros tr:nth-child(even) {
+        background-color: #16271b;
+    }
+
+.btn-eliminar {
+    background-color: #b91c1c;
+    color: #fff;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+}
+
+    .btn-eliminar:hover {
+        background-color: #dc2626;
+    }

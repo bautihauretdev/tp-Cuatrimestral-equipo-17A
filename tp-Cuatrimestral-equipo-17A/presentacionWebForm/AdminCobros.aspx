@@ -2,5 +2,88 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <p style="color: white;">COBROS</p>
+    <main class="admin-cobros-container">
+        <div class="header">
+            <div class="logo"></div>
+            <div>
+                <h1>Administración de Gimnasio</h1>
+                <p>Gestión de Cuotas</p>
+            </div>
+        </div>
+
+        <div class="admin-grid">
+            <!-- SECCIÓN IZQUIERDA: REGISTRAR NUEVO COBRO -->
+            <div class="panel">
+                <h2>Registrar Nuevo Cobro</h2>
+                <div class="form-group">
+                    <label>Socio</label>
+                    <asp:DropDownList ID="ddlSocio" runat="server" CssClass="form-input">
+                        <asp:ListItem Text="Seleccionar socio" />
+                    </asp:DropDownList>
+                </div>
+
+                <div class="form-group">
+                    <label>Plan</label>
+                    <asp:TextBox ID="txtPlan" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="Plan del socio"></asp:TextBox>
+                </div>
+
+                <div class="form-group">
+                    <label>Recargo</label>
+                    <asp:TextBox ID="txtRecargo" runat="server" CssClass="form-input" placeholder="$ 0.00"></asp:TextBox>
+                </div>
+
+                <div class="form-group">
+                    <label>Monto a cobrar</label>
+                    <asp:TextBox ID="txtMonto" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="$ 0.00"></asp:TextBox>
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha de Cobro</label>
+                    <asp:TextBox ID="txtFecha" runat="server" CssClass="form-input" TextMode="Date"></asp:TextBox>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Mes</label>
+                        <asp:TextBox ID="txtMes" runat="server" CssClass="form-input" placeholder="Mes"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <label>Año</label>
+                        <asp:TextBox ID="txtAnio" runat="server" CssClass="form-input" placeholder="Año"></asp:TextBox>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Forma de Pago</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <asp:RadioButton ID="rbEfectivo" runat="server" GroupName="FormaPago" Checked="true" />
+                            <span>Efectivo</span>
+                        </label>
+                        <label class="radio-option">
+                            <asp:RadioButton ID="rbTransferencia" runat="server" GroupName="FormaPago" />
+                            <span>Transferencia</span>
+                        </label>
+                    </div>
+                </div>
+
+                <asp:Button ID="btnGuardarCobro" runat="server" Text="Guardar Cobro" CssClass="btn-guardar" />
+            </div>
+
+            <!-- SECCIÓN DERECHA: HISTORIAL DE COBROS -->
+            <div class="panel">
+                <h2>Historial de Cobros</h2>
+                <asp:GridView ID="gvHistorialCobros" runat="server" CssClass="tabla-cobros" AutoGenerateColumns="False">
+                    <Columns>
+                        <asp:BoundField DataField="Socio" HeaderText="Miembro" />
+                        <asp:BoundField DataField="FechaCobro" HeaderText="Fecha Cobro" />
+                        <asp:BoundField DataField="Periodo" HeaderText="Mes/Año" />
+                        <asp:BoundField DataField="Monto" HeaderText="Monto" DataFormatString="{0:C}" />
+                        <asp:BoundField DataField="FormaPago" HeaderText="Forma Pago" />
+                        <asp:ButtonField Text="Eliminar" ButtonType="Button" ControlStyle-CssClass="btn-eliminar" />
+                    </Columns>
+                </asp:GridView>
+            </div>
+        </div>
+    </main>
 </asp:Content>
