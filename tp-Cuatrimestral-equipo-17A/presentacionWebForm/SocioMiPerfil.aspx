@@ -18,11 +18,11 @@
             <div class="perfil-grid">
                 <div class="perfil-campo">
                     <label for="txtNombre">Nombre</label>
-                    <asp:TextBox ID="txtNombre" runat="server" Text= "Juan" ReadOnly="true" CssClass ="perfil-input" />
+                    <asp:TextBox ID="txtNombre" runat="server" Text= "Juan" ReadOnly="true" CssClass ="perfil-input perfil-readonly" />
                 </div>
                 <div class="perfil-campo">
                     <label for="txtApellido">Apellido</label>
-                    <asp:TextBox ID="txtApellido" runat="server" Text="Perez" ReadOnly="true" CssClass="perfil-input" />
+                    <asp:TextBox ID="txtApellido" runat="server" Text="Perez" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
                 </div>
             </div>
 
@@ -34,11 +34,11 @@
             <div class="perfil-grid">
                 <div class="perfil-campo">
                     <label for="txtFechaNacimiento">Fecha de nacimiento</label>
-                    <asp:TextBox ID="txtFechaNacimiento" runat="server" TextMode="Date" Text="1990-05-10" ReadOnly="true"  CssClass="perfil-input" />
+                    <asp:TextBox ID="txtFechaNacimiento" runat="server" TextMode="Date" Text="1990-05-10" ReadOnly="true"  CssClass="perfil-input perfil-readonly" />
                 </div>
                 <div class="perfil-campo">
                     <label for="txtTelefono">Teléfono</label>
-                    <asp:TextBox ID="txtTelefono" Text="1122334455" ReadOnly="true" runat="server" CssClass="perfil-input" />
+                    <asp:TextBox ID="txtTelefono" Text="1122334455" ReadOnly="true" runat="server" CssClass="perfil-input perfil-readonly" />
                 </div>
             </div>
 
@@ -48,7 +48,21 @@
             </div>
         </div>
 
-            <asp:Button ID="btnEditarDatos" runat="server" Text="Editar Datos" CssClass="btn-perfil" />
-            <asp:Button ID="btnGuardar" runat="server" Text="Guardar Cambios" CssClass="btn-perfil" />
+        <div class="perfil-grid">
+     <div class="perfil-campo">
+          <label for="txtboxpsswrd">Contraseña</label>
+        <asp:TextBox ID="txtboxpsswrd" runat="server"  Text="********" ReadOnly="true"  CssClass="perfil-input perfil-readonly" />
+     </div>
+
+     <div class="perfil-campo">
+         <label for="txtboxPlan">Plan</label>
+        <asp:TextBox ID="txtboxPlan" runat="server" Text="Premium" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
+     </div>
+ </div>
+
+          <div class="perfil-botones">
+            <asp:Button ID="btnEditarDatos" runat="server" Text="Editar Datos" CssClass="btn-perfil btn-izq" />
+            <asp:Button ID="btnGuardarCambios" runat="server" Text="Guardar Cambios" CssClass="btn-perfil btn-der" />
+            </div>
         </div>
 </asp:Content>

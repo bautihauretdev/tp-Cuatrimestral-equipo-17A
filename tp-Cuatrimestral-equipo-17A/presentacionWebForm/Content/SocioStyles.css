@@ -245,19 +245,16 @@
 }
 
 
-
-
-
-
-
-
 .perfil-botones {
     display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 20px;
+
 }
 
 .btn-perfil {
+    flex: 1;
     background-color: #FFA431;
     color: white;
     border: none;
@@ -267,6 +264,19 @@
     cursor: pointer;
 }
 
-    .btn-perfil:hover {
-        background-color: #b28b17;
-    }
+
+.btn-izq {
+    background-color: #f0a500; 
+    color: #fff;
+}
+
+.btn-der {
+    background-color: #fca311; 
+    color: #fff;
+}
+
+
+.btn-perfil:hover {
+    opacity: 0.9;
+    background-color: #b28b17;
+}

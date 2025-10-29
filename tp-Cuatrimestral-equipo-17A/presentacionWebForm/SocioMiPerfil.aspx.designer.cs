@@ -78,6 +78,24 @@ namespace presentacionWebForm
         protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
+        /// txtboxpsswrd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtboxpsswrd;
+
+        /// <summary>
+        /// txtboxPlan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtboxPlan;
+
+        /// <summary>
         /// btnEditarDatos control.
         /// </summary>
         /// <remarks>
@@ -87,12 +105,12 @@ namespace presentacionWebForm
         protected global::System.Web.UI.WebControls.Button btnEditarDatos;
 
         /// <summary>
-        /// btnGuardar control.
+        /// btnGuardarCambios control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardar;
+        protected global::System.Web.UI.WebControls.Button btnGuardarCambios;
     }
 }
