@@ -1,6 +1,6 @@
 ﻿body {
     background-color: #121518;
-    color: #E8E8E8;
+    color: #E8E8E8 !important;
     font-family: 'Inter', sans-serif;
     margin: 0;
     height: 100vh;
@@ -8,7 +8,7 @@
 
 .card {
     width: 100%; /* ✅ ocupa todo el ancho disponible del grid */
-    height: 100%; /* opcional si querés que todas las cards tengan la misma altura */
+    height: 100%; /* Todas las cards tienen la misma altura */
     background-color: #1E2328;
     border: none !important;
     box-shadow: none !important;
@@ -16,7 +16,43 @@
     padding: 1.5rem;
 }
 
-/* ========== MASTER PAGE ========== */
+.boton-principal {
+    padding: 0.5rem 20px;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: 0px solid;
+    background-color: #38e07b;
+    color: #010402;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+    .boton-principal:hover {
+        background-color: #65ef9c;
+    }
+
+.boton-editar {
+    padding: 0.5rem 20px;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: 0px solid;
+    background-color: #374151;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+    .boton-editar:hover {
+        background-color: #9ca3af;
+    }
+
+
+
+/* ==================== MASTER PAGE ==================== */
 
 .container-custom {
     padding-left: 40px;
@@ -42,9 +78,11 @@
         transition: all 0.2s ease-in-out;
     }
 
+
+
 /* ==================== VENTANA TURNOS ==================== */
 
-/* ===== CARDS INFORMACIÓN ===== */
+/* === CARDS INFORMACIÓN === */
 
 .header-turnos {
     display: flex;
@@ -65,19 +103,16 @@
     font-weight: 700;
 }
 
+/* ==== CALENDARIO ==== */
 
-/* ===== CALENDARIO ===== */
-
-.calendarioTitulo {
-    color: #fff;
-    font-size: 20px;
-    font-weight: 700;
+.header-calendario h2 {
+    color: #E8E8E8;
+    font-size: 1.5rem;
 }
 
-.calendarioRango {
-    color: #fff;
+.calendario-rango {
+    color: #E8E8E8;
     font-size: 20px;
-    font-weight: 700;
     display: inline-block;
 }
 
@@ -106,14 +141,14 @@
 
 /* === GRILLA DEL CALENDARIO === */
 
-/* Muestra scroll horizontal cuando hace falta */
-.calendar-scroll {
+.calendario-scroll {
+    /* Muestra scroll horizontal cuando hace falta */
     overflow-x: auto; /* muestra barra horizontal */
     width: 100%; /* ocupa todo el ancho del card */
     padding: 0px 32px 32px 32px;
 }
 
-.calendar-grid {
+.calendario-grid {
     display: grid;
     grid-template-columns: auto repeat(7, minmax(140px, 1fr));
     gap: 0.5rem;
@@ -122,7 +157,7 @@
 }
 
 /* == CABECERA DE DÍAS CALENDARIO == */
-.cabeceraDias {
+.calendario-cabecera-dias {
     position: sticky;
     top: 0;
     padding: 0.5rem 1rem;
@@ -132,7 +167,7 @@
     font-weight: 600;
 }
 
-.horaCol {
+.calendario-hora {
     align-self: start; /* alinea la hora en la parte superior de la celda */
     padding-top: 0.5rem;
     padding-right: 0.5rem;
@@ -140,7 +175,7 @@
 
 
 /* == CASILLEROS TURNOS CALENDARIO == */
-.turnoButton {
+.calendario-turno {
     padding: 0.5rem 1rem;
     text-align: center;
     border-radius: 0.25rem;
@@ -162,51 +197,14 @@
     padding: 32px 32px 0 32px; /* padding-top 0, padding-left/right 1rem, padding-bottom 1rem */
 }
 
-.boton-editar {
-    padding: 0.5rem 20px;
-    text-align: center;
-    border-radius: 0.5rem;
-    border: 0px solid;
-    background-color: #374151;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 600;
-    transition: background-color 0.2s ease-in-out;
-    cursor: pointer;
-}
-
-    .boton-editar:hover {
-        background-color: #9ca3af;
-    }
-
-.boton-principal {
-    padding: 0.5rem 20px;
-    text-align: center;
-    border-radius: 0.5rem;
-    border: 0px solid;
-    background-color: #38e07b;
-    color: #010402;
-    font-size: 15px;
-    font-weight: 600;
-    transition: background-color 0.2s ease-in-out;
-    cursor: pointer;
-}
-
-    .boton-principal:hover {
-        background-color: #65ef9c;
-    }
-
-
 
 /* ==================== VENTANA SOCIOS ==================== */
 
-/* Contenedores de Layout y Centrado */
-/* Centrado vertical y horizontal, altura de pantalla completa */
 .main-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 70px;
 }
 
 .content-wrapper {
@@ -222,10 +220,10 @@
 }
 
 /* == CABECERA Y BUSQUEDA == */
-.header-section {
+.header-socios {
     display: flex;
     justify-content: center;
-    padding: 1rem;
+    padding: 0 1rem 1rem 1rem;
 }
 
 .title-and-search {
@@ -267,13 +265,14 @@
     outline: none;
 }
 
-/* == Panel Principal de Socios == */
+/* == PANEL INFORMACIÓN PERSONAL DE SOCIO == */
 .socio-main-panel {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     margin-top: 0.5rem;
     padding: 1rem;
+    align-items: stretch; /* los hijos se igualan en altura */
 }
 
 @media (min-width: 1024px) {
@@ -283,6 +282,14 @@
     }
 }
 
+    /* --- Card izquierda se expande a la altura de su contenedor --- */
+    .socio-main-panel > .card {
+        flex: 1; /* ocupa todo el ancho disponible */
+        display: flex; /* para que su contenido interno se mantenga bien */
+        flex-direction: column;
+        height: auto;
+    }
+
 .panel-title {
     color: white;
     font-size: 1.25rem;
@@ -290,7 +297,7 @@
     line-height: 1.25;
 }
 
-/* Información Personal  */
+/* INFORMACIÓN PERSONAL */
 .info-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -328,14 +335,15 @@
     font-weight: 500;
 }
 
-
-/* Paneles Laterales (Derecha) */
+/* == PANELES LATERALES (DERECHA) == */
 .side-panels-wrapper {
     width: 100%;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    flex: 0 0 22rem; /* ancho fijo del bloque derecho */
+    height: auto;
 }
 
 @media (min-width: 1024px) {
@@ -343,6 +351,13 @@
         width: 20rem;
     }
 }
+
+    /* --- Cada card derecha ocupa la mitad de la altura total --- */
+    .side-panels-wrapper .card {
+        flex: 1; /* ambas cards se reparten la altura total */
+        display: flex;
+        flex-direction: column;
+    }
 
 .socio-name {
     color: white;
@@ -397,9 +412,9 @@
     gap: 1.25rem;
 }
 
-/* == Botones de Acción == */
+/* BOTON EDITAR PERFIL DE SOCIO */
 .action-buttons-container {
-    margin-top: auto; /* empuja hacia abajo */
+    margin-top: auto; /* Coloca el btn abajo */
     display: flex;
     justify-content: flex-start;
     padding-top: 1rem;
@@ -414,17 +429,10 @@
 
 /* ==================== VENTANA COBROS ==================== */
 
-.admin-cobros-container {
-    padding: 2rem;
-    max-width: 1300px;
-    margin: auto;
-}
-
 .header-cobros {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
 }
 
 .admin-grid {
@@ -439,12 +447,6 @@
     padding: 1.5rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
-
-    .panel h2 {
-        font-size: 1.25rem;
-        margin-bottom: 1rem;
-        font-weight: bold;
-    }
 
 .form-group {
     margin-bottom: 1rem;
@@ -494,16 +496,8 @@
         font-weight: 600;
     }
 
-.btn-guardar {
+.boton-guardar {
     width: 100%;
-    background-color: #38e07b;
-    color: #122118;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.75rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
 }
 
     .btn-guardar:hover {
@@ -549,14 +543,13 @@
 
 /* DASHBOARD */
 .dashboard {
-    padding: 2rem;
+    padding: 70px 2rem 2rem 2rem;
     max-width: 1300px;
     margin: auto;
     width: 100%;
 }
 
     .dashboard h2 {
-        font-size: 2rem;
         margin-bottom: 1rem;
     }
 
@@ -647,33 +640,5 @@
 }
 
 
-/* --- Asegura que el panel principal se comporte como flex horizontal --- */
-.socio-main-panel {
-    display: flex;
-    gap: 2rem;
-    align-items: stretch; /* los hijos se igualan en altura */
-}
 
-    /* --- Card izquierda se expande a la altura de su contenedor --- */
-    .socio-main-panel > .card {
-        flex: 1; /* ocupa todo el ancho disponible */
-        display: flex; /* para que su contenido interno se mantenga bien */
-        flex-direction: column;
-        height: auto;
-    }
 
-/* --- Contenedor derecho ocupa ancho fijo y se estira en alto --- */
-.side-panels-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    flex: 0 0 22rem; /* ancho fijo del bloque derecho */
-    height: auto;
-}
-
-    /* --- Cada card derecha ocupa la mitad de la altura total --- */
-    .side-panels-wrapper .card {
-        flex: 1; /* ambas cards se reparten la altura total */
-        display: flex;
-        flex-direction: column;
-    }

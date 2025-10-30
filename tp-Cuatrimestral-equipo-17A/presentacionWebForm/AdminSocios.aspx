@@ -7,11 +7,10 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
     <div class="main-container">
         <div class="content-wrapper">
-
-            <div class="header-section">
+            <!-- BUSQUEDA / AGREGAR NUEVO SOCIO -->
+            <div class="header-socios">
                 <div class="title-and-search">
                     <div class="search-box-container">
                         <span class="material-symbols-outlined search-icon">search</span>
@@ -22,7 +21,7 @@
             </div>
 
             <asp:Panel ID="pnlSocioPrincipal" runat="server" CssClass="socio-main-panel">
-
+                <!-- INFORMACIÓN PERSONAL -->
                 <div class="card">
                     <h2 class="panel-title">Información Personal</h2>
                     <div class="info-grid">
@@ -56,7 +55,9 @@
                     </div>
                 </div>
 
+                <!-- PANELES LATERAL DERECHO -->
                 <div class="side-panels-wrapper">
+                    <!-- NOMBRE SOCIO -->
                     <div class="card">
                         <div class="socio-status">
                             <asp:Label ID="lblNombreCompleto" runat="server" Text="Juan Pérez" CssClass="socio-name" />
@@ -67,6 +68,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- PLAN DE MEMBRESÍA -->
                     <div class="card">
                         <h2 class="panel-title">Plan de Membresía</h2>
                         <div class="membership-details">

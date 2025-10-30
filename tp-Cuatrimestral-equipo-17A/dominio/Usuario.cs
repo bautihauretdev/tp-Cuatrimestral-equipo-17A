@@ -13,7 +13,6 @@ namespace dominio
         public string PasswordHash { get; set; } // El HASH, no el password
         public RolUsuario Rol { get; set; }
         public bool Activo { get; set; }
-        public Socio Socio { get; set; } 
-
+        public Socio Socio { get; set; }
     }
 }

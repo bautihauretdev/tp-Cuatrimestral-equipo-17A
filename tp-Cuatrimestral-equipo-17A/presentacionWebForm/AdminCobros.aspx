@@ -2,12 +2,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <main class="admin-cobros-container">
+    <main class="dashboard">
         <div class="header-cobros">
-            <div class="logo"></div>
-            <div>
-                <h2>Cobro de cuotas</h2>
-            </div>
+            <h2>Cobro de cuotas</h2>
         </div>
 
         <div class="admin-grid">
@@ -65,7 +62,7 @@
                     </div>
                 </div>
 
-                <asp:Button ID="btnGuardarCobro" runat="server" Text="Guardar Cobro" CssClass="btn-guardar" />
+                <asp:Button ID="btnGuardarCobro" runat="server" Text="Guardar Cobro" CssClass="boton-principal boton-guardar" />
             </div>
 
             <!-- SECCIÓN DERECHA: HISTORIAL DE COBROS -->
