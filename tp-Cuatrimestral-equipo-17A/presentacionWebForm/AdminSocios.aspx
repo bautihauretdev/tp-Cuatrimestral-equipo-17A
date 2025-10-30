@@ -10,7 +10,7 @@
     <div class="main-container">
         <div class="content-wrapper">
             <!-- BUSQUEDA / AGREGAR NUEVO SOCIO -->
-            <div class="header-socios">
+            <div class="socios-header">
                 <div class="title-and-search">
                     <div class="search-box-container">
                         <span class="material-symbols-outlined search-icon">search</span>
@@ -50,7 +50,7 @@
                             <asp:Label ID="lblEmail" runat="server" Text="juan.perez@email.com" CssClass="info-value" />
                         </div>
                     </div>
-                    <div class="action-buttons-container">
+                    <div class="socio-section-button">
                         <asp:Button ID="btnEditarPerfil" runat="server" Text="Editar perfil del socio" CssClass="boton-editar" />
                     </div>
                 </div>

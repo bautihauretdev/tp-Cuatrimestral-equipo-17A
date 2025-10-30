@@ -1,7 +1,7 @@
 ﻿body {
     background-color: #121518;
-    color: #E8E8E8;
-    font-family: 'Lexend', sans-serif;
+    color: #E8E8E8 !important;
+    font-family: 'Inter', sans-serif;
     margin: 0;
     height: 100vh;
 }
@@ -9,6 +9,7 @@
 .login-container {
     display: flex;
     height: 100vh;
+    flex-direction: row; /* por defecto lado a lado */
 }
 
 .login-left {
@@ -20,12 +21,12 @@
     position: relative;
 }
 
-    .login-left::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.4);
-    }
+.login-left::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+}
 
 .login-quote {
     color: white;
@@ -110,3 +111,28 @@ p {
         .forgot a:hover {
             text-decoration: underline;
         }
+
+/* VISTA MOBILE */
+
+/* Vista móvil (cuando la pantalla es menor a 768px, por ejemplo) */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column; /* apila los elementos uno debajo del otro */
+        height: auto; /* deja que crezca según contenido */
+    }
+
+    .login-right {
+        order: 1; /* formulario primero */
+        padding: 2rem 1rem;
+    }
+
+    .login-left {
+        order: 2; /* imagen después */
+        height: 40vh; /* altura fija para que no sea gigante */
+    }
+
+    .login-quote {
+        font-size: 18px;
+        padding: 1rem;
+    }
+}

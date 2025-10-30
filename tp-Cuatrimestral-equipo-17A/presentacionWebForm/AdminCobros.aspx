@@ -1,15 +1,16 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminMasterPage.Master" AutoEventWireup="true" CodeBehind="AdminCobros.aspx.cs" Inherits="presentacionWebForm.AdminCobros" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main class="dashboard">
-        <div class="header-cobros">
+        <div class="cobros-header">
             <h2>Cobro de cuotas</h2>
         </div>
 
-        <div class="admin-grid">
+        <div class="cobros-grid">
             <!-- SECCIÓN IZQUIERDA: REGISTRAR NUEVO COBRO -->
-            <div class="panel">
+            <div class="cobros-panel">
                 <div class="form-group">
                     <label>Socio</label>
                     <asp:DropDownList ID="ddlSocio" runat="server" CssClass="form-input">
@@ -22,29 +23,26 @@
                     <asp:TextBox ID="txtPlan" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="Plan del socio"></asp:TextBox>
                 </div>
 
-                <div class="form-group">
-                    <label>Recargo</label>
-                    <asp:TextBox ID="txtRecargo" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="$ 0.00"></asp:TextBox>
-                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Recargo</label>
+                        <asp:TextBox ID="txtRecargo" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="$ 0.00"></asp:TextBox>
+                    </div>
 
-                <div class="form-group">
-                    <label>Monto a cobrar</label>
-                    <asp:TextBox ID="txtMonto" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="$ 0.00"></asp:TextBox>
-                </div>
-
-                <div class="form-group">
-                    <label>Fecha de Cobro</label>
-                    <asp:TextBox ID="txtFecha" runat="server" CssClass="form-input" TextMode="Date"></asp:TextBox>
+                    <div class="form-group">
+                        <label>Total a cobrar</label>
+                        <asp:TextBox ID="txtMonto" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="$ 0.00"></asp:TextBox>
+                    </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Mes</label>
-                        <asp:TextBox ID="txtMes" runat="server" CssClass="form-input" placeholder="Mes"></asp:TextBox>
+                        <label>Fecha de Cobro</label>
+                        <asp:TextBox ID="txtFecha" runat="server" CssClass="form-input readonly" ReadOnly="true" TextMode="Date"></asp:TextBox>
                     </div>
                     <div class="form-group">
-                        <label>Año</label>
-                        <asp:TextBox ID="txtAnio" runat="server" CssClass="form-input" placeholder="Año"></asp:TextBox>
+                        <label>Cuota</label>
+                        <asp:TextBox ID="txtMes" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="Mes / Año"></asp:TextBox>
                     </div>
                 </div>
 
@@ -66,7 +64,7 @@
             </div>
 
             <!-- SECCIÓN DERECHA: HISTORIAL DE COBROS -->
-            <div class="panel">
+            <div class="cobros-panel">
                 <h2>Historial de Cobros</h2>
                 <asp:GridView ID="gvHistorialCobros" runat="server" CssClass="tabla-cobros" AutoGenerateColumns="False">
                     <Columns>

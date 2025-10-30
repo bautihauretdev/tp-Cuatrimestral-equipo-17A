@@ -4,32 +4,33 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="dashboard">
-        <section class="metricas">
+        <!-- METRICAS -->
+        <section class="reportes-metricas">
             <div class="card">
-                <div class="header-turnos">
-                    <i class="bi bi-people-fill iconoColor fs-4"></i>
+                <div class="turnos-metricas-card">
+                    <i class="bi bi-people-fill metricas-icono fs-4"></i>
                     <h3>Socios activos</h3>
                 </div>
                 <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
-                <asp:Label ID="lblSociosActivosNum" runat="server" CssClass="numero-metricas" Text="174"></asp:Label>
+                <asp:Label ID="lblSociosActivosNum" runat="server" CssClass="metricas-numero" Text="174"></asp:Label>
             </div>
 
             <div class="card">
-                <div class="header-turnos">
-                    <i class="bi bi-person-check-fill iconoColor fs-4"></i>
+                <div class="turnos-metricas-card">
+                    <i class="bi bi-person-check-fill metricas-icono fs-4"></i>
                     <h3>Socios que vienen hoy</h3>
                 </div>
                     <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
-                <asp:Label ID="lblSociosHoyNum" runat="server" CssClass="numero-metricas" Text="51"></asp:Label>
+                <asp:Label ID="lblSociosHoyNum" runat="server" CssClass="metricas-numero" Text="51"></asp:Label>
             </div>
 
             <div class="card">
-                <div class="header-turnos">
-                    <i class="bi bi-clock-fill iconoColor fs-4"></i>
+                <div class="turnos-metricas-card">
+                    <i class="bi bi-clock-fill metricas-icono fs-4"></i>
                     <h3>Horarios completos</h3>
                 </div>
                 <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
-                <asp:Label ID="lblHorariosCompletosNum" runat="server" CssClass="numero-metricas" Text="5"></asp:Label>
+                <asp:Label ID="lblHorariosCompletosNum" runat="server" CssClass="metricas-numero" Text="5"></asp:Label>
 
             </div>
         </section>
@@ -40,7 +41,7 @@
                 <div class="card">
 
                     <!-- TÍTULO Y RANGO DE FECHAS -->
-                    <div class="header-calendario">
+                    <div class="calendario-header">
                         <h2>Calendario semanal</h2>
                         <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
                         <asp:Label ID="lblCalendarioRango" runat="server" CssClass="calendario-rango" Text="20 Oct - 26 Oct"></asp:Label>
@@ -90,7 +91,7 @@
                             <asp:Button ID="Button10" runat="server" CssClass="calendario-turno" Text="Disponible" />
                             <asp:Button ID="Button11" runat="server" CssClass="calendario-turno" Text="Disponible" />
                             <asp:Button ID="Button12" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button13" runat="server" CssClass="calendario-turnon" Text="Disponible" />
+                            <asp:Button ID="Button13" runat="server" CssClass="calendario-turno" Text="Disponible" />
                             <asp:Button ID="Button14" runat="server" CssClass="calendario-turno" Text="Disponible" />
 
                             <!-- (!) CUANDO ESTÉ CONECTADA LA BD HACER CON REPEATER -->
@@ -113,7 +114,7 @@
                     <!-- BOTON EDITAR TURNO -->
                     <div class="footer-calendario">
                         <button type="button" class="boton-editar" data-bs-toggle="modal" data-bs-target="#modalEditarTurno">
-                            Editar turno
+                            Editar turnos
                         </button>
                     </div>
 

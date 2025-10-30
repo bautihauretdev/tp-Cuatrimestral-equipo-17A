@@ -1,20 +1,102 @@
 ﻿body {
-    background-color: #191919;
-    font-family: 'Lexend', sans-serif;
+    background-color: #121518;
+    color: #E8E8E8 !important;
+    font-family: 'Inter', sans-serif;
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
 }
 
-/* ========== MASTER PAGE ========== */
+.container {
+    overflow-x: hidden; /* corta scroll horizontal innecesario */
+}
 
+.card {
+    width: 100%; /* Ocupa todo el ancho disponible del grid */
+    height: 100%; /* Todas las cards tienen la misma altura */
+    background-color: #1E2328;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0.9rem;
+    padding: 1.5rem;
+}
+
+.boton-principal {
+    padding: 0.5rem 20px;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: 0px solid;
+    background-color: #38e07b;
+    color: #010402;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+    .boton-principal:hover {
+        background-color: #65ef9c;
+    }
+
+.boton-editar {
+    padding: 0.5rem 20px;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: 0px solid;
+    background-color: #374151;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+    .boton-editar:hover {
+        background-color: #6c757d;
+    }
+
+.dashboard {
+    padding: 80px 2rem 2rem 2rem;
+    max-width: 1300px;
+    margin: auto;
+    width: 100%;
+}
+
+
+
+/* ==================== MASTER PAGE ==================== */
 .container-custom {
     padding-left: 40px;
     padding-right: 40px;
-    max-width: 100%; /* Mantener container responsive */
 }
 
 .navbar-dark {
-    background-color: #1a2831;
+    background-color: #1E2328;
+    border: none;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(232,232,232,0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 100%; /* empieza justo debajo del nav */
+        left: 0;
+        width: 100%;
+        background-color: #1E2328;
+        padding: 1rem 2rem; /* más compacto en mobile */
+        border-radius: 0 0 0.5rem 0.5rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        z-index: 999;
+    }
+
+    .navbar {
+    }
 }
 
 .navbar-brand {
@@ -26,72 +108,63 @@
 }
 
     .nav-link.custom-link:hover {
-        color: #FFA431 !important;
+        color: #38e07b !important;
         transform: scale(1.02);
         transition: all 0.2s ease-in-out;
     }
 
 
-/* ========== PAGINA TURNOS ========== */
 
-/* ===== CALENDARIO ===== */
+/* ==================== VENTANA TURNOS ==================== */
 
-.card {
-    margin-top: 25px;
-    background-color: #1a2831;
-    border: none !important;
-    box-shadow: none !important;
-    border-radius: 0.9rem;
+/* ==== CALENDARIO ==== */
+
+.calendario-header h2 {
+    color: #E8E8E8;
+    font-size: 1.5rem;
 }
 
-.card-body {
-    padding: 2rem;
-}
-
-.calendarioTitulo {
-    color: #fff;
+.calendario-rango {
+    color: #E8E8E8;
     font-size: 20px;
-    font-weight: 700;
-}
-
-.calendarioRango {
-    color: #fff;
-    font-size: 20px;
-    font-weight: 700;
     display: inline-block;
 }
 
-/* === CONTENEDOR DEL HEADER === */
 
-.header-calendario {
+/* === CONTENEDOR DEL HEADER CALENDARIO === */
+
+.calendario-header {
     display: flex;
     flex-direction: column; /* apila vertical en móviles */
     justify-content: space-between;
     margin-bottom: 0px !important;
-    padding: 1rem 1rem 0 1rem; /* padding-top 1rem, padding-left/right 1rem, padding-bottom 0 */
+    padding: 0 32px 0 32px;
 }
 
-    .header-calendario > * {
+    .calendario-header > * {
         display: block; /* hace que los labels se comporten como flex items */
     }
 
 @media (min-width: 576px) {
-    .header-calendario {
+    .calendario-header {
         flex-direction: row; /* horizontal */
         align-items: center;
         margin-bottom: 1.5rem;
-        padding: 32px 32px 0 32px;
+        padding: 0 32px 0 32px;
     }
 }
 
+
 /* === GRILLA DEL CALENDARIO === */
-/* Muestra scroll horizontal cuando hace falta */
-.calendar-scroll {
+
+.calendario-scroll {
+    /* Muestra scroll horizontal cuando hace falta */
     overflow-x: auto; /* muestra barra horizontal */
     width: 100%; /* ocupa todo el ancho del card */
+    padding: 0px 32px 32px 32px;
 }
 
-.calendar-grid {
+.calendario-grid {
     display: grid;
     grid-template-columns: auto repeat(7, minmax(140px, 1fr));
     gap: 0.5rem;
@@ -99,14 +172,9 @@
     width: max-content; /* se expande según contenido */
 }
 
-@media (min-width: 576px) {
-    .calendar-grid {
-        padding: 0px 32px 32px 32px;
-    }
-}
 
-/* == CABECERA DE DÍAS == */
-.cabeceraDias {
+/* == CABECERA DE DÍAS CALENDARIO == */
+.calendario-cabecera-dias {
     position: sticky;
     top: 0;
     padding: 0.5rem 1rem;
@@ -116,15 +184,17 @@
     font-weight: 600;
 }
 
-.horaCol {
+.calendario-hora {
     align-self: start; /* alinea la hora en la parte superior de la celda */
     padding-top: 0.5rem;
     padding-right: 0.5rem;
 }
 
-/* == TURNOS BOTONES == */
-.turnoButton {
-    padding: 0.5rem 1rem; /* mismo padding left/right que header, y top/bottom */
+
+/* == CASILLEROS TURNOS CALENDARIO == */
+
+.calendario-turno {
+    padding: 0.5rem 1rem;
     text-align: center;
     border-radius: 0.25rem;
     border: 1px solid #dee2e6;
@@ -133,53 +203,53 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-    .turnoButton:hover {
-        background-color: #FFA431; /* hover sutil */
+    .calendario-turno:hover {
+        background-color: #38e07b;
+        color: #121518;
     }
 
-/* == BOTONES AGREGAR TURNO ==*/
+/* == BOTONES AGREGAR/MODIFICAR TURNO CALENDARIO ==*/
 
-.guardarCambios {
-    padding: 0.5rem 20px !important;
-    text-align: center;
-    border-radius: 0.5rem;
-    border: 0px solid;
-    background-color: #FFA431 !important;
-    color: #010402 !important;
-    font-size: 15px;
-    font-weight: 600;
-    transition: background-color 0.2s ease-in-out;
-    cursor: pointer;
+.footer-calendario {
+    display: flex;
+    flex-direction: row; /* los pone uno al lado del otro */
+    justify-content: flex-end; /* alinea a la izquierda */
+    align-items: center;
+    gap: 10px; /* separa los botones entre sí */
+    margin-bottom: 0 !important;
+    padding: 32px 32px 0 32px; /* padding-top 0, padding-left/right 1rem, padding-bottom 1rem */
 }
 
-    .guardarCambios:hover {
-        background-color: #f6b15a !important;
-    }
 
 
-
-/* ========== SOCIO MI PERFIL ========== */
+/* ==================== VENTANA MI PERFIL ==================== */
 .perfil-container {
-    background-color: #1a2831;
+    background-color: #1E2328;
     color: #f9fafb;
     max-width: 800px;
-    margin: 40px auto;
+    margin: 80px auto 50px auto;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
-    font-family: 'Lexend', sans-serif;
+}
+
+.perfil-seccion {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .perfil-container {
+        margin: 80px auto 50px auto; /* menos margen para mobile y espacio visible */
+    }
+
+    .perfil-seccion {
+        margin-bottom: 2rem; /* asegura espacio entre secciones y al final */
+    }
 }
 
 .perfil-header {
     display: flex;
     align-items: center;
-    margin-bottom: 2rem;
-}
-
-.perfil-icon {
-    font-size: 48px;
-    color: #997102;
-    margin-right: 1rem;
+    margin-bottom: 1rem;
 }
 
 .perfil-header h2 {
@@ -200,22 +270,17 @@
     font-weight: bold;
 }
 
-.perfil-seccion {
-    margin-bottom: 2rem;
-}
-
     .perfil-seccion h3 {
         border-bottom: 1px solid #444;
         padding-bottom: 0.5rem;
-        margin-bottom: 1rem;
         font-size: 1.2rem;
-        color: #f9fafb;
     }
 
 .perfil-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
+    padding-top: 10px;
 }
 
 .perfil-campo label {
@@ -228,15 +293,15 @@
 .perfil-input {
     width: 100%;
     padding: 0.6rem;
-    background-color: #1f1b16;
-    border: 1px solid #444;
+    background-color: #121518;
+    border: 1px solid #38e07b;
     color: #fff;
     border-radius: 6px;
 }
 
     .perfil-input:focus {
         outline: none;
-        border-color: #997102;
+        border-color: #E8E8E8;
     }
 
 .perfil-readonly {
@@ -244,39 +309,19 @@
     cursor: not-allowed;
 }
 
-
 .perfil-botones {
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
+    margin-top: 2rem;
     gap: 20px;
-
 }
 
 .btn-perfil {
     flex: 1;
-    background-color: #FFA431;
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
-}
-
-
-.btn-izq {
-    background-color: #f0a500; 
-    color: #fff;
-}
-
-.btn-der {
-    background-color: #fca311; 
-    color: #fff;
-}
-
-
-.btn-perfil:hover {
-    opacity: 0.9;
-    background-color: #b28b17;
 }

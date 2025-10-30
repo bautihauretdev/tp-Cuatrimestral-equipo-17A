@@ -6,8 +6,12 @@
     height: 100vh;
 }
 
+.container {
+    overflow-x: hidden; /* corta scroll horizontal innecesario */
+}
+
 .card {
-    width: 100%; /* ✅ ocupa todo el ancho disponible del grid */
+    width: 100%; /* Ocupa todo el ancho disponible del grid */
     height: 100%; /* Todas las cards tienen la misma altura */
     background-color: #1E2328;
     border: none !important;
@@ -47,7 +51,7 @@
 }
 
     .boton-editar:hover {
-        background-color: #9ca3af;
+        background-color: #6c757d;
     }
 
 
@@ -62,6 +66,32 @@
 
 .navbar-dark {
     background-color: #1E2328;
+    border: none;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(232,232,232,0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 100%; /* empieza justo debajo del nav */
+        left: 0;
+        width: 100%;
+        background-color: #1E2328;
+        padding: 1rem 2rem; /* más compacto en mobile */
+        border-radius: 0 0 0.5rem 0.5rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        z-index: 999;
+    }
+
+    .navbar {
+    }
 }
 
 .navbar-brand {
@@ -84,19 +114,19 @@
 
 /* === CARDS INFORMACIÓN === */
 
-.header-turnos {
+.turnos-metricas-card {
     display: flex;
     align-items: center; /* centra verticalmente el texto con el icono */
     gap: 0.5rem; /* espacio entre icono y texto */
 }
 
-.iconoColor {
+.metricas-icono {
     color: #38e07b;
     display: flex;
     align-items: center; /* asegura que el ícono se centre visualmente */
 }
 
-.card .numero-metricas {
+.card .metricas-numero {
     display: block;
     color: #fff;
     font-size: 33px;
@@ -105,7 +135,7 @@
 
 /* ==== CALENDARIO ==== */
 
-.header-calendario h2 {
+.calendario-header h2 {
     color: #E8E8E8;
     font-size: 1.5rem;
 }
@@ -118,7 +148,7 @@
 
 /* === CONTENEDOR DEL HEADER CALENDARIO === */
 
-.header-calendario {
+.calendario-header {
     display: flex;
     flex-direction: column; /* apila vertical en móviles */
     justify-content: space-between;
@@ -126,12 +156,12 @@
     padding: 0 32px 0 32px;
 }
 
-    .header-calendario > * {
+    .calendario-header > * {
         display: block; /* hace que los labels se comporten como flex items */
     }
 
 @media (min-width: 576px) {
-    .header-calendario {
+    .calendario-header {
         flex-direction: row; /* horizontal */
         align-items: center;
         margin-bottom: 1.5rem;
@@ -220,7 +250,7 @@
 }
 
 /* == CABECERA Y BUSQUEDA == */
-.header-socios {
+.socios-header {
     display: flex;
     justify-content: center;
     padding: 0 1rem 1rem 1rem;
@@ -413,7 +443,7 @@
 }
 
 /* BOTON EDITAR PERFIL DE SOCIO */
-.action-buttons-container {
+.socio-section-button {
     margin-top: auto; /* Coloca el btn abajo */
     display: flex;
     justify-content: flex-start;
@@ -421,7 +451,7 @@
 }
 
 @media (min-width: 640px) {
-    .action-buttons-container {
+    .socio-section-button {
         flex-direction: row;
     }
 }
@@ -429,23 +459,33 @@
 
 /* ==================== VENTANA COBROS ==================== */
 
-.header-cobros {
+.cobros-header {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-.admin-grid {
+.cobros-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(250px, 1fr) minmax(350px, 2fr);
     gap: 2rem;
 }
 
-.panel {
+/* RESPONSIVE COBROS */
+@media (max-width: 768px) {
+    .cobros-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cobros-panel {
+        width: 100%;
+    }
+}
+
+.cobros-panel {
     background-color: #1E2328;
     border-radius: 1rem;
     padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .form-group {
@@ -459,11 +499,12 @@
 
 .form-input {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.6rem;
     border-radius: 0.5rem;
     border: 1px solid #38e07b;
     background-color: #121518;
     color: #f8f8f8;
+    margin-top: 5px;
 }
 
     .form-input::placeholder {
@@ -478,17 +519,21 @@
 .radio-group {
     display: flex;
     gap: 1rem;
+    margin-top: 5px;
+    width: 100%; /* Asegura que el contenedor use todo su espacio */
 }
 
 .radio-option {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     background-color: #121518;
     border: 1px solid #38e07b;
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
     cursor: pointer;
+    flex: 1; /* Hace que todas las opciones se expandan igual */
 }
 
     .radio-option input:checked + span {
@@ -543,7 +588,7 @@
 
 /* DASHBOARD */
 .dashboard {
-    padding: 70px 2rem 2rem 2rem;
+    padding: 80px 2rem 2rem 2rem;
     max-width: 1300px;
     margin: auto;
     width: 100%;
@@ -558,7 +603,7 @@
     }
 
 /* MÉTRICAS */
-.metricas {
+.reportes-metricas {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* un poco más ancho */
     gap: 1rem;
@@ -573,7 +618,7 @@
     margin: 0;
 }
 
-.text-red {
+.reportes-metricas .text-red {
     color: #f87171;
 }
 
@@ -613,24 +658,24 @@
         border-bottom: none;
     }
 
-.nombre {
+.lista-nombre {
     font-weight: 700;
 }
 
-.detalle {
+.lista-detalle {
     font-size: 0.85rem;
     color: white;
 }
 
-.monto {
+.lista-monto {
     font-weight: 600;
 }
 
-    .monto.negativo {
+    .lista-monto.negativo {
         color: #f87171;
     }
 
-    .monto.aviso {
+    .lista-monto.aviso {
         color: #facc15;
     }
 
@@ -638,7 +683,3 @@
     display: flex;
     justify-content: space-between;
 }
-
-
-
-
