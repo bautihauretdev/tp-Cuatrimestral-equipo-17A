@@ -49,5 +49,22 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        public void AgregarUsuarioSocio(string email, string dni, int idSocio)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta(@"INSERT INTO USUARIOS (Email, PasswordHash, Rol, Activo, IdSocio)
+                               VALUES (@Email, @PasswordHash, 'Socio', 1, @IdSocio)");
+                datos.setearParametro("@Email", email);
+                datos.setearParametro("@PasswordHash", dni); // PENDIENTE: Cambiar esto para usar un hash real
+                datos.setearParametro("@IdSocio", idSocio);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

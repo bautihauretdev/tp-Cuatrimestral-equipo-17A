@@ -43,6 +43,32 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public int AgregarYObtenerId(Socio socio)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta(@"INSERT INTO SOCIOS (Nombre, Apellido, Dni, FechaNacimiento, Telefono, Email, Activo)
+                               VALUES (@Nombre, @Apellido, @Dni, @FechaNacimiento, @Telefono, @Email, @Activo);
+                               SELECT SCOPE_IDENTITY();");
+                datos.setearParametro("@Nombre", socio.Nombre);
+                datos.setearParametro("@Apellido", socio.Apellido);
+                datos.setearParametro("@Dni", socio.Dni);
+                datos.setearParametro("@FechaNacimiento", socio.FechaNacimiento == DateTime.MinValue ? (object)DBNull.Value : socio.FechaNacimiento);
+                datos.setearParametro("@Telefono", socio.Telefono);
+                datos.setearParametro("@Email", socio.Email);
+                datos.setearParametro("@Activo", socio.Activo);
+
+                object result = datos.ejecutarLectura().Read() ? datos.Lector[0] : null;
+                return result != null ? Convert.ToInt32(result) : 0;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void Modificar(Socio socio)
         {
             AccesoDatos datos = new AccesoDatos();
