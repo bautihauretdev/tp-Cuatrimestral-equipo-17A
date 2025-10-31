@@ -66,6 +66,7 @@
     <Content Include="AdminReportes.aspx" />
     <Content Include="AdminSocios.aspx" />
     <Content Include="AdminTurnos.aspx" />
+    <Content Include="AltaSocio.aspx" />
     <Content Include="Content\AdminStyles.css" />
     <Content Include="Content\Styles.css" />
     <Content Include="Content\SocioStyles.css" />
@@ -110,6 +111,13 @@
     </Compile>
     <Compile Include="AdminTurnos.aspx.designer.cs">
       <DependentUpon>AdminTurnos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AltaSocio.aspx.cs">
+      <DependentUpon>AltaSocio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AltaSocio.aspx.designer.cs">
+      <DependentUpon>AltaSocio.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

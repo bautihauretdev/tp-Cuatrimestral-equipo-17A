@@ -7,16 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace presentacionWebForm
 {
-    public partial class AdminSocios : System.Web.UI.Page
+    public partial class AltaSocio : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
 
-        }
-
-        protected void btnAgregarSocio_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("AltaSocio.aspx");
         }
     }
 }

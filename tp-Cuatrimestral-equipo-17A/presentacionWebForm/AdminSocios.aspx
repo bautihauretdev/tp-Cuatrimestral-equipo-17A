@@ -16,7 +16,7 @@
                         <span class="material-symbols-outlined search-icon">search</span>
                         <asp:TextBox ID="txtSearchDNI" runat="server" CssClass="search-input" placeholder="Buscar socio por DNI..."></asp:TextBox>
                     </div>
-                    <asp:Button ID="btnAgregarSocio" runat="server" Text="Agregar nuevo socio" CssClass="boton-principal" />
+                    <asp:Button ID="btnAgregarSocio" runat="server" Text="Agregar nuevo socio" CssClass="boton-principal" OnClick="btnAgregarSocio_Click" />
                 </div>
             </div>
 
