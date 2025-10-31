@@ -18,7 +18,34 @@ namespace presentacionWebForm
 
         protected void btnGuardarAltaSocio_Click(object sender, EventArgs e)
         {
-            
+            try
+            {
+                Socio nuevo = new Socio
+                {
+                    Nombre = txtNombreAltaSocio.Text,
+                    Apellido = txtApellidoAltaSocio.Text,
+                    Dni = txtDniAltaSocio.Text,
+                    FechaNacimiento = DateTime.Parse(txtFechaNacAltaSocio.Text),
+                    Telefono = txtTelefonoAltaSocio.Text,
+                    Email = txtEmailAltaSocio.Text,
+                    Activo = true
+                };
+                SocioNegocio socioNegocio = new SocioNegocio();
+                int idSocio = socioNegocio.AgregarYObtenerId(nuevo);
+
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+                usuarioNegocio.AgregarUsuarioSocio(nuevo.Email, nuevo.Dni, idSocio);
+
+                lblMensajeAltaSocio.Text = "Socio y usuario creados correctamente. Contraseña por defecto: DNI";
+                lblMensajeAltaSocio.Visible = true;
+                lblErrorAltaSocio.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                lblErrorAltaSocio.Text = "Error: " + ex.Message;
+                lblErrorAltaSocio.Visible = true;
+                lblMensajeAltaSocio.Visible = false;
+            }
         }
     }
 }
