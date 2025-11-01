@@ -24,6 +24,15 @@ namespace presentacionWebForm
         protected global::System.Web.UI.WebControls.TextBox txtSearchDNI;
 
         /// <summary>
+        /// btnBuscarDNI control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnBuscarDNI;
+
+        /// <summary>
         /// btnAgregarSocio control.
         /// </summary>
         /// <remarks>
@@ -31,6 +40,24 @@ namespace presentacionWebForm
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAgregarSocio;
+
+        /// <summary>
+        /// lblErrorBusqueda control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorBusqueda;
+
+        /// <summary>
+        /// hfIdSocioSeleccionado control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfIdSocioSeleccionado;
 
         /// <summary>
         /// pnlSocioPrincipal control.
