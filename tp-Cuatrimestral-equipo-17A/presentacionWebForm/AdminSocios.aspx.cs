@@ -75,5 +75,35 @@ namespace presentacionWebForm
                 }
             }
         }
+
+        protected void btnEliminarLogico_Click(object sender, EventArgs e)
+        {
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(hfIdSocioSeleccionado.Value))
+                    {
+                        int idSocio = int.Parse(hfIdSocioSeleccionado.Value);
+                        SocioNegocio negocio = new SocioNegocio();
+                        negocio.BajaLogica(idSocio);
+
+                        // Limpia la UI y muestra mensaje
+                        LimpiarPanelSocio();
+                        lblErrorBusqueda.Text = "Socio dado de baja correctamente.";
+                        lblErrorBusqueda.Visible = true;
+                    }
+                    else
+                    {
+                        lblErrorBusqueda.Text = "Por favor, busque un socio primero.";
+                        lblErrorBusqueda.Visible = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lblErrorBusqueda.Text = "Error al dar de baja: " + ex.Message;
+                    lblErrorBusqueda.Visible = true;
+                }
+            }
+        }
     }
 }

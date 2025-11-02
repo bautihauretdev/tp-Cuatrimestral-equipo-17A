@@ -131,5 +131,34 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void BajaLogica(int idSocio)
+        {
+            // BAJA LOGICA SOCIOS
+            AccesoDatos datosSocio = new AccesoDatos();
+            try
+            {
+                datosSocio.setearConsulta("UPDATE SOCIOS SET Activo = 0 WHERE IdSocio = @IdSocio");
+                datosSocio.setearParametro("@IdSocio", idSocio);
+                datosSocio.ejecutarAccion();
+            }
+            finally
+            {
+                datosSocio.cerrarConexion();
+            }
+
+            //BAJA LOGICA USUARIOS
+            AccesoDatos datosUsuario = new AccesoDatos();
+            try
+            {
+                datosUsuario.setearConsulta("UPDATE USUARIOS SET Activo = 0 WHERE IdSocio = @IdSocio");
+                datosUsuario.setearParametro("@IdSocio", idSocio);
+                datosUsuario.ejecutarAccion();
+            }
+            finally
+            {
+                datosUsuario.cerrarConexion();
+            }
+        }
     }
 }
