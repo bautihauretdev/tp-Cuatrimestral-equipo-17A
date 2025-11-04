@@ -228,6 +228,7 @@
 }
 
 
+
 /* ==================== VENTANA SOCIOS ==================== */
 
 .main-container {
@@ -455,6 +456,29 @@
         flex-direction: row;
     }
 }
+
+
+
+/* ==================== VENTANA PLANES ==================== */
+
+.planes-grid {
+    display: grid;
+    max-width: 500px;
+    align-items: center;
+}
+
+.planes-panel {
+    background-color: #1E2328;
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.planes-group {
+    display: flex;
+    gap: 1rem;
+    width: 100%; /* Asegura que el contenedor use todo su espacio */
+}
+
 
 
 /* ==================== VENTANA COBROS ==================== */

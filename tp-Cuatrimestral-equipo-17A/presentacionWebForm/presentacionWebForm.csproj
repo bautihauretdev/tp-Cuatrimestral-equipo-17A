@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdminCobros.aspx" />
+    <Content Include="AdminPlanes.aspx" />
     <Content Include="AdminReportes.aspx" />
     <Content Include="AdminSocios.aspx" />
     <Content Include="AdminTurnos.aspx" />
@@ -90,6 +91,13 @@
     </Compile>
     <Compile Include="AdminMasterPage.Master.designer.cs">
       <DependentUpon>AdminMasterPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="AdminPlanes.aspx.cs">
+      <DependentUpon>AdminPlanes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminPlanes.aspx.designer.cs">
+      <DependentUpon>AdminPlanes.aspx</DependentUpon>
     </Compile>
     <Compile Include="AdminReportes.aspx.cs">
       <DependentUpon>AdminReportes.aspx</DependentUpon>

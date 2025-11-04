@@ -43,6 +43,9 @@
                                 <a runat="server" class="nav-link custom-link" href="AdminSocios.aspx">Socios</a>
                             </li>
                             <li class="nav-item">
+                                <a runat="server" class="nav-link custom-link" href="AdminPlanes.aspx">Planes</a>
+                            </li>
+                            <li class="nav-item">
                                 <a runat="server" class="nav-link custom-link" href="AdminCobros.aspx">Cobros</a>
                             </li>
                             <li class="nav-item">
