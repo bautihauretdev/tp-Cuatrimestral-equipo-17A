@@ -73,7 +73,6 @@
                         <asp:BoundField DataField="Periodo" HeaderText="Mes/Año" />
                         <asp:BoundField DataField="Monto" HeaderText="Monto" DataFormatString="{0:C}" />
                         <asp:BoundField DataField="FormaPago" HeaderText="Forma Pago" />
-                        <asp:ButtonField Text="Eliminar" ButtonType="Button" ControlStyle-CssClass="btn-eliminar" />
                     </Columns>
                 </asp:GridView>
             </div>

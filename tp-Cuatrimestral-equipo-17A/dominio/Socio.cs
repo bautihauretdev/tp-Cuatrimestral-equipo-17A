@@ -15,7 +15,7 @@ namespace dominio
         public DateTime FechaNacimiento { get; set; }
         public string Telefono { get; set; }
         public string Email { get; set; }
-       // public Plan Plan { get; set; } DEJO COMENTADO PARA FUTURA IMPLENTACION DE PLANES
+        public Plan Plan { get; set; } // DEJO COMENTADO PARA FUTURA IMPLENTACION DE PLANES
         public bool Activo { get; set; }
 
 
