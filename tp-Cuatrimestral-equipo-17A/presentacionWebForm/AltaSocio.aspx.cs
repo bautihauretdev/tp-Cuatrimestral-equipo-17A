@@ -31,7 +31,7 @@ namespace presentacionWebForm
                     Activo = true
                 };
                 SocioNegocio socioNegocio = new SocioNegocio();
-                int idSocio = socioNegocio.AgregarYObtenerId(nuevo);
+                int idSocio = socioNegocio.Agregar(nuevo);
 
                 UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
                 usuarioNegocio.AgregarUsuarioSocio(nuevo.Email, nuevo.Dni, idSocio);

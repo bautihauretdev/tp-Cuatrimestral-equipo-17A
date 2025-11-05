@@ -74,7 +74,7 @@ namespace negocio
             }
         }
 
-        public int AgregarYObtenerId(Socio socio)
+        public int Agregar(Socio socio)
         {
             AccesoDatos datos = new AccesoDatos();
             try
