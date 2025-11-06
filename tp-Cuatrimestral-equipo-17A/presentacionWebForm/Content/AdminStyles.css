@@ -461,10 +461,28 @@
 
 /* ==================== VENTANA PLANES ==================== */
 
+.planes-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between; /* los separa a los extremos */
+}
+
 .planes-grid {
     display: grid;
-    max-width: 500px;
-    align-items: center;
+    grid-template-columns: 1.2fr 1.8fr;
+    gap: 2rem;
+}
+
+/* RESPONSIVE PLANES */
+@media (max-width: 768px) {
+    .planes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .planes-panel {
+        width: 100%;
+    }
 }
 
 .planes-panel {
@@ -473,10 +491,29 @@
     padding: 1.5rem;
 }
 
-.planes-group {
+.planes-btn-group {
     display: flex;
     gap: 1rem;
-    width: 100%; /* Asegura que el contenedor use todo su espacio */
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.planes-form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.planes-form-row .planes-form-group {
+    flex: 1; /* hace que ambos tengan el mismo ancho */
+}
+
+.cantidad-socios-plan {
+    font-size: 1.5rem;
+    color: #38e07b;
+    padding-right: 10px;
 }
 
 

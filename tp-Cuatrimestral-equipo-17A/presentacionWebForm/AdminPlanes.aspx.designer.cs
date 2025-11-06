@@ -42,15 +42,6 @@ namespace presentacionWebForm
         protected global::System.Web.UI.WebControls.TextBox txtMonto;
 
         /// <summary>
-        /// txtMes control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMes;
-
-        /// <summary>
         /// btnEditarPlan control.
         /// </summary>
         /// <remarks>
@@ -67,5 +58,23 @@ namespace presentacionWebForm
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnEliminarPlan;
+
+        /// <summary>
+        /// cantidadSociosPlan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label cantidadSociosPlan;
+
+        /// <summary>
+        /// GridView1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridView1;
     }
 }
