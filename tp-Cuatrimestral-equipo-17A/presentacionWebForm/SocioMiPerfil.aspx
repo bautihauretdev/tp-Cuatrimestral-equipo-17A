@@ -15,45 +15,45 @@
             <div class="perfil-grid">
                 <div class="perfil-campo">
                     <label for="txtNombre">Nombre</label>
-                    <asp:TextBox ID="txtNombre" runat="server" Text="Juan" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
+                    <asp:TextBox ID="txtNombre" runat="server" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
                 </div>
                 <div class="perfil-campo">
                     <label for="txtApellido">Apellido</label>
-                    <asp:TextBox ID="txtApellido" runat="server" Text="Perez" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
+                    <asp:TextBox ID="txtApellido" runat="server" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
                 </div>
             </div>
 
             <div class="perfil-grid">
                 <div class="perfil-campo">
                     <label for="txtDni">DNI</label>
-                    <asp:TextBox ID="txtDni" runat="server" Text="12345678" CssClass="perfil-input perfil-readonly" ReadOnly="true" />
+                    <asp:TextBox ID="txtDni" runat="server" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
                 </div>
                 <div class="perfil-campo">
                     <label for="txtFechaNacimiento">Fecha de nacimiento</label>
-                    <asp:TextBox ID="txtFechaNacimiento" runat="server" TextMode="Date" Text="1990-05-10" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
+                    <asp:TextBox ID="txtFechaNacimiento" runat="server" TextMode="Date" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
                 </div>
             </div>
 
             <div class="perfil-grid">
                 <div class="perfil-campo">
                     <label for="txtTelefono">Teléfono</label>
-                    <asp:TextBox ID="txtTelefono" Text="1122334455" ReadOnly="true" runat="server" CssClass="perfil-input perfil-readonly" />
+                    <asp:TextBox ID="txtTelefono" ReadOnly="true" runat="server" CssClass="perfil-input perfil-readonly" />
                 </div>
                 <div class="perfil-campo">
                     <label for="txtEmail">E-mail</label>
-                    <asp:TextBox ID="txtEmail" runat="server" Text="juanperez@mail.com" CssClass="perfil-input perfil-readonly" ReadOnly="true" />
+                   <asp:TextBox ID="txtEmail" runat="server" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
                 </div>
             </div>
 
             <div class="perfil-grid">
                 <div class="perfil-campo">
                     <label for="txtboxpsswrd">Contraseña</label>
-                    <asp:TextBox ID="txtboxpsswrd" runat="server" Text="********" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
+                   <asp:TextBox ID="txtboxpsswrd" runat="server" Text="********" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
                 </div>
 
                 <div class="perfil-campo">
                     <label for="txtboxPlan">Plan</label>
-                    <asp:TextBox ID="txtboxPlan" runat="server" Text="Premium" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
+                    <asp:TextBox ID="txtboxPlan" runat="server" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
                 </div>
             </div>
 

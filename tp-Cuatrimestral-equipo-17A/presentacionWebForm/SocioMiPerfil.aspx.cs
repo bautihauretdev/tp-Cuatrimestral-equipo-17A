@@ -1,4 +1,6 @@
-﻿using System;
+﻿using dominio;
+using negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +13,67 @@ namespace presentacionWebForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                CargarDatosUsuarioLogueado();
+            }
 
+        }
+
+        private void CargarDatosUsuarioLogueado()
+        {
+            try
+            {
+                // Asume que en el login guardás el objeto Usuario en Session["usuario"]
+                Usuario usuario = Session["usuario"] as Usuario;
+
+                if (usuario == null)
+                {
+                    lblMensaje.Text = "No hay usuario logueado.";
+                    lblMensaje.Visible = true;
+                    return;
+                }
+
+                if (usuario.Socio == null || usuario.Socio.IdSocio <= 0)
+                {
+                    lblMensaje.Text = "No se encontró información del socio asociado al usuario.";
+                    lblMensaje.Visible = true;
+                    return;
+                }
+
+                SocioNegocio sn = new SocioNegocio();
+                Socio socio = sn.ObtenerPorId(usuario.Socio.IdSocio);
+
+                if (socio == null)
+                {
+                    lblMensaje.Text = "No se pudo cargar los datos del socio.";
+                    lblMensaje.Visible = true;
+                    return;
+                }
+
+               
+                txtNombre.Text = socio.Nombre ?? "";
+                txtApellido.Text = socio.Apellido ?? "";
+                txtDni.Text = socio.Dni ?? "";
+
+                // TextMode="Date" requiere formato yyyy-MM-dd para mostrar correctamente
+                txtFechaNacimiento.Text = socio.FechaNacimiento != DateTime.MinValue
+                    ? socio.FechaNacimiento.ToString("yyyy-MM-dd")
+                    : "";
+
+                txtTelefono.Text = socio.Telefono ?? "";
+                txtEmail.Text = socio.Email ?? "";
+
+                // La contraseña no se muestra (se deja enmascarada).
+                txtboxPlan.Text = socio.Plan != null ? socio.Plan.ToString() : ""; // FALTA IMPLEMENTAR PLAN
+
+                lblMensaje.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error al cargar perfil: " + ex.Message;
+                lblMensaje.Visible = true;
+            }
         }
     }
 }
