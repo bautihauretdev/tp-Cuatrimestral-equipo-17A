@@ -24,7 +24,7 @@ namespace presentacionWebForm
         {
             try
             {
-                // Asume que en el login guardás el objeto Usuario en Session["usuario"]
+                // asume que en el login lo guardamos en el objeto Usuario en Session["usuario"]
                 Usuario usuario = Session["usuario"] as Usuario;
 
                 if (usuario == null)
@@ -41,8 +41,8 @@ namespace presentacionWebForm
                     return;
                 }
 
-                SocioNegocio sn = new SocioNegocio();
-                Socio socio = sn.ObtenerPorId(usuario.Socio.IdSocio);
+                SocioNegocio socioNegocio = new SocioNegocio();
+                Socio socio = socioNegocio.ObtenerPorId(usuario.Socio.IdSocio);
 
                 if (socio == null)
                 {
@@ -56,7 +56,7 @@ namespace presentacionWebForm
                 txtApellido.Text = socio.Apellido ?? "";
                 txtDni.Text = socio.Dni ?? "";
 
-                // TextMode="Date" requiere formato yyyy-MM-dd para mostrar correctamente
+              
                 txtFechaNacimiento.Text = socio.FechaNacimiento != DateTime.MinValue
                     ? socio.FechaNacimiento.ToString("yyyy-MM-dd")
                     : "";
@@ -74,6 +74,16 @@ namespace presentacionWebForm
                 lblMensaje.Text = "Error al cargar perfil: " + ex.Message;
                 lblMensaje.Visible = true;
             }
+        }
+
+        protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnEditarDatos_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

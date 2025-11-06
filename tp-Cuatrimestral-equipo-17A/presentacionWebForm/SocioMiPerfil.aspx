@@ -58,8 +58,8 @@
             </div>
 
             <div class="perfil-botones">
-                <asp:Button ID="btnEditarDatos" runat="server" Text="Editar Datos" CssClass="btn-perfil boton-editar" />
-                <asp:Button ID="btnGuardarCambios" runat="server" Text="Guardar Cambios" CssClass="btn-perfil boton-principal" />
+                <asp:Button ID="btnEditarDatos" runat="server" Text="Editar Datos" CssClass="btn-perfil boton-editar" OnClick="btnEditarDatos_Click" />
+                <asp:Button ID="btnGuardarCambios" runat="server" Text="Guardar Cambios" CssClass="btn-perfil boton-principal" OnClick="btnGuardarCambios_Click" Visible="false" />
             </div>
         </div>
     </div>
