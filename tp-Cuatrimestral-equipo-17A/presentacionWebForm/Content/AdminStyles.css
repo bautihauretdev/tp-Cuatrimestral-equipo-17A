@@ -464,7 +464,17 @@
 .planes-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    justify-content: space-between; /* los separa a los extremos */
+    padding: 0 20px;
+}
+
+.planes-header h2{
+    margin: 0px;
+}
+
+.planes-socios-header {
+    display: flex;
+    align-items: center;
     justify-content: space-between; /* los separa a los extremos */
 }
 
