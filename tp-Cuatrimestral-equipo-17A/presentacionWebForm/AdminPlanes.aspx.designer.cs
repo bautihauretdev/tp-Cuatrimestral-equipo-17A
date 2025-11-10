@@ -69,31 +69,31 @@ namespace presentacionWebForm
         protected global::System.Web.UI.WebControls.GridView GridView1;
 
         /// <summary>
-        /// txtNombrePlan control.
+        /// txtNombrePlanEditar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombrePlan;
+        protected global::System.Web.UI.WebControls.TextBox txtNombrePlanEditar;
 
         /// <summary>
-        /// txthorasPlan control.
+        /// txthorasPlanEditar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txthorasPlan;
+        protected global::System.Web.UI.WebControls.TextBox txthorasPlanEditar;
 
         /// <summary>
-        /// txtMontoPlan control.
+        /// txtMontoPlanEditar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMontoPlan;
+        protected global::System.Web.UI.WebControls.TextBox txtMontoPlanEditar;
 
         /// <summary>
         /// btnGuardarCambios control.
@@ -105,39 +105,48 @@ namespace presentacionWebForm
         protected global::System.Web.UI.WebControls.Button btnGuardarCambios;
 
         /// <summary>
-        /// TextBox1 control.
+        /// txtNombrePlanAgregar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox txtNombrePlanAgregar;
 
         /// <summary>
-        /// TextBox2 control.
+        /// txthorasPlanAgregar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        protected global::System.Web.UI.WebControls.TextBox txthorasPlanAgregar;
 
         /// <summary>
-        /// TextBox3 control.
+        /// txtMontoPlanAgregar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox3;
+        protected global::System.Web.UI.WebControls.TextBox txtMontoPlanAgregar;
 
         /// <summary>
-        /// Button1 control.
+        /// lblErrorPlanAgregar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Label lblErrorPlanAgregar;
+
+        /// <summary>
+        /// btnAceptarAltaPlan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarAltaPlan;
     }
 }

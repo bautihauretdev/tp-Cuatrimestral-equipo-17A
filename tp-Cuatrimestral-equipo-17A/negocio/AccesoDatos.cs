@@ -28,6 +28,7 @@ namespace negocio
             comando.CommandType = CommandType.Text;
             comando.CommandText = consulta;
         }
+
         public void setearParametro(string nombre, object valor)
         {
             comando.Parameters.AddWithValue(nombre, valor ?? DBNull.Value);
@@ -46,6 +47,7 @@ namespace negocio
                 throw ex;
             }
         }
+
         public int ejecutarAccion()
         {
             try
@@ -58,6 +60,20 @@ namespace negocio
                 throw ex;
             }
         }
+
+        public object ejecutarScalar()
+        {
+            try
+            {
+                conexion.Open();
+                return comando.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void cerrarConexion()
         {
             if (lector != null)
@@ -65,6 +81,5 @@ namespace negocio
             if (conexion.State == ConnectionState.Open)
                 conexion.Close();
         }
-
     }
 }

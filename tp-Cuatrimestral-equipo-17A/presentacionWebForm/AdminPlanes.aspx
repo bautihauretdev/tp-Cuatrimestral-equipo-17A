@@ -78,19 +78,19 @@
                 <div class="modal-body">
                     <!-- NOMBRE -->
                     <div class="mb-3">
-                        <label for="txtNombrePlan" class="form-label">Nombre Plan</label>
-                        <asp:TextBox ID="txtNombrePlan" runat="server" CssClass="form-input readonly" ReadOnly="true"></asp:TextBox>
+                        <label for="txtNombrePlanEditar" class="form-label">Nombre Plan</label>
+                        <asp:TextBox ID="txtNombrePlanEditar" runat="server" CssClass="form-input readonly" ReadOnly="true"></asp:TextBox>
                     </div>
 
                     <!-- FILA: CANTIDAD HORAS / MONTO -->
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="txthorasPlan" class="form-label">Horas x Semana</label>
-                            <asp:TextBox ID="txthorasPlan" runat="server" TextMode="Number" CssClass="form-control"></asp:TextBox>
+                            <label for="txthorasPlanEditar" class="form-label">Horas x Semana</label>
+                            <asp:TextBox ID="txthorasPlanEditar" runat="server" TextMode="Number" CssClass="form-input readonly" ReadOnly="true"></asp:TextBox>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="txtMontoPlan" class="form-label">Monto</label>
-                            <asp:TextBox ID="txtMontoPlan" runat="server" TextMode="Number" CssClass="form-control"></asp:TextBox>
+                            <label for="txtMontoPlanEditar" class="form-label">Monto</label>
+                            <asp:TextBox ID="txtMontoPlanEditar" runat="server" TextMode="Number" CssClass="form-input"></asp:TextBox>
                         </div>
                     </div>
                 </div>
@@ -110,34 +110,40 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header border-secondary">
-                    <h5 class="modal-title" id="modalAgregarPlanLabel">Agregar plan</h5>
+                    <h5 class="modal-title" id="modalAgregarPlanTitulo">Agregar plan</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
 
                 <div class="modal-body">
                     <!-- NOMBRE -->
                     <div class="mb-3">
-                        <label for="txtNombrePlan" class="form-label">Nombre Plan</label>
-                        <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control"></asp:TextBox>
+                        <label for="txtNombrePlanAgregar" class="form-label">Nombre Plan</label>
+                        <asp:TextBox ID="txtNombrePlanAgregar" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
 
                     <!-- FILA: CANTIDAD HORAS / MONTO -->
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="txthorasPlan" class="form-label">Horas x Semana</label>
-                            <asp:TextBox ID="TextBox2" runat="server" TextMode="Number" CssClass="form-control"></asp:TextBox>
+                            <label for="txthorasPlanAgregar" class="form-label">Horas x Semana</label>
+                            <asp:TextBox ID="txthorasPlanAgregar" runat="server" TextMode="Number" CssClass="form-control"></asp:TextBox>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="txtMontoPlan" class="form-label">Monto</label>
-                            <asp:TextBox ID="TextBox3" runat="server" TextMode="Number" CssClass="form-control"></asp:TextBox>
+                            <label for="txtMontoPlanAgregar" class="form-label">Monto</label>
+                            <asp:TextBox ID="txtMontoPlanAgregar" runat="server" TextMode="Number" CssClass="form-control"></asp:TextBox>
                         </div>
                     </div>
+
+                    <!-- MENSAJE ERROR -->
+                    <div class="mb-3">
+                        <asp:Label ID="lblErrorPlanAgregar" runat="server" CssClass="text-danger" Visible="false" />
+                    </div>
+
                 </div>
 
-                <!-- BOTONES EDITAR -->
+                <!-- BOTONES AGREGAR -->
                 <div class="modal-footer border-secondary">
                     <button type="button" class="boton-editar" data-bs-dismiss="modal">Cancelar</button>
-                    <asp:Button ID="Button1" runat="server" CssClass="boton-principal" Text="Guardar cambios" />
+                    <asp:Button ID="btnAceptarAltaPlan" runat="server" CssClass="boton-principal" Text="Aceptar" OnClick="btnAceptarAltaPlan_Click" />
                 </div>
             </div>
         </div>
