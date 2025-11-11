@@ -16,20 +16,22 @@
             <div class="planes-panel">
                 <div class="planes-form-group">
                     <label>Plan</label>
-                    <asp:DropDownList ID="ddlPlan" runat="server" CssClass="form-input">
-                        <asp:ListItem Text="Seleccionar plan" />
+                    <asp:DropDownList ID="ddlPlan" runat="server"
+                        AutoPostBack="true"
+                        OnSelectedIndexChanged="ddlPlan_SelectedIndexChanged"
+                        CssClass="form-input">
                     </asp:DropDownList>
                 </div>
 
                 <div class="planes-form-row">
                     <div class="planes-form-group">
                         <label>Horas x Semana</label>
-                        <asp:TextBox ID="txtHorasSemana" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="0"></asp:TextBox>
+                        <asp:TextBox ID="txtHorasSemana" runat="server" CssClass="form-input readonly" ReadOnly="true"></asp:TextBox>
                     </div>
 
                     <div class="planes-form-group">
                         <label>Monto</label>
-                        <asp:TextBox ID="txtMonto" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="$ 0.00"></asp:TextBox>
+                        <asp:TextBox ID="txtMonto" runat="server" CssClass="form-input readonly" ReadOnly="true"></asp:TextBox>
                     </div>
                 </div>
 
@@ -44,7 +46,7 @@
             </div>
 
             <!-- SECCIÓN DERECHA: SOCIOS EN EL PLAN -->
-            <div class="planes-panel">
+<%--            <div class="planes-panel">
                 <div class="planes-socios-header">
                     <h2>Socios en el plan</h2>
                     <asp:Label ID="cantidadSociosPlan" runat="server" CssClass="cantidad-socios-plan" Text="#15" />
@@ -59,7 +61,7 @@
                         <asp:BoundField DataField="FormaPago" HeaderText="Forma Pago" />
                     </Columns>
                 </asp:GridView>
-            </div>
+            </div>--%>
 
         </div>
     </main>
@@ -148,5 +150,17 @@
             </div>
         </div>
     </div>
+
+
+<script>
+    // Cuando se abre el modal "Agregar plan", limpia los campos
+    var modalAgregar = document.getElementById('modalAgregarPlan');
+    modalAgregar.addEventListener('show.bs.modal', function () {
+        document.getElementById('<%= txtNombrePlanAgregar.ClientID %>').value = "";
+        document.getElementById('<%= txthorasPlanAgregar.ClientID %>').value = "";
+        document.getElementById('<%= txtMontoPlanAgregar.ClientID %>').value = "";
+        document.getElementById('<%= lblErrorPlanAgregar.ClientID %>').style.display = "none";
+    });
+</script>
 
 </asp:Content>

@@ -1,7 +1,10 @@
 ﻿using dominio;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,5 +34,68 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Plan> ListarPlanes()
+        {
+            var lista = new List<Plan>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"SELECT IdPlan, Nombre, PrecioMensual, MaxHorasSemana, Activo FROM PLANES WHERE Activo = 1");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Plan plan = new Plan
+                    {
+                        IdPlan = (int)datos.Lector["IdPlan"],
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        PrecioMensual = (decimal)datos.Lector["PrecioMensual"],
+                        MaxHorasSemana = (int)datos.Lector["MaxHorasSemana"],
+                        Activo = (bool)datos.Lector["Activo"]
+                    };
+
+                    lista.Add(plan);
+                }
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public Plan ObtenerPlanPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT IdPlan, Nombre, PrecioMensual, MaxHorasSemana, Activo FROM PLANES WHERE IdPlan = @Id");
+                datos.setearParametro("@Id", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    return new Plan
+                    {
+                        IdPlan = (int)datos.Lector["IdPlan"],
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        PrecioMensual = (decimal)datos.Lector["PrecioMensual"],
+                        MaxHorasSemana = (int)datos.Lector["MaxHorasSemana"],
+                        Activo = (bool)datos.Lector["Activo"]
+                    };
+                }
+
+                return null;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
     }
 }
+
