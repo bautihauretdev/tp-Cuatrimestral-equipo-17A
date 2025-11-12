@@ -37,16 +37,20 @@
 
                 <div class="planes-form-group">
                     <div class="planes-btn-group">
-                        <button type="button" class="boton-editar" data-bs-toggle="modal" data-bs-target="#modalEditarPlan">
+                        <asp:Button ID="btnEditarPlan" runat="server"
+                            Text="Editar plan"
+                            CssClass="boton-editar"
+                            OnClick="btnEditarPlan_Click" />
+                        <%--                        <button type="button" class="boton-editar" data-bs-toggle="modal" data-bs-target="#modalEditarPlan">
                             Editar plan
-                        </button>
+                        </button>--%>
                         <asp:Button ID="btnEliminarPlan" runat="server" Text="Eliminar Plan" CssClass="boton-editar" />
                     </div>
                 </div>
             </div>
 
             <!-- SECCIÓN DERECHA: SOCIOS EN EL PLAN -->
-<%--            <div class="planes-panel">
+            <%--            <div class="planes-panel">
                 <div class="planes-socios-header">
                     <h2>Socios en el plan</h2>
                     <asp:Label ID="cantidadSociosPlan" runat="server" CssClass="cantidad-socios-plan" Text="#15" />
@@ -62,7 +66,6 @@
                     </Columns>
                 </asp:GridView>
             </div>--%>
-
         </div>
     </main>
 
@@ -100,7 +103,7 @@
                 <!-- BOTONES EDITAR -->
                 <div class="modal-footer border-secondary">
                     <button type="button" class="boton-editar" data-bs-dismiss="modal">Cancelar</button>
-                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="boton-principal" Text="Guardar cambios" />
+                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="boton-principal" Text="Guardar cambios" OnClick="btnGuardarCambios_Click" />
                 </div>
             </div>
         </div>
@@ -152,15 +155,15 @@
     </div>
 
 
-<script>
-    // Cuando se abre el modal "Agregar plan", limpia los campos
-    var modalAgregar = document.getElementById('modalAgregarPlan');
-    modalAgregar.addEventListener('show.bs.modal', function () {
-        document.getElementById('<%= txtNombrePlanAgregar.ClientID %>').value = "";
-        document.getElementById('<%= txthorasPlanAgregar.ClientID %>').value = "";
-        document.getElementById('<%= txtMontoPlanAgregar.ClientID %>').value = "";
-        document.getElementById('<%= lblErrorPlanAgregar.ClientID %>').style.display = "none";
-    });
-</script>
+    <script>
+        // Cuando se abre el modal "Agregar plan", limpia los campos
+        var modalAgregar = document.getElementById('modalAgregarPlan');
+        modalAgregar.addEventListener('show.bs.modal', function () {
+            document.getElementById('<%= txtNombrePlanAgregar.ClientID %>').value = "";
+            document.getElementById('<%= txthorasPlanAgregar.ClientID %>').value = "";
+            document.getElementById('<%= txtMontoPlanAgregar.ClientID %>').value = "";
+            document.getElementById('<%= lblErrorPlanAgregar.ClientID %>').style.display = "none";
+        });
+    </script>
 
 </asp:Content>

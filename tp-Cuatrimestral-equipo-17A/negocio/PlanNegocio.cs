@@ -96,6 +96,31 @@ namespace negocio
             }
 
         }
+
+        public void Modificar(Plan plan)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"UPDATE PLANES
+                                       SET Nombre = @Nombre,
+                                           PrecioMensual = @PrecioMensual,
+                                           MaxHorasSemana = @MaxHorasSemana
+                                       WHERE IdPlan = @IdPlan");
+
+                datos.setearParametro("@IdPlan", plan.IdPlan);
+                datos.setearParametro("@Nombre", plan.Nombre);
+                datos.setearParametro("@PrecioMensual", plan.PrecioMensual);
+                datos.setearParametro("@MaxHorasSemana", plan.MaxHorasSemana);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
 

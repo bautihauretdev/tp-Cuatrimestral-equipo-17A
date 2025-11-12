@@ -17,6 +17,9 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <!-- ScriptManager global -->
+        <asp:ScriptManager ID="ScriptManagerMaster" runat="server" />
+
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
                 <div class="container-fluid">

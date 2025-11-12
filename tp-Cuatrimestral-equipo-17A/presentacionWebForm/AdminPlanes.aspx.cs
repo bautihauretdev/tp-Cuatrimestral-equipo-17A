@@ -35,10 +35,6 @@ namespace presentacionWebForm
 
         protected void btnAceptarAltaPlan_Click(object sender, EventArgs e)
         {
-            // (!) PENDIENTE AGREGAR VALIDACIONES
-            // QUE NO EXISTA YA UN PLAN CON ESE NOMBRE
-            // QUE NO EXISTA YA UN PLAN CON ESA CANTIDAD DE HORAS
-            // QUE NO SE PUEDAN INGRESAR CAMPOS VACIOS
             try
             {
                 Plan nuevo = new Plan
@@ -98,5 +94,51 @@ namespace presentacionWebForm
             }
         }
 
+        protected void btnEditarPlan_Click(object sender, EventArgs e)
+        {
+            // Si no hay plan seleccionado, no hacer nada
+            if (string.IsNullOrEmpty(ddlPlan.SelectedValue))
+                return;
+
+            int planId = int.Parse(ddlPlan.SelectedValue);
+            PlanNegocio negocio = new PlanNegocio();
+            Plan plan = negocio.ObtenerPlanPorId(planId);
+
+            if (plan != null)
+            {
+                // Carga los datos del plan en los TextBox de la ventana flotante
+                txtNombrePlanEditar.Text = plan.Nombre;
+                txthorasPlanEditar.Text = plan.MaxHorasSemana.ToString();
+                txtMontoPlanEditar.Text = plan.PrecioMensual.ToString("0.00");
+
+                // Mostrar modal en Bootstrap 5 sin jQuery
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ShowModalEditar",
+                    "var modal = new bootstrap.Modal(document.getElementById('modalEditarPlan')); modal.show();", true);
+            }
+        }
+
+        protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(ddlPlan.SelectedValue))
+                return;
+
+            int planId = int.Parse(ddlPlan.SelectedValue);
+            PlanNegocio negocio = new PlanNegocio();
+            Plan plan = negocio.ObtenerPlanPorId(planId);
+
+            if (plan != null)
+            {
+                // Solo actualizamos el monto
+                plan.PrecioMensual = decimal.Parse(txtMontoPlanEditar.Text);
+
+                negocio.Modificar(plan);
+
+                // Refrescamos el dropdown y los datos visibles
+                CargarPlanes();
+                ddlPlan.SelectedValue = plan.IdPlan.ToString();
+                txtHorasSemana.Text = plan.MaxHorasSemana.ToString();
+                txtMonto.Text = plan.PrecioMensual.ToString("C", new System.Globalization.CultureInfo("es-AR"));
+            }
+        }
     }
 }
