@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="socio-section-button">
-                        <asp:Button ID="btnEditarPerfil" runat="server" Text="Editar perfil del socio" CssClass="boton-editar" />
+                        <asp:Button ID="btnEditarPerfil" runat="server" Text="Editar perfil del socio" CssClass="boton-editar" OnClick="btnEditarPerfil_Click" />
                          <asp:Button ID="btnEliminarLogico" runat="server" Text="Dar de baja" CssClass="boton-editar" OnClick="btnEliminarLogico_Click" />
                     </div>
                 </div>

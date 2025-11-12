@@ -105,5 +105,22 @@ namespace presentacionWebForm
                 }
             }
         }
+
+        protected void btnEditarPerfil_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(hfIdSocioSeleccionado.Value))
+            {
+                int id;
+                if (int.TryParse(hfIdSocioSeleccionado.Value, out id))
+                { 
+                    Session["EditarSocioId"] = id;
+                    Response.Redirect("AltaSocio.aspx");
+                    return;
+                }
+            }
+
+            lblErrorBusqueda.Text = "Por favor, seleccione un socio antes de editar.";
+            lblErrorBusqueda.Visible = true;
+        }
     }
 }

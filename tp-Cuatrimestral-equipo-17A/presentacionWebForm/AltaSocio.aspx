@@ -11,6 +11,8 @@
                 <asp:Label ID="lblMensajeAltaSocio" runat="server" CssClass="text-success" Visible="false" />
                 <asp:Label ID="lblErrorAltaSocio" runat="server" CssClass="text-danger" Visible="false" />
                 
+                <asp:HiddenField ID="hfIdEditar" runat="server" />
+                
                 <div class="info-grid">
                     <div class="form-group">
                         <label class="info-label" for="txtNombreAltaSocio">Nombre</label>
@@ -40,6 +42,7 @@
 
                 <div style="margin-top:2rem; text-align:center;">
                     <asp:Button ID="btnGuardarAltaSocio" runat="server" Text="Guardar" CssClass="boton-principal boton-guardar" OnClick="btnGuardarAltaSocio_Click" />
+                     <asp:Button ID="btnGuardarCambios" runat="server" Text="Guardar Cambios" CssClass="boton-principal boton-guardar"  Visible="false" OnClick="btnGuardarCambios_Click" />
                 </div>
                 <div style="margin-top:1rem; text-align:center;">
                     <span style="font-size:13px; color:#96c5a9;">La contraseña inicial será el DNI del socio</span>

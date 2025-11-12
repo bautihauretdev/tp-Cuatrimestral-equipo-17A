@@ -66,5 +66,41 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        //Comprueba si el email ya esta en uso por otro usuario (distinto al socio actual)
+        public bool EmailEnUsoPorOtro(string email, int idSocio)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT IdUsuario FROM USUARIOS WHERE Email = @Email AND (IdSocio IS NULL OR IdSocio <> @IdSocio)");
+                datos.setearParametro("@Email", email);
+                datos.setearParametro("@IdSocio", idSocio);
+                datos.ejecutarLectura();
+                return datos.Lector.Read();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        
+        //Actualiza el email del usuario asociado a un IdSocio
+        public void ActualizarEmailPorIdSocio(int idSocio, string nuevoEmail)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE USUARIOS SET Email = @Email WHERE IdSocio = @IdSocio");
+                datos.setearParametro("@Email", nuevoEmail);
+                datos.setearParametro("@IdSocio", idSocio);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
