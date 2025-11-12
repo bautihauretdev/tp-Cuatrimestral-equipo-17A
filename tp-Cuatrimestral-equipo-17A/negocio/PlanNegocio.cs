@@ -121,6 +121,21 @@ namespace negocio
             }
         }
 
+        public void BajaLogica(int idPlan)
+        {
+            AccesoDatos datosPlan = new AccesoDatos();
+            try
+            {
+                datosPlan.setearConsulta("UPDATE PLANES SET Activo = 0 WHERE IdPlan = @IdPlan");
+                datosPlan.setearParametro("@IdPlan", idPlan);
+                datosPlan.ejecutarAccion();
+            }
+            finally
+            {
+                datosPlan.cerrarConexion();
+            }
+        }
+
     }
 }
 

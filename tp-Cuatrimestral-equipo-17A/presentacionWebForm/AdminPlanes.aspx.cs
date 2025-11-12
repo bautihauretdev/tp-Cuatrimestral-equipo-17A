@@ -140,5 +140,40 @@ namespace presentacionWebForm
                 txtMonto.Text = plan.PrecioMensual.ToString("C", new System.Globalization.CultureInfo("es-AR"));
             }
         }
+
+        protected void btnEliminarPlan_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(ddlPlan.SelectedValue))
+                return;
+
+            // Mostrar nombre del plan en el modal
+            PlanNegocio negocio = new PlanNegocio();
+            int planId = int.Parse(ddlPlan.SelectedValue);
+            Plan plan = negocio.ObtenerPlanPorId(planId);
+
+            if (plan != null)
+            {
+                // Poner el nombre en el <span> del modal
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ShowModalEliminar",
+                    $"document.getElementById('planNombreEliminar').innerText = '{plan.Nombre}'; " +
+                    $"var modal = new bootstrap.Modal(document.getElementById('modalEliminarPlan')); modal.show();", true);
+            }
+        }
+
+        protected void btnConfirmarEliminar_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(ddlPlan.SelectedValue))
+                return;
+
+            int planId = int.Parse(ddlPlan.SelectedValue);
+            PlanNegocio negocio = new PlanNegocio();
+            negocio.BajaLogica(planId);
+
+            // Recargar dropdown y limpiar campos
+            CargarPlanes();
+            ddlPlan.SelectedIndex = 0;
+            txtHorasSemana.Text = "";
+            txtMonto.Text = "";
+        }
     }
 }
