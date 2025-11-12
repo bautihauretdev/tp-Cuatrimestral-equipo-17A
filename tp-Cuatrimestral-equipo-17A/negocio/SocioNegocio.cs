@@ -15,7 +15,7 @@ namespace negocio
             Socio socio = null;
             try
             {
-                datos.setearConsulta("SELECT * FROM SOCIOS WHERE Dni = @Dni");
+                datos.setearConsulta("SELECT IdSocio, Nombre, Apellido, Dni, FechaNacimiento, Telefono, Email, Activo FROM SOCIOS WHERE Dni = @Dni");
                 datos.setearParametro("@Dni", dni);
                 datos.ejecutarLectura();
                 if (datos.Lector.Read())
@@ -23,13 +23,13 @@ namespace negocio
                     socio = new Socio
                     {
                         IdSocio = (int)datos.Lector["IdSocio"],
-                        Nombre = datos.Lector["Nombre"].ToString(),
-                        Apellido = datos.Lector["Apellido"].ToString(),
-                        Dni = datos.Lector["Dni"].ToString(),
-                        FechaNacimiento = Convert.ToDateTime(datos.Lector["FechaNacimiento"]),
-                        Telefono = datos.Lector["Telefono"].ToString(),
-                        Email = datos.Lector["Email"].ToString(),
-                        Activo = Convert.ToBoolean(datos.Lector["Activo"])
+                        Nombre = datos.Lector["Nombre"] != DBNull.Value ? (string)datos.Lector["Nombre"] : "",
+                        Apellido = datos.Lector["Apellido"] != DBNull.Value ? (string)datos.Lector["Apellido"] : "",
+                        Dni = datos.Lector["Dni"] != DBNull.Value ? (string)datos.Lector["Dni"] : "",
+                        FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value ? (DateTime)datos.Lector["FechaNacimiento"] : DateTime.MinValue,
+                        Telefono = datos.Lector["Telefono"] != DBNull.Value ? (string)datos.Lector["Telefono"] : "",
+                        Email = datos.Lector["Email"] != DBNull.Value ? (string)datos.Lector["Email"] : "",
+                        Activo = datos.Lector["Activo"] != DBNull.Value ? (bool)datos.Lector["Activo"] : true
                     };
                 }
                 return socio;
