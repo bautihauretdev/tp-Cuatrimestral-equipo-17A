@@ -37,46 +37,111 @@ namespace presentacionWebForm
         {
             try
             {
+                string nombre = txtNombrePlanAgregar.Text.Trim();
+                string horasTxt = txthorasPlanAgregar.Text.Trim();
+                string montoTxt = txtMontoPlanAgregar.Text.Trim();
+
+                // (1) Validar que todos los campos estén completos
+                if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(horasTxt) || string.IsNullOrEmpty(montoTxt))
+                {
+                    lblErrorPlanAgregar.Text = "Por favor completá todos los campos.";
+                    lblErrorPlanAgregar.Visible = true;
+                    MantenerModalAbierto();
+                    return;
+                }
+
+                // (2) Validar formato numérico y valores mayores a 0
+                if (!int.TryParse(horasTxt, out int horas) || horas <= 0)
+                {
+                    lblErrorPlanAgregar.Text = "Las horas por semana deben ser un número mayor a 0.";
+                    lblErrorPlanAgregar.Visible = true;
+                    MantenerModalAbierto();
+                    return;
+                }
+
+                if (!decimal.TryParse(montoTxt, out decimal monto) || monto <= 0)
+                {
+                    lblErrorPlanAgregar.Text = "El monto debe ser un número válido mayor a 0.";
+                    lblErrorPlanAgregar.Visible = true;
+                    MantenerModalAbierto();
+                    return;
+                }
+
+                // (3) Validar que no exista un plan con el mismo nombre o mismas horas
+                PlanNegocio planNegocio = new PlanNegocio();
+                List<Plan> planesExistentes = planNegocio.ListarPlanes();
+
+                bool nombreExiste = planesExistentes.Any(p =>
+                    p.Nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase));
+
+                bool horasExiste = planesExistentes.Any(p => p.MaxHorasSemana == horas);
+
+                if (nombreExiste)
+                {
+                    lblErrorPlanAgregar.Text = $"Ya existe un plan con el nombre \"{nombre}\".";
+                    lblErrorPlanAgregar.Visible = true;
+                    MantenerModalAbierto();
+                    return;
+                }
+
+                if (horasExiste)
+                {
+                    lblErrorPlanAgregar.Text = $"Ya existe un plan con {horas} horas semanales.";
+                    lblErrorPlanAgregar.Visible = true;
+                    MantenerModalAbierto();
+                    return;
+                }
+
+                // Si todo está OK, creamos y guardamos el plan
                 Plan nuevo = new Plan
                 {
-                    Nombre = txtNombrePlanAgregar.Text,
-                    PrecioMensual = decimal.Parse(txtMontoPlanAgregar.Text),
-                    MaxHorasSemana = int.Parse(txthorasPlanAgregar.Text),
+                    Nombre = nombre,
+                    PrecioMensual = monto,
+                    MaxHorasSemana = horas,
                     Activo = true
                 };
 
-                PlanNegocio planNegocio = new PlanNegocio();
                 int idPlan = planNegocio.Agregar(nuevo);
 
-                CargarPlanes(); // Recargar el listado de planes
-
-                ddlPlan.SelectedIndex = 0; // Dejar el dropdown en "Seleccionar plan"
+                // Refrescar lista y limpiar campos
+                CargarPlanes();
+                ddlPlan.SelectedIndex = 0;
                 txtHorasSemana.Text = "";
                 txtMonto.Text = "";
-
-                // Limpiar los campos del modal
                 txtNombrePlanAgregar.Text = "";
                 txtMontoPlanAgregar.Text = "";
                 txthorasPlanAgregar.Text = "";
                 lblErrorPlanAgregar.Visible = false;
             }
-            catch (FormatException)
-            {
-                // Validar que el formato sea válido (por ejemplo si el usuario escribe letras)
-                lblErrorPlanAgregar.Text = "Verificá que el monto y las horas sean números válidos.";
-                lblErrorPlanAgregar.Visible = true;
-            }
             catch (Exception ex)
             {
                 lblErrorPlanAgregar.Text = "Ocurrió un error: " + ex.Message;
                 lblErrorPlanAgregar.Visible = true;
+                MantenerModalAbierto();
             }
         }
+
+        private void MantenerModalAbierto()
+        {
+            ScriptManager.RegisterStartupScript(
+                Page,
+                Page.GetType(),
+                "ShowModalAgregar",
+                "var modal = new bootstrap.Modal(document.getElementById('modalAgregarPlan')); modal.show();",
+                true
+            );
+        }
+
 
         protected void ddlPlan_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(ddlPlan.SelectedValue))
+            {
+                // Limpiar campos si no hay plan seleccionado
+                txtHorasSemana.Text = "";
+                txtMonto.Text = "";
                 return;
+            }
 
             int planId = int.Parse(ddlPlan.SelectedValue);
             PlanNegocio negocio = new PlanNegocio();
@@ -128,9 +193,27 @@ namespace presentacionWebForm
 
             if (plan != null)
             {
-                // Solo actualizamos el monto
-                plan.PrecioMensual = decimal.Parse(txtMontoPlanEditar.Text);
+                decimal nuevoMonto;
+                bool esNumero = decimal.TryParse(txtMontoPlanEditar.Text, out nuevoMonto);
 
+                if (!esNumero || nuevoMonto <= 0)
+                {
+                    // Mostrar mensaje de error en el Label
+                    lblErrorPlanEditar.Text = "Por favor ingresá un monto válido mayor a 0.";
+                    lblErrorPlanEditar.Visible = true;
+
+                    // Mantener el modal abierto
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ShowModalEditar",
+                        "var modal = new bootstrap.Modal(document.getElementById('modalEditarPlan')); modal.show();", true);
+
+                    return;
+                }
+
+                // Si todo está bien, ocultar el label
+                lblErrorPlanEditar.Visible = false;
+
+                // Guardar el cambio
+                plan.PrecioMensual = nuevoMonto;
                 negocio.Modificar(plan);
 
                 // Refrescamos el dropdown y los datos visibles

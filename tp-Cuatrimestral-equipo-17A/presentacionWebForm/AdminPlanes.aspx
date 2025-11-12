@@ -95,6 +95,10 @@
                             <asp:TextBox ID="txtMontoPlanEditar" runat="server" TextMode="Number" CssClass="form-input"></asp:TextBox>
                         </div>
                     </div>
+                    <!-- MENSAJE ERROR -->
+                    <div class="mb-3">
+                        <asp:Label ID="lblErrorPlanEditar" runat="server" CssClass="text-danger" Visible="false" />
+                    </div>
                 </div>
 
                 <!-- BOTONES EDITAR -->
@@ -139,7 +143,6 @@
                     <div class="mb-3">
                         <asp:Label ID="lblErrorPlanAgregar" runat="server" CssClass="text-danger" Visible="false" />
                     </div>
-
                 </div>
 
                 <!-- BOTONES AGREGAR -->
