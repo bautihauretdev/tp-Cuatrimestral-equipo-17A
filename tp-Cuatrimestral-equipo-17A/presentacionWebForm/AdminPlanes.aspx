@@ -14,6 +14,7 @@
         <div class="planes-grid">
             <!-- SECCIÓN IZQUIERDA: DETALLE DE PLAN -->
             <div class="planes-panel">
+                <!-- PLAN -->
                 <div class="planes-form-group">
                     <label>Plan</label>
                     <asp:DropDownList ID="ddlPlan" runat="server"
@@ -24,15 +25,22 @@
                 </div>
 
                 <div class="planes-form-row">
+                    <!-- HORAS X SEMANA -->
                     <div class="planes-form-group">
                         <label>Horas x Semana</label>
                         <asp:TextBox ID="txtHorasSemana" runat="server" CssClass="form-input readonly" ReadOnly="true"></asp:TextBox>
                     </div>
 
+                    <!-- MONTO -->
                     <div class="planes-form-group">
                         <label>Monto</label>
                         <asp:TextBox ID="txtMonto" runat="server" CssClass="form-input readonly" ReadOnly="true"></asp:TextBox>
                     </div>
+                </div>
+
+                <!-- MENSAJE ERROR PARA ABRIR EDITAR -->
+                <div class="mb-3">
+                    <asp:Label ID="lblErrorAbrirEditar" runat="server" CssClass="text-danger" Visible="false" />
                 </div>
 
                 <div class="planes-form-group">
@@ -160,7 +168,7 @@
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header border-secondary">
                     <h5 class="modal-title" id="modalEliminarPlanLabel">Eliminar plan</h5>
-<%--                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>--%>
+                    <%--                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>--%>
                 </div>
 
                 <div class="modal-body">
@@ -179,11 +187,17 @@
     <script>
         // Cuando se abre el modal "Agregar plan", limpia los campos
         var modalAgregar = document.getElementById('modalAgregarPlan');
+
         modalAgregar.addEventListener('show.bs.modal', function () {
-            document.getElementById('<%= txtNombrePlanAgregar.ClientID %>').value = "";
-            document.getElementById('<%= txthorasPlanAgregar.ClientID %>').value = "";
-            document.getElementById('<%= txtMontoPlanAgregar.ClientID %>').value = "";
-            document.getElementById('<%= lblErrorPlanAgregar.ClientID %>').style.display = "none";
+            // Solo limpiar si NO fue un postback con error
+            if (limpiarCamposAgregar) {
+                document.getElementById('<%= txtNombrePlanAgregar.ClientID %>').value = "";
+                document.getElementById('<%= txthorasPlanAgregar.ClientID %>').value = "";
+                document.getElementById('<%= txtMontoPlanAgregar.ClientID %>').value = "";
+                document.getElementById('<%= lblErrorPlanAgregar.ClientID %>').style.display = "none";
+            }
+
+            limpiarCamposAgregar = true; // resetea
         });
     </script>
 

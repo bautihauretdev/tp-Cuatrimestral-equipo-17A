@@ -117,6 +117,11 @@ namespace presentacionWebForm
             {
                 lblErrorPlanAgregar.Text = "Ocurrió un error: " + ex.Message;
                 lblErrorPlanAgregar.Visible = true;
+
+                // Mantiene el modal abierto sin limpiar campos.
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "NoLimpiarAgregar",
+                    "limpiarCamposAgregar = false;", true);
+
                 MantenerModalAbierto();
             }
         }
@@ -161,26 +166,39 @@ namespace presentacionWebForm
 
         protected void btnEditarPlan_Click(object sender, EventArgs e)
         {
-            // Si no hay plan seleccionado, no hacer nada
+            // Valida selección
             if (string.IsNullOrEmpty(ddlPlan.SelectedValue))
                 return;
 
+            // Validar rango de fechas: solo del 25 al 31
+            int diaActual = DateTime.Now.Day;
+            if (diaActual < 25 || diaActual > 31)
+            {
+                lblErrorAbrirEditar.Text = "La edición de planes estará disponible a partir del día 25 y hasta que termine el mes";
+                lblErrorAbrirEditar.Visible = true;
+                return;
+            }
+
+            // Si está dentro del rango limpia el label
+            lblErrorAbrirEditar.Visible = false;
+
+            // Cargar los datos del plan
             int planId = int.Parse(ddlPlan.SelectedValue);
             PlanNegocio negocio = new PlanNegocio();
             Plan plan = negocio.ObtenerPlanPorId(planId);
 
             if (plan != null)
             {
-                // Carga los datos del plan en los TextBox de la ventana flotante
                 txtNombrePlanEditar.Text = plan.Nombre;
                 txthorasPlanEditar.Text = plan.MaxHorasSemana.ToString();
                 txtMontoPlanEditar.Text = plan.PrecioMensual.ToString("0.00");
 
-                // Mostrar modal en Bootstrap 5 sin jQuery
+                // Mostrar modal
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ShowModalEditar",
                     "var modal = new bootstrap.Modal(document.getElementById('modalEditarPlan')); modal.show();", true);
             }
         }
+
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
