@@ -20,7 +20,7 @@
                     <i class="bi bi-person-check-fill metricas-icono fs-4"></i>
                     <h3>Socios que vienen hoy</h3>
                 </div>
-                    <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
+                <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
                 <asp:Label ID="lblSociosHoyNum" runat="server" CssClass="metricas-numero" Text="51"></asp:Label>
             </div>
 
@@ -61,9 +61,9 @@
                             <asp:Label ID="lblDomingo" runat="server" CssClass="calendario-cabecera-dias" Text="Domingo"></asp:Label>
 
                             <!-- (!) ATENCION: AHORA ESTA COPIADO PEGADO MANUAL, CUANDO ESTÉ LA BD SE HACE CON REPEATER (ESTÁ PREPARADO ABAJO) -->
-                            <%-- Hora --%>
+                            <!-- Hora -->
                             <asp:Label ID="lblHora0800" runat="server" CssClass="calendario-hora text-end text-secondary font-monospace pe-2" Text="08:00"></asp:Label>
-                            <%-- Turnos de la hora por día--%>
+                            <!-- Turnos de la hora por día-->
                             <asp:Button ID="btn0800Lunes" runat="server" CssClass="calendario-turno" Text="Disponible" />
                             <asp:Button ID="btn0800Martes" runat="server" CssClass="calendario-turno" Text="Disponible" />
                             <asp:Button ID="btn0800Miercoles" runat="server" CssClass="calendario-turno" Text="Disponible" />
