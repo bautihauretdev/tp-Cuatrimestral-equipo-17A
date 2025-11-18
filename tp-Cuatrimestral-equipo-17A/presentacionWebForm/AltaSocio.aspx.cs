@@ -16,6 +16,7 @@ namespace presentacionWebForm
         {
             if (!IsPostBack)
             {
+                CargarPlanes();
                 // Primero: comprobar si hay edición por Session (preferible)
                 object sessionId = Session[SESSION_KEY_EDIT_ID];
                 if (sessionId != null)
@@ -39,7 +40,23 @@ namespace presentacionWebForm
                 }
             }
         }
-
+        private void CargarPlanes() 
+        {
+            try
+            {
+                PlanNegocio planNegocio = new PlanNegocio(); 
+                List<Plan> planes = planNegocio.ListarPlanes(); 
+                ddlPlanSocio.DataSource = planes; 
+                ddlPlanSocio.DataTextField = "Nombre"; 
+                ddlPlanSocio.DataValueField = "IdPlan"; 
+                ddlPlanSocio.DataBind(); 
+            }
+            catch (Exception ex)
+            {
+                lblErrorAltaSocio.Text = "Error cargando planes: " + ex.Message; 
+                lblErrorAltaSocio.Visible = true; 
+            }
+        }
         private void CargarParaEdicion(int idSocio)
         {
             try
@@ -56,6 +73,9 @@ namespace presentacionWebForm
                 txtFechaNacAltaSocio.Text = socio.FechaNacimiento != DateTime.MinValue ? socio.FechaNacimiento.ToString("yyyy-MM-dd") : "";
                 txtTelefonoAltaSocio.Text = socio.Telefono;
                 txtEmailAltaSocio.Text = socio.Email;
+                // AGREGADO: Selecciona el plan actual en el dropdown
+                if (ddlPlanSocio.Items.FindByValue(socio.IdPlan.ToString()) != null) 
+                    ddlPlanSocio.SelectedValue = socio.IdPlan.ToString();
 
                 //AJUSTES EN MODO EDICION
                 txtDniAltaSocio.ReadOnly = true; //DNI no editable
@@ -84,6 +104,7 @@ namespace presentacionWebForm
                     FechaNacimiento = DateTime.Parse(txtFechaNacAltaSocio.Text),
                     Telefono = txtTelefonoAltaSocio.Text,
                     Email = txtEmailAltaSocio.Text,
+                    IdPlan = int.Parse(ddlPlanSocio.SelectedValue),
                     Activo = true
                 };
                 SocioNegocio socioNegocio = new SocioNegocio();
@@ -134,6 +155,7 @@ namespace presentacionWebForm
                     Nombre = txtNombreAltaSocio.Text.Trim(),
                     Apellido = txtApellidoAltaSocio.Text.Trim(),
                     Dni = txtDniAltaSocio.Text.Trim(), // no editable 
+                    IdPlan = int.Parse(ddlPlanSocio.SelectedValue)
                 };
 
                 DateTime fecha;

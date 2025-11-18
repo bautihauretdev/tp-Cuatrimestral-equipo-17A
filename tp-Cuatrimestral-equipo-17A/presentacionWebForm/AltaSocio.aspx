@@ -38,6 +38,10 @@
                         <label class="info-label" for="txtEmailAltaSocio">Email</label>
                         <asp:TextBox ID="txtEmailAltaSocio" runat="server" CssClass="form-input" placeholder="Email" />
                     </div>
+                    <div class="form-group info-span-2"> 
+                        <label class="info-label" for="ddlPlanSocio">Plan</label> 
+                        <asp:DropDownList ID="ddlPlanSocio" runat="server" CssClass="form-input" /> 
+                    </div>
                 </div>
 
                 <div style="margin-top:2rem; text-align:center;">

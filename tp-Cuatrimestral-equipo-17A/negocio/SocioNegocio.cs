@@ -15,7 +15,7 @@ namespace negocio
             Socio socio = null;
             try
             {
-                datos.setearConsulta("SELECT IdSocio, Nombre, Apellido, Dni, FechaNacimiento, Telefono, Email, Activo FROM SOCIOS WHERE Dni = @Dni");
+                datos.setearConsulta("SELECT IdSocio, Nombre, Apellido, Dni, FechaNacimiento, Telefono, Email, IdPlan, Activo FROM SOCIOS WHERE Dni = @Dni");
                 datos.setearParametro("@Dni", dni);
                 datos.ejecutarLectura();
                 if (datos.Lector.Read())
@@ -29,6 +29,7 @@ namespace negocio
                         FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value ? (DateTime)datos.Lector["FechaNacimiento"] : DateTime.MinValue,
                         Telefono = datos.Lector["Telefono"] != DBNull.Value ? (string)datos.Lector["Telefono"] : "",
                         Email = datos.Lector["Email"] != DBNull.Value ? (string)datos.Lector["Email"] : "",
+                        IdPlan = datos.Lector["IdPlan"] != DBNull.Value ? (int)datos.Lector["IdPlan"] : 0,
                         Activo = datos.Lector["Activo"] != DBNull.Value ? (bool)datos.Lector["Activo"] : true
                     };
                 }
@@ -46,7 +47,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IdSocio, Nombre, Apellido, Dni, FechaNacimiento, Telefono, Email, Activo FROM SOCIOS WHERE IdSocio = @IdSocio");
+                datos.setearConsulta("SELECT IdSocio, Nombre, Apellido, Dni, FechaNacimiento, Telefono, Email, IdPlan, Activo FROM SOCIOS WHERE IdSocio = @IdSocio");
                 datos.setearParametro("@IdSocio", idSocio);
 
                 datos.ejecutarLectura();
@@ -62,6 +63,7 @@ namespace negocio
                         FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value ? (DateTime)datos.Lector["FechaNacimiento"] : DateTime.MinValue,
                         Telefono = datos.Lector["Telefono"] != DBNull.Value ? (string)datos.Lector["Telefono"] : "",
                         Email = datos.Lector["Email"] != DBNull.Value ? (string)datos.Lector["Email"] : "",
+                        IdPlan = datos.Lector["IdPlan"] != DBNull.Value ? (int)datos.Lector["IdPlan"] : 0,
                         Activo = datos.Lector["Activo"] != DBNull.Value ? (bool)datos.Lector["Activo"] : true
                     };
                 }
@@ -79,8 +81,8 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta(@"INSERT INTO SOCIOS (Nombre, Apellido, Dni, FechaNacimiento, Telefono, Email, Activo)
-                               VALUES (@Nombre, @Apellido, @Dni, @FechaNacimiento, @Telefono, @Email, @Activo);
+                datos.setearConsulta(@"INSERT INTO SOCIOS (Nombre, Apellido, Dni, FechaNacimiento, Telefono, Email, IdPlan, Activo)
+                               VALUES (@Nombre, @Apellido, @Dni, @FechaNacimiento, @Telefono, @Email, @IdPlan, @Activo);
                                SELECT SCOPE_IDENTITY();");
                 datos.setearParametro("@Nombre", socio.Nombre);
                 datos.setearParametro("@Apellido", socio.Apellido);
@@ -88,6 +90,7 @@ namespace negocio
                 datos.setearParametro("@FechaNacimiento", socio.FechaNacimiento == DateTime.MinValue ? (object)DBNull.Value : socio.FechaNacimiento);
                 datos.setearParametro("@Telefono", socio.Telefono);
                 datos.setearParametro("@Email", socio.Email);
+                datos.setearParametro("@IdPlan", socio.IdPlan);
                 datos.setearParametro("@Activo", socio.Activo);
 
                 object result = datos.ejecutarLectura().Read() ? datos.Lector[0] : null;
@@ -112,6 +115,7 @@ namespace negocio
                                            FechaNacimiento = @FechaNacimiento,
                                            Telefono = @Telefono,
                                            Email = @Email,
+                                           IdPlan = @IdPlan,
                                            Activo = @Activo
                                        WHERE IdSocio = @IdSocio");
 
@@ -121,6 +125,7 @@ namespace negocio
                 datos.setearParametro("@FechaNacimiento", socio.FechaNacimiento == DateTime.MinValue ? (object)DBNull.Value : socio.FechaNacimiento);
                 datos.setearParametro("@Telefono", socio.Telefono);
                 datos.setearParametro("@Email", socio.Email);
+                datos.setearParametro("@IdPlan", socio.IdPlan);
                 datos.setearParametro("@Activo", socio.Activo);
                 datos.setearParametro("@IdSocio", socio.IdSocio);
 
@@ -131,6 +136,7 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
 
         public void BajaLogica(int idSocio)
         {
