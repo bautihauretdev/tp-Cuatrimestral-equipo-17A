@@ -9,6 +9,7 @@ namespace negocio
 {
     public class SocioNegocio
     {
+        
         public Socio ObtenerPorDni(string dni)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -68,6 +69,37 @@ namespace negocio
                     };
                 }
 
+                return socio;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public Socio ObtenerPorEmail(string email)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Socio socio = null;
+            try
+            {
+                datos.setearConsulta("SELECT IdSocio, Nombre, Apellido, Dni, FechaNacimiento, Telefono, Email, IdPlan, Activo FROM SOCIOS WHERE Email = @Email");
+                datos.setearParametro("@Email", email);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    socio = new Socio
+                    {
+                        IdSocio = (int)datos.Lector["IdSocio"],
+                        Nombre = datos.Lector["Nombre"] != DBNull.Value ? (string)datos.Lector["Nombre"] : "",
+                        Apellido = datos.Lector["Apellido"] != DBNull.Value ? (string)datos.Lector["Apellido"] : "",
+                        Dni = datos.Lector["Dni"] != DBNull.Value ? (string)datos.Lector["Dni"] : "",
+                        FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value ? (DateTime)datos.Lector["FechaNacimiento"] : DateTime.MinValue,
+                        Telefono = datos.Lector["Telefono"] != DBNull.Value ? (string)datos.Lector["Telefono"] : "",
+                        Email = datos.Lector["Email"] != DBNull.Value ? (string)datos.Lector["Email"] : "",
+                        IdPlan = datos.Lector["IdPlan"] != DBNull.Value ? (int)datos.Lector["IdPlan"] : 0,
+                        Activo = datos.Lector["Activo"] != DBNull.Value ? (bool)datos.Lector["Activo"] : true
+                    };
+                }
                 return socio;
             }
             finally
