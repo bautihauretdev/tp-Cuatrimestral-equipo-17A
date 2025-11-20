@@ -117,10 +117,12 @@ namespace presentacionWebForm
                     }
                     else
                     {
-                        lblErrorAltaSocio.Text = "Ya existe un socio con ese DNI pero está inactivo. ¿Desea reactivarlo?"; 
-                        lblErrorAltaSocio.Visible = true; 
-                        lblMensajeAltaSocio.Visible = false; 
-                       // FALTA AGREGAR BOTON PARA REACTIVAR SOCIO
+                        // Guardamos el ID en un HiddenField
+                        hfIdSocioInactivo.Value = socioExistente.IdSocio.ToString();
+
+                        // Abrimos el modal desde el servidor
+                        ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModalReactivar();", true);
+
                         return;
                     }
                 }
@@ -258,6 +260,29 @@ namespace presentacionWebForm
                 lblMensajeAltaSocio.Visible = false;
             }
         }
+
+        protected void btnConfirmarReactivar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int idSocio = int.Parse(hfIdSocioInactivo.Value);
+
+                SocioNegocio socioNegocio = new SocioNegocio();
+                socioNegocio.AltaLogica(idSocio);
+
+                // Mensaje de éxito
+                Session["MensajeSocio"] = "Socio reactivado correctamente.";
+                Response.Redirect("AdminSocios.aspx");
+            }
+            catch (Exception ex)
+            {
+                lblErrorReactivar.Text = "Error al reactivar: " + ex.Message;
+                lblErrorReactivar.Visible = true;
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModalReactivar();", true);
+            }
+        }
+
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {

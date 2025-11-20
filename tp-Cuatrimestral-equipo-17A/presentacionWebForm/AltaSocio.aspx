@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminMasterPage.Master" AutoEventWireup="true" CodeBehind="AltaSocio.aspx.cs" Inherits="presentacionWebForm.AltaSocio" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <a href="MasterPage.Master">MasterPage.Master</a>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
        <div class="main-container">
@@ -54,5 +55,34 @@
             </div>
         </div>
     </div>
-</asp:Content>
-<a href="MasterPage.Master">MasterPage.Master</a>
+    <!-- MODAL REACTIVAR SOCIO -->
+<div class="modal fade" id="modalReactivarSocio" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title">Socio inactivo encontrado</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+             <div class="modal-body">
+                <p>Ya existe un socio con este DNI pero está inactivo.  
+                    <br />
+                   
+                   ¿Desea reactivarlo?</p>
+                 <asp:Label ID="lblErrorReactivar" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
+                 <asp:HiddenField ID="hfIdSocioInactivo" runat="server" />
+                 </div>
+                  <div class="modal-footer border-secondary">
+                     <asp:Button ID="btnConfirmarReactivar" runat="server" Text="Reactivar Socio"  CssClass="boton-principal boton-guardar" OnClick="btnConfirmarReactivar_Click" />
+                </div>
+            </div>
+          </div>
+        </div>
+        <script>
+            function abrirModalReactivar() {
+                var modal = new bootstrap.Modal(document.getElementById('modalReactivarSocio'));
+                modal.show();
+            }
+        </script>
+    </asp:Content>          
+          
+
