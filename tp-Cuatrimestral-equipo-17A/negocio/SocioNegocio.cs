@@ -198,5 +198,35 @@ namespace negocio
                 datosUsuario.cerrarConexion();
             }
         }
+
+        public void AltaLogica (int idSocio)
+        {
+            AccesoDatos datosSocio = new AccesoDatos();
+
+            try
+            {
+                datosSocio.setearConsulta("UPDATE SOCIOS SET Activo = 1 WHERE IdSocio = @IdSocio");
+                datosSocio.setearParametro("@IdSocio", idSocio);
+                datosSocio.ejecutarAccion();
+            }
+            
+            finally 
+            {
+                datosSocio.cerrarConexion();
+            }
+
+            AccesoDatos datosUsuario = new AccesoDatos();
+            try
+            {
+                datosUsuario.setearConsulta("UPDATE USUARIOS SET Activo = 1 WHERE IdSocio = @IdSocio");
+                datosUsuario.setearParametro("@IdSocio", idSocio);
+                datosUsuario.ejecutarAccion();
+            }
+
+            finally
+            {
+                datosUsuario.cerrarConexion();
+            }
+        }
     }
 }
