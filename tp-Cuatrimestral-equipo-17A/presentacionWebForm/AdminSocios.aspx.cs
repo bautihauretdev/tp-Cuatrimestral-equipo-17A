@@ -110,17 +110,70 @@ namespace presentacionWebForm
         {
             if (!string.IsNullOrEmpty(hfIdSocioSeleccionado.Value))
             {
-                int id;
-                if (int.TryParse(hfIdSocioSeleccionado.Value, out id))
-                { 
-                    Session["EditarSocioId"] = id;
-                    Response.Redirect("AltaSocio.aspx");
+                if (string.IsNullOrEmpty(hfIdSocioSeleccionado.Value))
+                {
+                    lblErrorBusqueda.Text = "Por favor, seleccione un socio antes de editar.";
+                    lblErrorBusqueda.Visible = true;
                     return;
                 }
-            }
 
-            lblErrorBusqueda.Text = "Por favor, seleccione un socio antes de editar.";
-            lblErrorBusqueda.Visible = true;
+                int idSocio;
+                if (!int.TryParse(hfIdSocioSeleccionado.Value, out idSocio))
+                    return;
+
+                SocioNegocio negocio = new SocioNegocio();
+                Socio socio = negocio.ObtenerPorId(idSocio);
+
+                if (!socio.Activo)
+                {
+                    hfIdSocioInactivo.Value = socio.IdSocio.ToString();
+
+                    ScriptManager.RegisterStartupScript(
+                        this, GetType(), "MostrarModalInactivo",
+                        @"var modal = new bootstrap.Modal(document.getElementById('modalEditarInactivo'));
+                        modal.show();",
+                        true
+                    );
+
+                    return;
+                }
+
+                // Socio activo → va directo a edición
+                Session["EditarSocioId"] = idSocio;
+                Response.Redirect("AltaSocio.aspx");
+            }
         }
+
+        protected void btnReactivarDesdeEdicion_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int idSocio = int.Parse(hfIdSocioInactivo.Value);
+                SocioNegocio socioNegocio = new SocioNegocio();
+
+                socioNegocio.AltaLogica(idSocio);
+
+                // Actualiza el estado visual en pantalla
+                lblEstado.Text = "Activo";
+
+                // Mensaje pequeño opcional
+                lblErrorBusqueda.Text = "El socio ha sido reactivado. Ahora puede editarlo.";
+                lblErrorBusqueda.Visible = true;
+
+                // Cierra modal desde servidor
+                ScriptManager.RegisterStartupScript(
+                    this, GetType(), "CerrarModal",
+                    @"var modal = bootstrap.Modal.getInstance(document.getElementById('modalEditarInactivo'));
+                     if(modal) modal.hide();",
+                    true
+                );
+            }
+            catch (Exception ex)
+            {
+                lblErrorBusqueda.Text = "Error al reactivar socio: " + ex.Message;
+                lblErrorBusqueda.Visible = true;
+            }
+        }
+
     }
 }

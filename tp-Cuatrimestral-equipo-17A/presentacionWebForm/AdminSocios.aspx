@@ -94,4 +94,25 @@
             </asp:Panel>
         </div>
     </div>
+
+    <!-- MODAL Socio inactivo al editar -->
+<div class="modal fade" id="modalEditarInactivo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title">Socio inactivo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <p>Este socio se encuentra marcado como <strong>inactivo</strong>.</p>
+                <p>¿Desea reactivarlo para poder editar su información?</p>
+                <asp:HiddenField ID="hfIdSocioInactivo" runat="server" />
+                 </div>
+             <div class="modal-footer border-secondary">
+                 <asp:Button ID="Button1" runat="server" CssClass="boton-principal" Text="Reactivar socio" OnClick="btnReactivarDesdeEdicion_Click"/>
+                   </div>
+             </div>
+          </div>
+        </div>
 </asp:Content>
