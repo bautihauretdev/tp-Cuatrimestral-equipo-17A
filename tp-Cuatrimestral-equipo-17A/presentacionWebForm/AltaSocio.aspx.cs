@@ -3,6 +3,8 @@ using negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
@@ -18,7 +20,7 @@ namespace presentacionWebForm
             if (!IsPostBack)
             {
                 CargarPlanes();
-                // Primero: comprobar si hay edición por Session (preferible)
+                // Primero: se comprueba si hay edicion por Session 
                 object sessionId = Session[SESSION_KEY_EDIT_ID];
                 if (sessionId != null)
                 {
@@ -247,6 +249,7 @@ namespace presentacionWebForm
                 lblMensajeAltaSocio.Text = "Socio y usuario creados correctamente. Contraseña por defecto: DNI";
                 lblMensajeAltaSocio.Visible = true;
                 lblErrorAltaSocio.Visible = false;
+                Response.Redirect("AdminSocios.aspx");
             }
             catch (Exception ex)
             {
@@ -260,6 +263,7 @@ namespace presentacionWebForm
         {
             try
             {
+                //VALIDACION 1: EDITAR
                 if (string.IsNullOrEmpty(hfIdEditar.Value))
                 {
                     lblErrorAltaSocio.Text = "No se pudo identificar el socio a modificar.";
@@ -274,6 +278,7 @@ namespace presentacionWebForm
                     lblErrorAltaSocio.Visible = true;
                     return;
                 }
+
 
                 //Carga usuario asociado para detectar cambio de email 
                 UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
@@ -303,6 +308,100 @@ namespace presentacionWebForm
                 Socio socioOriginal = socioNegocio.ObtenerPorId(idSocio);
                 string emailOriginal = socioOriginal != null ? socioOriginal.Email : null;
 
+                //VALIDACION 2: PREGUNTA SI EL SOCIO ORIGINAL EXISTE
+                if (socioOriginal == null)
+                {
+                    lblErrorAltaSocio.Text = "No se encontró el socio a modificar.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
+                }
+
+                //VALIDACION 3: NO PERMITE EDICION SI EL SOCIO NO ESTA ACTIVO
+                if (!socioOriginal.Activo)
+                {
+                    lblErrorAltaSocio.Text = "El socio está dado de baja. Reactívelo antes de modificar sus datos.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
+                }
+
+                // VALIDACION 4.1: LEE LOS CAMPOS DEL FORMULARIO
+                string nombre = txtNombreAltaSocio.Text?.Trim();
+                string apellido = txtApellidoAltaSocio.Text?.Trim();
+                string dni = txtDniAltaSocio.Text?.Trim();   //aunque sea readonly 
+                string fechaTxt = txtFechaNacAltaSocio.Text?.Trim();
+                string telefono = txtTelefonoAltaSocio.Text?.Trim();
+                string email = txtEmailAltaSocio.Text?.Trim();
+                string planSelected = ddlPlanSocio.SelectedValue;
+
+                //VALIDACION 4.2: VALIDA CAMPOS OBLIGATORIOS NO VACIOS
+                if (string.IsNullOrEmpty(nombre) ||
+                    string.IsNullOrEmpty(apellido) ||
+                    string.IsNullOrEmpty(dni) ||
+                    string.IsNullOrEmpty(fechaTxt) ||
+                    string.IsNullOrEmpty(telefono) ||
+                    string.IsNullOrEmpty(email) ||
+                    string.IsNullOrEmpty(planSelected))
+                {
+                    lblErrorAltaSocio.Text = "Complete todos los campos obligatorios.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
+                }
+                
+                //VALIDACION 5: FORMATO DE MAIL
+                try
+                {
+                    var mail = new MailAddress(email);
+                    if (email.Contains(" "))
+                    {
+                        throw new FormatException();
+                    }
+                }
+                catch
+                {
+                    lblErrorAltaSocio.Text = "El email ingresado no tiene un formato válido.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
+                }
+
+                //VALIDACION 6: PERMITE + Y LONGITUD MINIMA 8 CARAC.
+                string telNormalizado = telefono.Replace(" ", "").Replace("-", "");
+                if (!Regex.IsMatch(telNormalizado, @"^\+?\d{8,15}$"))
+                {
+                    lblErrorAltaSocio.Text = "El teléfono ingresado no es válido. Use solo números (y opcionalmente +), mínimo 8 dígitos.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
+                }
+
+                //VALIDACION 7: FECHA DE NACIMIENTO
+                if (!DateTime.TryParse(fechaTxt, out DateTime fechaNacimiento))
+                {
+                    lblErrorAltaSocio.Text = "La fecha de nacimiento no tiene un formato válido.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
+                }
+                if (fechaNacimiento > DateTime.Today)
+                {
+                    lblErrorAltaSocio.Text = "La fecha de nacimiento no puede ser futura.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
+                }
+                int edad = DateTime.Today.Year - fechaNacimiento.Year;
+                if (fechaNacimiento > DateTime.Today.AddYears(-edad)) edad--;
+                if (edad < 14)
+                {
+                    lblErrorAltaSocio.Text = "El socio debe ser mayor de 13 años.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
+                }
+                if (edad > 100)
+                {
+                    lblErrorAltaSocio.Text = "La fecha de nacimiento parece incorrecta.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
+                }
+
+               
+
                 //Si el email cambio, actualiza tabla USUARIOS tambien
                 bool emailCambia = !string.Equals(emailOriginal ?? "", socio.Email ?? "", StringComparison.OrdinalIgnoreCase);
                 if (emailCambia)
@@ -314,6 +413,30 @@ namespace presentacionWebForm
                         lblErrorAltaSocio.Visible = true;
                         return;
                     }
+                }
+
+                //VALIDACION 8: EMAIL DUPLICADO EN SOCIOS
+                Socio socioPorEmail = socioNegocio.ObtenerPorEmail(email);
+                if (socioPorEmail != null && socioPorEmail.IdSocio != idSocio)
+                {
+                    lblErrorAltaSocio.Text = "El email ingresado ya está registrado para otro socio.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
+                }
+
+                //VALIDACION 9: NO GUARDA SI NO HAY CAMBIOS REALES
+                bool huboCambios =
+                       !string.Equals(socio.Nombre ?? "", socioOriginal.Nombre ?? "", StringComparison.Ordinal)
+                    || !string.Equals(socio.Apellido ?? "", socioOriginal.Apellido ?? "", StringComparison.Ordinal)
+                    || !string.Equals(socio.Email ?? "", socioOriginal.Email ?? "", StringComparison.OrdinalIgnoreCase)
+                    || !string.Equals(socio.Telefono ?? "", socioOriginal.Telefono ?? "", StringComparison.Ordinal)
+                    || socio.IdPlan != socioOriginal.IdPlan
+                    || socio.FechaNacimiento != socioOriginal.FechaNacimiento;
+                if (!huboCambios)
+                {
+                    lblErrorAltaSocio.Text = "No se detectaron cambios para guardar.";
+                    lblErrorAltaSocio.Visible = true;
+                    return;
                 }
 
                 // Guarda cambios en SOCIOS
@@ -332,7 +455,7 @@ namespace presentacionWebForm
                 lblMensajeAltaSocio.Visible = true;
                 lblErrorAltaSocio.Visible = false;
 
-                // Redirigir de vuelta a AdminSocios (opcional)
+                //Redirige de vuelta a AdminSocios.aspx
                 Response.Redirect("AdminSocios.aspx");
             }
             catch (Exception ex)
