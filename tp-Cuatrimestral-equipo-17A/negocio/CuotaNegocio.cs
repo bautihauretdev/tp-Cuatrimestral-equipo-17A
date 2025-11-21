@@ -7,120 +7,128 @@ namespace negocio
 {
     public class CuotaNegocio
     {
-        private string connectionString = "Server=localhost\\SQLEXPRESS;Database=EQUIPO17A_GYM_DB;Trusted_Connection=True;";
-
         public List<Socio> ListarSocios()
         {
             var lista = new List<Socio>();
-            using (SqlConnection con = new SqlConnection(connectionString))
+            AccesoDatos acceso = new AccesoDatos();
+
+            try
             {
-                string query = @"SELECT IdSocio, Nombre, Apellido FROM SOCIOS WHERE Activo = 1";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                acceso.setearConsulta(@"SELECT IdSocio, Nombre, Apellido FROM SOCIOS WHERE Activo = 1");
+                var dr = acceso.ejecutarLectura();
+                while (dr.Read())
                 {
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-                    while (dr.Read())
+                    Socio socio = new Socio
                     {
-                        Socio socio = new Socio
-                        {
-                            IdSocio = (int)dr["IdSocio"],
-                            Nombre = dr["Nombre"].ToString(),
-                            Apellido = dr["Apellido"].ToString()
-                        };
-                        lista.Add(socio);
-                    }
+                        IdSocio = (int)dr["IdSocio"],
+                        Nombre = dr["Nombre"].ToString(),
+                        Apellido = dr["Apellido"].ToString()
+                    };
+                    lista.Add(socio);
                 }
             }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+
             return lista;
         }
 
         public Cuota ObtenerCuotaActual(int idSocio)
         {
             Cuota cuota = null;
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                string query = @"SELECT IdCuota, IdPago, Anio, Mes, Monto, Recargo, Estado 
-                                 FROM CUOTAS 
-                                 WHERE IdSocio = @idSocio AND Mes = @mes AND Anio = @anio";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@idSocio", idSocio);
-                    cmd.Parameters.AddWithValue("@mes", DateTime.Now.Month);
-                    cmd.Parameters.AddWithValue("@anio", DateTime.Now.Year);
+            AccesoDatos acceso = new AccesoDatos();
 
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-                    if (dr.Read())
+            try
+            {
+                acceso.setearConsulta(@"SELECT IdCuota, IdPago, Anio, Mes, Monto, Recargo, Estado 
+                                        FROM CUOTAS 
+                                        WHERE IdSocio = @idSocio AND Mes = @mes AND Anio = @anio");
+                acceso.setearParametro("@idSocio", idSocio);
+                acceso.setearParametro("@mes", DateTime.Now.Month);
+                acceso.setearParametro("@anio", DateTime.Now.Year);
+
+                var dr = acceso.ejecutarLectura();
+                if (dr.Read())
+                {
+                    cuota = new Cuota
                     {
-                        cuota = new Cuota
-                        {
-                            IdCuota = (int)dr["IdCuota"],
-                            IdPago = dr["IdPago"] != DBNull.Value ? (int?)dr["IdPago"] : null,
-                            Anio = (int)dr["Anio"],
-                            Mes = (int)dr["Mes"],
-                            Monto = (decimal)dr["Monto"],
-                            Recargo = (decimal)dr["Recargo"],
-                            Estado = dr["Estado"].ToString()
-                        };
-                    }
+                        IdCuota = (int)dr["IdCuota"],
+                        IdPago = dr["IdPago"] != DBNull.Value ? (int?)dr["IdPago"] : null,
+                        Anio = (int)dr["Anio"],
+                        Mes = (int)dr["Mes"],
+                        Monto = (decimal)dr["Monto"],
+                        Recargo = (decimal)dr["Recargo"],
+                        Estado = dr["Estado"].ToString()
+                    };
                 }
             }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+
             return cuota;
         }
 
         public void ActualizarEstadoCuota(int idCuota, string nuevoEstado)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                string query = @"UPDATE CUOTAS SET Estado = @estado WHERE IdCuota = @idCuota";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@estado", nuevoEstado);
-                    cmd.Parameters.AddWithValue("@idCuota", idCuota);
+            AccesoDatos acceso = new AccesoDatos();
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                }
+            try
+            {
+                acceso.setearConsulta(@"UPDATE CUOTAS SET Estado = @estado WHERE IdCuota = @idCuota");
+                acceso.setearParametro("@estado", nuevoEstado);
+                acceso.setearParametro("@idCuota", idCuota);
+
+                acceso.ejecutarAccion();
+            }
+            finally
+            {
+                acceso.cerrarConexion();
             }
         }
+
         public List<Cuota> ObtenerCuotasPagadas()
         {
             var lista = new List<Cuota>();
+            AccesoDatos acceso = new AccesoDatos();
 
-            using (SqlConnection con = new SqlConnection(connectionString))
+            try
             {
-                string query = @"SELECT c.IdCuota, c.Anio, c.Mes, c.Monto, c.Recargo, c.Estado,
-                                s.IdSocio, s.Nombre, s.Apellido
-                         FROM CUOTAS c
-                         INNER JOIN SOCIOS s ON c.IdSocio = s.IdSocio
-                         WHERE c.Estado = 'Pagado'
-                         ORDER BY c.Anio DESC, c.Mes DESC";
+                acceso.setearConsulta(@"
+                    SELECT c.IdCuota, c.Anio, c.Mes, c.Monto, c.Recargo, c.Estado,
+                           s.IdSocio, s.Nombre, s.Apellido
+                    FROM CUOTAS c
+                    INNER JOIN SOCIOS s ON c.IdSocio = s.IdSocio
+                    WHERE c.Estado = 'Pagado'
+                    ORDER BY c.Anio DESC, c.Mes DESC");
 
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                var dr = acceso.ejecutarLectura();
+                while (dr.Read())
                 {
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-                    while (dr.Read())
+                    Cuota cuota = new Cuota
                     {
-                        Cuota cuota = new Cuota
+                        IdCuota = (int)dr["IdCuota"],
+                        Anio = (int)dr["Anio"],
+                        Mes = (int)dr["Mes"],
+                        Monto = (decimal)dr["Monto"],
+                        Recargo = (decimal)dr["Recargo"],
+                        Estado = dr["Estado"].ToString(),
+                        Socio = new Socio
                         {
-                            IdCuota = (int)dr["IdCuota"],
-                            Anio = (int)dr["Anio"],
-                            Mes = (int)dr["Mes"],
-                            Monto = (decimal)dr["Monto"],
-                            Recargo = (decimal)dr["Recargo"],
-                            Estado = dr["Estado"].ToString(),
-                            Socio = new Socio
-                            {
-                                IdSocio = (int)dr["IdSocio"],
-                                Nombre = dr["Nombre"].ToString(),
-                                Apellido = dr["Apellido"].ToString()
-                            }
-                        };
-
-                        lista.Add(cuota);
-                    }
+                            IdSocio = (int)dr["IdSocio"],
+                            Nombre = dr["Nombre"].ToString(),
+                            Apellido = dr["Apellido"].ToString()
+                        }
+                    };
+                    lista.Add(cuota);
                 }
+            }
+            finally
+            {
+                acceso.cerrarConexion();
             }
 
             return lista;
