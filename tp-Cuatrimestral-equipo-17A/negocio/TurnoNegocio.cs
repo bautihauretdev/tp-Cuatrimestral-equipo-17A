@@ -9,10 +9,9 @@ namespace negocio
     public class TurnoNegocio
     {
 
+        // Controla que estén creados los turnos de la semana en vigencia y las 3 siguientes
         public void AsegurarSemanas()
         {
-            AccesoDatos datos = new AccesoDatos();
-
             try
             {
                 DateTime hoy = DateTime.Today;
@@ -20,11 +19,31 @@ namespace negocio
                 // Obtener lunes de la semana actual
                 int dif = (int)hoy.DayOfWeek - (int)DayOfWeek.Monday;
                 if (dif < 0) dif += 7;
-                DateTime lunes = hoy.AddDays(-dif);
+                DateTime lunesActual = hoy.AddDays(-dif);
 
+                // Controla la existencia de la semana y de ser necesario la crea
+                // La primera vez va a hacer las 4 semanas y luego ya va a ir creando únicamente la 4ta
+                for (int i = 0; i < 4; i++)
+                {
+                    DateTime lunesSemana = lunesActual.AddDays(i * 7);
+
+                    if (!ExisteSemana(lunesSemana))
+                        CrearSemana(lunesSemana);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en AsegurarSemanas: " + ex.Message);
+            }
+        }
+
+        private bool ExisteSemana(DateTime lunes)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
                 DateTime domingo = lunes.AddDays(6);
 
-                // Validamos si la semana ya existe
                 datos.setearConsulta(
                     "SELECT COUNT(IdTurno) FROM TURNOS WHERE Fecha >= @lunes AND Fecha <= @domingo"
                 );
@@ -34,15 +53,11 @@ namespace negocio
                 int cantidad = Convert.ToInt32(datos.ejecutarScalar());
                 datos.cerrarConexion();
 
-                if (cantidad == 0)
-                {
-                    // Si no existe la semana, la crea
-                    CrearSemana(lunes);
-                }
+                return cantidad > 0;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error en AsegurarSemanas: " + ex.Message);
+                throw new Exception("Error en ExisteSemana: " + ex.Message);
             }
             finally
             {
