@@ -15,13 +15,40 @@ namespace presentacionWebForm
     {
 
         /// <summary>
-        /// Control ddlSocio.
+        /// Control txtSearchSocio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSocio;
+        protected global::System.Web.UI.WebControls.TextBox txtSearchSocio;
+
+        /// <summary>
+        /// Control btnBuscarSocio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnBuscarSocio;
+
+        /// <summary>
+        /// Control hfIdSocioSeleccionado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfIdSocioSeleccionado;
+
+        /// <summary>
+        /// Control lblSocioSeleccionado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSocioSeleccionado;
 
         /// <summary>
         /// Control txtPlan.
