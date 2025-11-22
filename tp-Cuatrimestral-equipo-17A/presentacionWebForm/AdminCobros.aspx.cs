@@ -3,7 +3,6 @@ using negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
 
 namespace presentacionWebForm
@@ -14,17 +13,15 @@ namespace presentacionWebForm
         {
             if (!IsPostBack)
             {
-                
                 txtFecha.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 txtMes.Text = DateTime.Now.ToString("MM/yyyy");
                 CargarHistorialCobros();
             }
         }
-
         protected void btnBuscarSocio_Click(object sender, EventArgs e)
         {
-            string termino = txtSearchSocio.Text?.Trim();
-            if (string.IsNullOrEmpty(termino))
+            string criterio = txtSearchSocio.Text?.Trim();
+            if (string.IsNullOrEmpty(criterio))
             {
                 lblSocioSeleccionado.Text = "Ingrese DNI o nombre para buscar.";
                 hfIdSocioSeleccionado.Value = "";
@@ -32,54 +29,23 @@ namespace presentacionWebForm
                 return;
             }
 
-            Socio socioEncontrado = null;
-            var socioNegocio = new SocioNegocio();
+            var cuotaNegocio = new CuotaNegocio();
+            Socio socioEncontrado = cuotaNegocio.BuscarSocioPorDniONombre(criterio);
 
-            if (Regex.IsMatch(termino, @"^\d+$"))
-            {
-                socioEncontrado = socioNegocio.ObtenerPorDni(termino);
-            }
-
-            if (socioEncontrado == null)
-            {
-                var cuotaNegocio = new CuotaNegocio();
-                var listaSocios = cuotaNegocio.ListarSocios();
-                socioEncontrado = listaSocios.FirstOrDefault(s =>
-                    (s.Nombre + " " + s.Apellido).IndexOf(termino, StringComparison.OrdinalIgnoreCase) >= 0
-                    || s.Nombre.IndexOf(termino, StringComparison.OrdinalIgnoreCase) >= 0
-                    || s.Apellido.IndexOf(termino, StringComparison.OrdinalIgnoreCase) >= 0);
-            }
-
-            if (socioEncontrado != null)
+            if (socioEncontrado != null && socioEncontrado.Plan != null)
             {
                 hfIdSocioSeleccionado.Value = socioEncontrado.IdSocio.ToString();
                 lblSocioSeleccionado.Text = socioEncontrado.Nombre + " " + socioEncontrado.Apellido;
-                CargarDatosSocioParaCobro(socioEncontrado.IdSocio);
+
+                txtPlan.Text = socioEncontrado.Plan.Nombre;
+                txtMonto.Text = socioEncontrado.Plan.PrecioMensual.ToString("C");
+                txtRecargo.Text = "$0.00"; 
             }
             else
             {
                 lblSocioSeleccionado.Text = "Socio no encontrado.";
                 hfIdSocioSeleccionado.Value = "";
                 LimpiarCamposCuota();
-            }
-        }
-
-        private void CargarDatosSocioParaCobro(int socioId)
-        {
-            CuotaNegocio negocio = new CuotaNegocio();
-            Cuota cuota = negocio.ObtenerCuotaActual(socioId);
-
-            if (cuota != null)
-            {
-                txtPlan.Text = cuota.Socio?.Plan?.Nombre ?? "Plan no disponible";
-                txtRecargo.Text = cuota.Recargo.ToString("C");
-                txtMonto.Text = (cuota.Monto + cuota.Recargo).ToString("C");
-            }
-            else
-            {
-                txtPlan.Text = "";
-                txtRecargo.Text = "$0.00";
-                txtMonto.Text = "$0.00";
             }
         }
 
@@ -115,7 +81,6 @@ namespace presentacionWebForm
             txtRecargo.Text = "$0.00";
             txtMonto.Text = "$0.00";
         }
-
         private void CargarHistorialCobros()
         {
             CuotaNegocio negocio = new CuotaNegocio();

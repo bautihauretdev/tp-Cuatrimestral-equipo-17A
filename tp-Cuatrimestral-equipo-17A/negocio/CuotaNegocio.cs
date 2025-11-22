@@ -14,7 +14,9 @@ namespace negocio
 
             try
             {
-                acceso.setearConsulta(@"SELECT IdSocio, Nombre, Apellido FROM SOCIOS WHERE Activo = 1");
+                acceso.setearConsulta(@"SELECT IdSocio, Nombre, Apellido 
+                                        FROM SOCIOS 
+                                        WHERE Activo = 1");
                 var dr = acceso.ejecutarLectura();
                 while (dr.Read())
                 {
@@ -44,7 +46,9 @@ namespace negocio
             {
                 acceso.setearConsulta(@"SELECT IdCuota, IdPago, Anio, Mes, Monto, Recargo, Estado 
                                         FROM CUOTAS 
-                                        WHERE IdSocio = @idSocio AND Mes = @mes AND Anio = @anio");
+                                        WHERE IdSocio = @idSocio 
+                                          AND Mes = @mes 
+                                          AND Anio = @anio");
                 acceso.setearParametro("@idSocio", idSocio);
                 acceso.setearParametro("@mes", DateTime.Now.Month);
                 acceso.setearParametro("@anio", DateTime.Now.Year);
@@ -78,7 +82,9 @@ namespace negocio
 
             try
             {
-                acceso.setearConsulta(@"UPDATE CUOTAS SET Estado = @estado WHERE IdCuota = @idCuota");
+                acceso.setearConsulta(@"UPDATE CUOTAS 
+                                        SET Estado = @estado 
+                                        WHERE IdCuota = @idCuota");
                 acceso.setearParametro("@estado", nuevoEstado);
                 acceso.setearParametro("@idCuota", idCuota);
 
@@ -132,6 +138,49 @@ namespace negocio
             }
 
             return lista;
+        }
+        public Socio BuscarSocioPorDniONombre(string criterio)
+        {
+            Socio socio = null;
+            AccesoDatos acceso = new AccesoDatos();
+
+            try
+            {
+                acceso.setearConsulta(@"
+                    SELECT s.IdSocio, s.Nombre, s.Apellido, s.Dni, s.IdPlan,
+                           p.Nombre AS NombrePlan, p.PrecioMensual
+                    FROM SOCIOS s
+                    INNER JOIN PLANES p ON s.IdPlan = p.IdPlan
+                    WHERE s.Activo = 1 
+                      AND (s.Dni = @criterio OR s.Nombre LIKE @criterio + '%')");
+
+                acceso.setearParametro("@criterio", criterio);
+
+                var dr = acceso.ejecutarLectura();
+                if (dr.Read())
+                {
+                    socio = new Socio
+                    {
+                        IdSocio = (int)dr["IdSocio"],
+                        Nombre = dr["Nombre"].ToString(),
+                        Apellido = dr["Apellido"].ToString(),
+                        Dni = dr["Dni"].ToString(),
+                        IdPlan = (int)dr["IdPlan"],
+                        Plan = new Plan
+                        {
+                            IdPlan = (int)dr["IdPlan"],
+                            Nombre = dr["NombrePlan"].ToString(),
+                            PrecioMensual = (decimal)dr["PrecioMensual"]
+                        }
+                    };
+                }
+            }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+
+            return socio;
         }
     }
 }

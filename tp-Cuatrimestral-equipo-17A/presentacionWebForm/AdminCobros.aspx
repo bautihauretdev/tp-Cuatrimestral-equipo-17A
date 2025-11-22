@@ -19,7 +19,7 @@
                     <!-- Búsqueda de socio (reemplaza el DropDownList) -->
                     <div class="search-box-container">
                          <span class="material-symbols-outlined search-icon">search</span>
-                        <asp:TextBox ID="txtSearchSocio" runat="server" CssClass="search-input" placeholder="Buscar socio por DNI o nombre..."></asp:TextBox>
+                        <asp:TextBox ID="txtSearchSocio" runat="server" CssClass="search-input" placeholder="Buscar socio por DNI..."></asp:TextBox>
                         <asp:Button ID="btnBuscarSocio" runat="server" Text="Buscar" CssClass="boton-principal" OnClick="btnBuscarSocio_Click" />
                         <asp:HiddenField ID="hfIdSocioSeleccionado" runat="server" />
                     </div>
