@@ -116,7 +116,6 @@
     </Compile>
     <Compile Include="AdminTurnos.aspx.cs">
       <DependentUpon>AdminTurnos.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AdminTurnos.aspx.designer.cs">
       <DependentUpon>AdminTurnos.aspx</DependentUpon>

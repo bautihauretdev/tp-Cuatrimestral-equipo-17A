@@ -43,11 +43,11 @@
                     <!-- TÍTULO Y RANGO DE FECHAS -->
                     <div class="calendario-header">
                         <h2>Calendario semanal</h2>
-                        <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
-                        <asp:Label ID="lblCalendarioRango" runat="server" CssClass="calendario-rango" Text="20 Oct - 26 Oct"></asp:Label>
+                        <%-- Es el fecha lunes / domingo de la semana. Se va modificando con el back --%>
+                        <asp:Label ID="lblCalendarioRango" runat="server" CssClass="calendario-rango" Text="-"></asp:Label>
                     </div>
 
-                    <!-- DIAS / HORA / TURNO -->
+                    <!-- C A L E N D A R I O -->
                     <div class="calendario-scroll">
                         <div class="calendario-grid">
                             <!-- DIAS DE LA SEMANA -->
@@ -60,54 +60,36 @@
                             <asp:Label ID="lblSabado" runat="server" CssClass="calendario-cabecera-dias" Text="Sábado"></asp:Label>
                             <asp:Label ID="lblDomingo" runat="server" CssClass="calendario-cabecera-dias" Text="Domingo"></asp:Label>
 
-                            <!-- (!) ATENCION: AHORA ESTA COPIADO PEGADO MANUAL, CUANDO ESTÉ LA BD SE HACE CON REPEATER (ESTÁ PREPARADO ABAJO) -->
-                            <!-- Hora -->
-                            <asp:Label ID="lblHora0800" runat="server" CssClass="calendario-hora text-end text-secondary font-monospace pe-2" Text="08:00"></asp:Label>
-                            <!-- Turnos de la hora por día-->
-                            <asp:Button ID="btn0800Lunes" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="btn0800Martes" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="btn0800Miercoles" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="btn0800Jueves" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="btn0800Viernes" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="btn0800Sabado" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="btn0800Domingo" runat="server" CssClass="calendario-turno" Text="Disponible" />
+                            <!-- R E P E A T E R -->
+                            <asp:Repeater ID="rptHoras" runat="server">
+                                <ItemTemplate>
 
-                            <%-- Hora --%>
-                            <asp:Label ID="lblHora0900" runat="server" CssClass="calendario-hora text-end text-secondary font-monospace pe-2" Text="09:00"></asp:Label>
-                            <%-- Turnos de la hora por día--%>
-                            <asp:Button ID="Button1" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button2" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button3" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button4" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button5" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button6" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button7" runat="server" CssClass="calendario-turno" Text="Disponible" />
+                                    <!-- HORAS -->
+                                    <asp:Label
+                                        ID="lblHora"
+                                        runat="server"
+                                        CssClass="calendario-hora text-end text-secondary font-monospace pe-2"
+                                        Text='<%# Eval("HoraTexto") %>'>
+                                    </asp:Label>
 
-                            <%-- Hora --%>
-                            <asp:Label ID="lblHora1000" runat="server" CssClass="calendario-hora text-end text-secondary font-monospace pe-2" Text="10:00"></asp:Label>
-                            <%-- Turnos de la hora por día--%>
-                            <asp:Button ID="Button8" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button9" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button10" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button11" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button12" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button13" runat="server" CssClass="calendario-turno" Text="Disponible" />
-                            <asp:Button ID="Button14" runat="server" CssClass="calendario-turno" Text="Disponible" />
+                                    <!-- TURNOS (uno por cada día de la semana) -->
+                                    <asp:Repeater ID="rptTurnosDia" runat="server" DataSource='<%# Eval("Turnos") %>'>
+                                        <ItemTemplate>
 
-                            <!-- (!) CUANDO ESTÉ CONECTADA LA BD HACER CON REPEATER -->
-                            <!-- Filas de horarios dinámicas -->
-                            <%--                        <asp:Repeater ID="rptHoras" runat="server">
-                            <ItemTemplate>
-                                <asp:Label ID="lblHora" runat="server" CssClass="calendario-hora text-end text-secondary font-monospace pe-2"
-                                    Text='<%# Eval("Hora") %>'></asp:Label>
+                                            <!-- BOTÓN DEL TURNO -->
+                                            <asp:Button
+                                                ID="btnTurno"
+                                                runat="server"
+                                                CssClass="calendario-turno"
+                                                Text='<%# Eval("EstadoTexto") %>'
+                                                CommandArgument='<%# Eval("IdTurno") %>'
+                                                OnClick="btnTurno_Click" />
+                                        </ItemTemplate>
+                                    </asp:Repeater>
 
-                                <asp:Repeater ID="rptTurnosDia" runat="server" DataSource='<%# Eval("Turnos") %>'>
-                                    <ItemTemplate>
-                                        <asp:Button ID="btnTurno" runat="server" CssClass="calendario-turno" Text='<%# Eval("Estado") %>' />
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                            </ItemTemplate>
-                        </asp:Repeater>--%>
+                                </ItemTemplate>
+                            </asp:Repeater>
+
                         </div>
                     </div>
 
@@ -133,7 +115,7 @@
 
                     <div class="modal-body">
 
-                        <!-- FILA: FECHAS -->
+                        <!-- Fila: Fechas -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="txtFechaDesde" class="form-label">Fecha desde</label>
@@ -145,7 +127,7 @@
                             </div>
                         </div>
 
-                        <!-- FILA: HORAS -->
+                        <!-- Fila: Horas -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="txtHoraDesde" class="form-label">Hora desde</label>
@@ -157,7 +139,7 @@
                             </div>
                         </div>
 
-                        <!-- CAPACIDAD -->
+                        <!-- Capacidad -->
                         <div class="mb-3">
                             <label for="txtCapacidad" class="form-label">Capacidad máxima</label>
                             <asp:TextBox ID="txtCapacidad" runat="server" TextMode="Number" CssClass="form-control"></asp:TextBox>
@@ -173,3 +155,5 @@
         </div>
     </div>
 </asp:Content>
+
+

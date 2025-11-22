@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,7 @@ namespace negocio
             }
         }
 
+        // Controla que exista la semana que queremos (le pasamos la fecha del lunes de esa semana)
         private bool ExisteSemana(DateTime lunes)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -65,11 +67,12 @@ namespace negocio
             }
         }
 
+        // Damos de alta los turnos de una semana completa (Lunes a Sábado, de 08:00 a 22:00)
         public void CrearSemana(DateTime lunes)
         {
-            // Creamos los turnos de una semana completa (Lunes a Sábado, de 08:00 a 22:00)
             try
             {
+                // Donde Lunes = 0 y Sábado = 5
                 for (int i = 0; i < 6; i++)
                 {
                     DateTime fechaDia = lunes.AddDays(i);
@@ -103,5 +106,46 @@ namespace negocio
                 throw new Exception("Error en CrearSemana: " + ex.Message);
             }
         }
+
+        // Estamos listando los turnos.
+        // Se usa para el repeater (en CargarCalendario() que va al Page_Load)
+        public List<Turno> ObtenerTurnosSemana(DateTime lunes)
+        {
+            List<Turno> lista = new List<Turno>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                DateTime domingo = lunes.AddDays(6);
+
+                datos.setearConsulta("SELECT IdTurno, Fecha, CapacidadMaxima, Ocupados FROM TURNOS WHERE Fecha >= @lunes AND Fecha <= @domingo ORDER BY Fecha");
+                datos.setearParametro("@lunes", lunes);
+                datos.setearParametro("@domingo", domingo);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    lista.Add(new Turno
+                    {
+                        IdTurno = (int)datos.Lector["IdTurno"],
+                        Fecha = (DateTime)datos.Lector["Fecha"],
+                        CapacidadMaxima = (int)datos.Lector["CapacidadMaxima"],
+                        Ocupados = (int)datos.Lector["Ocupados"]
+                    });
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener turnos de la semana: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
