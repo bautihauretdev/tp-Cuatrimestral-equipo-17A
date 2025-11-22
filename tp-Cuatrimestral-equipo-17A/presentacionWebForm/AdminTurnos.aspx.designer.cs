@@ -42,6 +42,15 @@ namespace presentacionWebForm
         protected global::System.Web.UI.WebControls.Label lblHorariosCompletosNum;
 
         /// <summary>
+        /// btnSemanaAnterior control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnSemanaAnterior;
+
+        /// <summary>
         /// lblCalendarioRango control.
         /// </summary>
         /// <remarks>
@@ -49,6 +58,15 @@ namespace presentacionWebForm
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCalendarioRango;
+
+        /// <summary>
+        /// btnSemanaSiguiente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnSemanaSiguiente;
 
         /// <summary>
         /// lblLunes control.

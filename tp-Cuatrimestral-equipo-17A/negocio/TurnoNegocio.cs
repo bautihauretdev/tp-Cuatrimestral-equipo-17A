@@ -23,7 +23,7 @@ namespace negocio
                 DateTime lunesActual = hoy.AddDays(-dif);
 
                 // Controla la existencia de la semana y de ser necesario la crea
-                // La primera vez va a hacer las 4 semanas y luego ya va a ir creando únicamente la 4ta
+                // (La primera vez -BD vacía- va a hacer las 4 semanas y luego ya va a ir creando únicamente la 4ta)
                 for (int i = 0; i < 4; i++)
                 {
                     DateTime lunesSemana = lunesActual.AddDays(i * 7);
@@ -37,6 +37,7 @@ namespace negocio
                 throw new Exception("Error en AsegurarSemanas: " + ex.Message);
             }
         }
+
 
         // Controla que exista la semana que queremos (le pasamos la fecha del lunes de esa semana)
         private bool ExisteSemana(DateTime lunes)
@@ -66,6 +67,7 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
 
         // Damos de alta los turnos de una semana completa (Lunes a Sábado, de 08:00 a 22:00)
         public void CrearSemana(DateTime lunes)
@@ -107,7 +109,8 @@ namespace negocio
             }
         }
 
-        // Estamos listando los turnos.
+
+        // Estamos listando los turnos de una semana en particular
         // Se usa para el repeater (en CargarCalendario() que va al Page_Load)
         public List<Turno> ObtenerTurnosSemana(DateTime lunes)
         {
@@ -145,6 +148,65 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
+        }
+
+
+        // Estamos listando todos los turnos existentes
+        public List<Turno> ObtenerTodosTurnos()
+        {
+            List<Turno> lista = new List<Turno>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT IdTurno, Fecha, CapacidadMaxima, Ocupados FROM TURNOS ORDER BY Fecha");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    lista.Add(new Turno
+                    {
+                        IdTurno = (int)datos.Lector["IdTurno"],
+                        Fecha = (DateTime)datos.Lector["Fecha"],
+                        CapacidadMaxima = (int)datos.Lector["CapacidadMaxima"],
+                        Ocupados = (int)datos.Lector["Ocupados"]
+                    });
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener todos los turnos: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+        public static DateTime ObtenerPrimerLunesConTurnos()
+        {
+            // Trae la primera fecha de turnos y calcula su lunes
+            TurnoNegocio negocio = new TurnoNegocio();
+            var primerTurno = negocio.ObtenerTodosTurnos().OrderBy(t => t.Fecha).FirstOrDefault();
+            if (primerTurno == null) return DateTime.Today;
+            int dif = (int)primerTurno.Fecha.DayOfWeek - (int)DayOfWeek.Monday;
+            if (dif < 0) dif += 7;
+            return primerTurno.Fecha.AddDays(-dif).Date;
+        }
+
+
+        public static DateTime ObtenerUltimoLunesConTurnos()
+        {
+            // Trae la última fecha de turnos y calcula su lunes
+            TurnoNegocio negocio = new TurnoNegocio();
+            var ultimoTurno = negocio.ObtenerTodosTurnos().OrderByDescending(t => t.Fecha).FirstOrDefault();
+            if (ultimoTurno == null) return DateTime.Today;
+            int dif = (int)ultimoTurno.Fecha.DayOfWeek - (int)DayOfWeek.Monday;
+            if (dif < 0) dif += 7;
+            return ultimoTurno.Fecha.AddDays(-dif).Date;
         }
 
     }

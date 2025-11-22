@@ -38,8 +38,18 @@ namespace presentacionWebForm
 
             if (!IsPostBack)
             {
+
+                ViewState["lunesActual"] = ObtenerLunes(DateTime.Today);
                 CargarCalendario();
             }
+        }
+
+
+        private DateTime ObtenerLunes(DateTime fecha)
+        {
+            int dif = (int)fecha.DayOfWeek - (int)DayOfWeek.Monday;
+            if (dif < 0) dif += 7;
+            return fecha.AddDays(-dif);
         }
 
 
@@ -48,10 +58,7 @@ namespace presentacionWebForm
             TurnoNegocio negocio = new TurnoNegocio();
 
             // Obtenemos el lunes actual
-            DateTime hoy = DateTime.Today;
-            int dif = (int)hoy.DayOfWeek - (int)DayOfWeek.Monday;
-            if (dif < 0) dif += 7;
-            DateTime lunes = hoy.AddDays(-dif);
+            DateTime lunes = (DateTime)ViewState["lunesActual"];
 
             // Mostramos "fecha lunes / domingo de la semana" arriba del calendario
             lblCalendarioRango.Text = lunes.ToString("dd MMM") + " - " + lunes.AddDays(6).ToString("dd MMM");
@@ -99,6 +106,14 @@ namespace presentacionWebForm
 
             rptHoras.DataSource = horas;
             rptHoras.DataBind();
+
+            // Bloqueamos las flechas si no hay semanas previas o posteriores
+            DateTime primerLunes = TurnoNegocio.ObtenerPrimerLunesConTurnos();
+            DateTime ultimoLunes = TurnoNegocio.ObtenerUltimoLunesConTurnos();
+
+            btnSemanaAnterior.Enabled = ((DateTime)ViewState["lunesActual"]) > primerLunes;
+            btnSemanaSiguiente.Enabled = ((DateTime)ViewState["lunesActual"]) < ultimoLunes;
+
         }
 
 
@@ -106,6 +121,22 @@ namespace presentacionWebForm
         {
             Button btn = (Button)sender;
             int idTurno = int.Parse(btn.CommandArgument);
+        }
+
+        protected void btnSemanaAnterior_Click(object sender, EventArgs e)
+        {
+            DateTime lunes = (DateTime)ViewState["lunesActual"];
+            lunes = lunes.AddDays(-7);
+            ViewState["lunesActual"] = lunes;
+            CargarCalendario();
+        }
+
+        protected void btnSemanaSiguiente_Click(object sender, EventArgs e)
+        {
+            DateTime lunes = (DateTime)ViewState["lunesActual"];
+            lunes = lunes.AddDays(7);
+            ViewState["lunesActual"] = lunes;
+            CargarCalendario();
         }
     }
 }

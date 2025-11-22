@@ -135,6 +135,12 @@
 
 /* ==== CALENDARIO ==== */
 
+.calendario-header {
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    gap: 4px; /* menos espacio entre todos los elementos */
+}
+
 .calendario-header h2 {
     color: #E8E8E8;
     font-size: 1.5rem;
@@ -142,9 +148,26 @@
 
 .calendario-rango {
     color: #E8E8E8;
-    font-size: 20px;
+    font-size: 20px;    
     display: inline-block;
 }
+
+.calendario-rango-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.calendario-flecha {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 5px; /* Empujar lejos del label */
+}
+
+    .calendario-flecha:hover {
+        color: #38e07b;
+    }
 
 /* === CONTENEDOR DEL HEADER CALENDARIO === */
 

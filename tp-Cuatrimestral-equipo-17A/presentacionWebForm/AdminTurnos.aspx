@@ -41,10 +41,23 @@
                 <div class="card">
 
                     <!-- TÍTULO Y RANGO DE FECHAS -->
-                    <div class="calendario-header">
+                    <div class="calendario-header d-flex align-items-center gap-3">
                         <h2>Calendario semanal</h2>
-                        <%-- Es el fecha lunes / domingo de la semana. Se va modificando con el back --%>
-                        <asp:Label ID="lblCalendarioRango" runat="server" CssClass="calendario-rango" Text="-"></asp:Label>
+
+                        <div class="calendario-rango-container d-flex align-items-center gap-1">
+                            <!-- Flecha atrás -->
+                            <asp:LinkButton ID="btnSemanaAnterior" runat="server" CssClass="calendario-flecha" OnClick="btnSemanaAnterior_Click">
+                                <i class="bi bi-chevron-left"></i>
+                            </asp:LinkButton>
+
+                            <!-- Rango fechas semana  -->
+                            <asp:Label ID="lblCalendarioRango" runat="server" CssClass="calendario-rango" Text="-"></asp:Label>
+
+                            <!-- Flecha adelante -->
+                            <asp:LinkButton ID="btnSemanaSiguiente" runat="server" CssClass="calendario-flecha" OnClick="btnSemanaSiguiente_Click">
+                                <i class="bi bi-chevron-right"></i>
+                            </asp:LinkButton>
+                        </div>
                     </div>
 
                     <!-- C A L E N D A R I O -->
@@ -63,7 +76,6 @@
                             <!-- R E P E A T E R -->
                             <asp:Repeater ID="rptHoras" runat="server">
                                 <ItemTemplate>
-
                                     <!-- HORAS -->
                                     <asp:Label
                                         ID="lblHora"
@@ -75,7 +87,6 @@
                                     <!-- TURNOS (uno por cada día de la semana) -->
                                     <asp:Repeater ID="rptTurnosDia" runat="server" DataSource='<%# Eval("Turnos") %>'>
                                         <ItemTemplate>
-
                                             <!-- BOTÓN DEL TURNO -->
                                             <asp:Button
                                                 ID="btnTurno"
@@ -86,7 +97,6 @@
                                                 OnClick="btnTurno_Click" />
                                         </ItemTemplate>
                                     </asp:Repeater>
-
                                 </ItemTemplate>
                             </asp:Repeater>
 
