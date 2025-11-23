@@ -276,9 +276,13 @@
 /* == CABECERA Y BUSQUEDA == */
 .socios-header {
     display: flex;
-    justify-content: center;
-    padding: 0 1rem 1rem 1rem;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 3rem;
 }
+
 
 .title-and-search {
     display: flex;
@@ -480,7 +484,44 @@
     }
 }
 
+/*  LISTA DE SOCIOS   */
 
+.socios-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    background-color: #1E2328;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+    .socios-table thead {
+        background-color: #214030; /* Verde oscuro usado en cobros */
+    }
+
+    .socios-table th {
+        padding: 0.9rem;
+        text-align: left;
+        color: #E8E8E8;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .socios-table td {
+        padding: 0.85rem;
+        font-size: 0.9rem;
+        color: #E8E8E8;
+        border-bottom: 1px solid #2d3748;
+    }
+
+    .socios-table tr:nth-child(even) {
+        background-color: #181c20;
+    }
+
+    .socios-table tr:hover {
+        background-color: #1f2933;
+        transition: 0.2s;
+    }
 
 /* ==================== VENTANA PLANES ==================== */
 

@@ -15,13 +15,13 @@ namespace presentacionWebForm
     {
 
         /// <summary>
-        /// txtSearchDNI control.
+        /// txtBuscarDNI control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSearchDNI;
+        protected global::System.Web.UI.WebControls.TextBox txtBuscarDNI;
 
         /// <summary>
         /// btnBuscarDNI control.
@@ -58,6 +58,15 @@ namespace presentacionWebForm
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfIdSocioSeleccionado;
+
+        /// <summary>
+        /// rptSocios control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptSocios;
 
         /// <summary>
         /// pnlSocioPrincipal control.

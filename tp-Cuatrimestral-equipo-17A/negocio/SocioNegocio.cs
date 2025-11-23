@@ -325,5 +325,50 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        public List<Socio> ListarSociosConPlan()
+        {
+            var lista = new List<Socio>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                //trae info del socio y el nombre del plan 
+                datos.setearConsulta
+                    (@"
+                      SELECT s.IdSocio, s.Nombre, s.Apellido, s.Dni, s.FechaNacimiento, s.Telefono, s.Email, s.IdPlan, s.Activo,
+                      p.Nombre AS PlanNombre, p.IdPlan AS PlanId
+                      FROM SOCIOS s
+                      LEFT JOIN PLANES p ON s.IdPlan = p.IdPlan
+                      ORDER BY s.Activo DESC, s.Nombre, s.Apellido
+                   ");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    var socio = new Socio
+                    {
+                        IdSocio = (int)datos.Lector["IdSocio"],
+                        Nombre = datos.Lector["Nombre"] != DBNull.Value ? (string)datos.Lector["Nombre"] : "",
+                        Apellido = datos.Lector["Apellido"] != DBNull.Value ? (string)datos.Lector["Apellido"] : "",
+                        Dni = datos.Lector["Dni"] != DBNull.Value ? (string)datos.Lector["Dni"] : "",
+                        FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value ? (DateTime)datos.Lector["FechaNacimiento"] : DateTime.MinValue,
+                        Telefono = datos.Lector["Telefono"] != DBNull.Value ? (string)datos.Lector["Telefono"] : "",
+                        Email = datos.Lector["Email"] != DBNull.Value ? (string)datos.Lector["Email"] : "",
+                        IdPlan = datos.Lector["IdPlan"] != DBNull.Value ? (int)datos.Lector["IdPlan"] : 0,
+                        Activo = datos.Lector["Activo"] != DBNull.Value ? (bool)datos.Lector["Activo"] : true,
+                        Plan = datos.Lector["PlanNombre"] != DBNull.Value
+                                ? new Plan { IdPlan = datos.Lector["PlanId"] != DBNull.Value ? (int)datos.Lector["PlanId"] : 0, Nombre = (string)datos.Lector["PlanNombre"] }
+                                : null
+                    };
+
+                    lista.Add(socio);
+                }
+
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
