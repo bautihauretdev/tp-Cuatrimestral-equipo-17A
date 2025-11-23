@@ -30,51 +30,43 @@ namespace presentacionWebForm
 
         protected void btnBuscarDNI_Click(object sender, EventArgs e)
         {
+            try
             {
-                try
+                SocioNegocio negocio = new SocioNegocio();
+                string dni = txtSearchDNI.Text.Trim();
+                Socio socio = negocio.ObtenerSocioYPlanPorDni(dni);
+
+                if (socio != null)
                 {
-                    SocioNegocio negocio = new SocioNegocio();
-                    string dni = txtSearchDNI.Text.Trim();
-                    Socio socio = negocio.ObtenerPorDni(dni);
+                    lblNombre.Text = socio.Nombre;
+                    lblApellido.Text = socio.Apellido;
+                    lblDNI.Text = socio.Dni;
+                    lblFechaNacimiento.Text = socio.FechaNacimiento.ToString("dd/MM/yyyy");
+                    lblTelefono.Text = socio.Telefono;
+                    lblEmail.Text = socio.Email;
+                    lblNombreCompleto.Text = $"{socio.Nombre} {socio.Apellido}";
+                    hfIdSocioSeleccionado.Value = socio.IdSocio.ToString();
 
-                    if (socio != null)
-                    {
-                        lblNombre.Text = socio.Nombre;
-                        lblApellido.Text = socio.Apellido;
-                        lblDNI.Text = socio.Dni;
-                        lblFechaNacimiento.Text = socio.FechaNacimiento.ToString("dd/MM/yyyy");
-                        lblTelefono.Text = socio.Telefono;
-                        lblEmail.Text = socio.Email;
-                        lblNombreCompleto.Text = $"{socio.Nombre} {socio.Apellido}";
-                        hfIdSocioSeleccionado.Value = socio.IdSocio.ToString();
+                    lblPlanActual.Text = socio.Plan?.Nombre ?? "Sin plan";
 
-                        if (socio.Activo)
-                        {
-                            lblEstado.Text = "Activo";
-                            lblErrorBusqueda.Visible = false;
-                        }
-                        else
-                        {
-                            lblEstado.Text = "Inactivo";
-                            lblErrorBusqueda.Visible = false;
-                        }
-                    }
-                    else
-                    {
-                        LimpiarPanelSocio();
-                        lblErrorBusqueda.Text = "No se encontró ningún socio con ese DNI.";
-                        lblErrorBusqueda.Visible = true;
-                    }
-
+                    lblEstado.Text = socio.Activo ? "Activo" : "Inactivo";
+                    lblErrorBusqueda.Visible = false;
                 }
-                catch (Exception ex)
+                else
                 {
                     LimpiarPanelSocio();
-                    lblErrorBusqueda.Text = "Error al buscar socio: " + ex.Message;
+                    lblErrorBusqueda.Text = "No se encontró ningún socio con ese DNI.";
                     lblErrorBusqueda.Visible = true;
                 }
             }
+            catch (Exception ex)
+            {
+                LimpiarPanelSocio();
+                lblErrorBusqueda.Text = "Error al buscar socio: " + ex.Message;
+                lblErrorBusqueda.Visible = true;
+            }
         }
+
 
         protected void btnEliminarLogico_Click(object sender, EventArgs e)
         {

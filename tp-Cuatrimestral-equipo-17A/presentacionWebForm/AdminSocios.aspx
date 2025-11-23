@@ -74,14 +74,14 @@
                     </div>
                     <!-- PLAN DE MEMBRESÍA -->
                     <div class="card">
-                        <h2 class="panel-title">Plan de Membresía</h2>
+                        <h2 class="panel-title">Información Adicional</h2>
                         <div class="membership-details">
                             <div class="info-item">
                                 <p class="info-label">Plan Actual</p>
                                 <asp:Label ID="lblPlanActual" runat="server" Text="Plan Premium Mensual" CssClass="info-value" />
                             </div>
                             <div class="info-item">
-                                <p class="info-label">Fecha de Inicio</p>
+                                <p class="info-label">Fecha de Inscripción</p>
                                 <asp:Label ID="lblFechaInicio" runat="server" Text="01/03/2024" CssClass="info-value" />
                             </div>
                             <div class="info-item">

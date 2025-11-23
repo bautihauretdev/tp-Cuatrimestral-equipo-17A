@@ -228,5 +228,102 @@ namespace negocio
                 datosUsuario.cerrarConexion();
             }
         }
+
+        public Socio ObtenerSocioYPlanPorDni(string dni)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Socio socio = null;
+
+            try
+            {
+                datos.setearConsulta(@"SELECT S.IdSocio, S.Nombre, S.Apellido, S.Dni, S.FechaNacimiento, S.Telefono, S.Email, S.IdPlan, S.Activo, P.IdPlan AS PlanId, P.Nombre AS PlanNombre, P.PrecioMensual, P.MaxHorasSemana, P.Activo AS PlanActivo
+                                     FROM SOCIOS S
+                                     INNER JOIN PLANES P ON P.IdPlan = S.IdPlan
+                                     WHERE S.Dni = @Dni");
+
+                datos.setearParametro("@Dni", dni);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    socio = new Socio
+                    {
+                        IdSocio = (int)datos.Lector["IdSocio"],
+                        Nombre = datos.Lector["Nombre"] != DBNull.Value ? (string)datos.Lector["Nombre"] : "",
+                        Apellido = datos.Lector["Apellido"] != DBNull.Value ? (string)datos.Lector["Apellido"] : "",
+                        Dni = datos.Lector["Dni"] != DBNull.Value ? (string)datos.Lector["Dni"] : "",
+                        FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value ? (DateTime)datos.Lector["FechaNacimiento"] : DateTime.MinValue,
+                        Telefono = datos.Lector["Telefono"] != DBNull.Value ? (string)datos.Lector["Telefono"] : "",
+                        Email = datos.Lector["Email"] != DBNull.Value ? (string)datos.Lector["Email"] : "",
+                        Activo = datos.Lector["Activo"] != DBNull.Value ? (bool)datos.Lector["Activo"] : true,
+                        IdPlan = (int)datos.Lector["IdPlan"],
+
+                        // ← Cargamos objeto PLAN completo
+                        Plan = new Plan
+                        {
+                            IdPlan = (int)datos.Lector["PlanId"],
+                            Nombre = datos.Lector["PlanNombre"].ToString(),
+                            PrecioMensual = (decimal)datos.Lector["PrecioMensual"],
+                            MaxHorasSemana = (int)datos.Lector["MaxHorasSemana"],
+                            Activo = (bool)datos.Lector["PlanActivo"]
+                        }
+                    };
+                }
+
+                return socio;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public Socio ObtenerSocioYPlanPorId(int idSocio)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Socio socio = null;
+
+            try
+            {
+                datos.setearConsulta(@"SELECT S.IdSocio, S.Nombre, S.Apellido, S.Dni, S.FechaNacimiento, S.Telefono, S.Email, S.IdPlan, S.Activo, P.IdPlan AS PlanId, P.Nombre AS PlanNombre, P.PrecioMensual, P.MaxHorasSemana, P.Activo AS PlanActivo
+                                     FROM SOCIOS S
+                                     INNER JOIN PLANES P ON P.IdPlan = S.IdPlan
+                                     WHERE S.IdSocio = @IdSocio");
+
+                datos.setearParametro("@IdSocio", idSocio);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    socio = new Socio
+                    {
+                        IdSocio = (int)datos.Lector["IdSocio"],
+                        Nombre = datos.Lector["Nombre"] != DBNull.Value ? (string)datos.Lector["Nombre"] : "",
+                        Apellido = datos.Lector["Apellido"] != DBNull.Value ? (string)datos.Lector["Apellido"] : "",
+                        Dni = datos.Lector["Dni"] != DBNull.Value ? (string)datos.Lector["Dni"] : "",
+                        FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value ? (DateTime)datos.Lector["FechaNacimiento"] : DateTime.MinValue,
+                        Telefono = datos.Lector["Telefono"] != DBNull.Value ? (string)datos.Lector["Telefono"] : "",
+                        Email = datos.Lector["Email"] != DBNull.Value ? (string)datos.Lector["Email"] : "",
+                        Activo = datos.Lector["Activo"] != DBNull.Value ? (bool)datos.Lector["Activo"] : true,
+                        IdPlan = (int)datos.Lector["IdPlan"],
+
+                        Plan = new Plan
+                        {
+                            IdPlan = (int)datos.Lector["PlanId"],
+                            Nombre = datos.Lector["PlanNombre"].ToString(),
+                            PrecioMensual = (decimal)datos.Lector["PrecioMensual"],
+                            MaxHorasSemana = (int)datos.Lector["MaxHorasSemana"],
+                            Activo = (bool)datos.Lector["PlanActivo"]
+                        }
+                    };
+                }
+
+                return socio;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
