@@ -141,11 +141,11 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="txtHoraDesde" class="form-label">Hora desde</label>
-                                <asp:TextBox ID="txtHoraDesde" runat="server" TextMode="Time" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox ID="txtHoraDesde" runat="server" TextMode="Time" CssClass="form-control" step="3600"></asp:TextBox>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="txtHoraHasta" class="form-label">Hora hasta</label>
-                                <asp:TextBox ID="txtHoraHasta" runat="server" TextMode="Time" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox ID="txtHoraHasta" runat="server" TextMode="Time" CssClass="form-control" step="3600"></asp:TextBox>
                             </div>
                         </div>
 
@@ -153,6 +153,11 @@
                         <div class="mb-3">
                             <label for="txtCapacidad" class="form-label">Capacidad máxima</label>
                             <asp:TextBox ID="txtCapacidad" runat="server" TextMode="Number" CssClass="form-control"></asp:TextBox>
+                        </div>
+
+                        <!-- Mensaje error para editar turno -->
+                        <div class="mb-3">
+                            <asp:Label ID="lblErrorEditarTurno" runat="server" CssClass="text-danger" Visible="false" />
                         </div>
                     </div>
 
@@ -164,4 +169,27 @@
             </div>
         </div>
     </div>
+
+    <script>
+        var limpiarCamposEditar = false; // Variable global para controlar si limpiar campos
+
+        // Cuando se abre el modal "Editar turno", limpia los campos
+        var modalEditar = document.getElementById('modalEditarTurno');
+
+        modalEditar.addEventListener('show.bs.modal', function () {
+            // Solo limpiar si NO fue un postback con error
+            if (limpiarCamposEditar) {
+                document.getElementById('<%= txtFechaDesde.ClientID %>').value = "";
+                document.getElementById('<%= txtFechaHasta.ClientID %>').value = "";
+                document.getElementById('<%= txtHoraDesde.ClientID %>').value = "";
+                document.getElementById('<%= txtHoraHasta.ClientID %>').value = "";
+                document.getElementById('<%= txtCapacidad.ClientID %>').value = "";
+                document.getElementById('<%= lblErrorEditarTurno.ClientID %>').style.display = "none";
+            } else {
+                // Cuando hay error, no limpiar campos ni ocultar label
+                limpiarCamposEditar = true; // resetea para la próxima vez
+                }
+        });
+    </script>
+
 </asp:Content>

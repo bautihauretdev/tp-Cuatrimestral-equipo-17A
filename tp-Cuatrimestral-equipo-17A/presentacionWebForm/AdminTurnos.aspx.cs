@@ -144,6 +144,10 @@ namespace presentacionWebForm
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
+            // Oculta la label del error 
+            lblErrorEditarTurno.Visible = false;
+            lblErrorEditarTurno.Text = "";
+
             try
             {
                 DateTime fechaDesde = DateTime.Parse(txtFechaDesde.Text);
@@ -152,8 +156,54 @@ namespace presentacionWebForm
                 TimeSpan horaDesde = TimeSpan.Parse(txtHoraDesde.Text);
                 TimeSpan horaHasta = TimeSpan.Parse(txtHoraHasta.Text);
 
-                int capacidad = int.Parse(txtCapacidad.Text);
+                // Validar que fechaDesde sea menor o igual que fechaHasta
+                if (fechaDesde > fechaHasta)
+                {
+                    lblErrorEditarTurno.Text = "La 'Fecha Desde' debe ser menor o igual que la 'Fecha Hasta'.";
+                    lblErrorEditarTurno.Visible = true;
+                    AbrirModalConError();
+                    return;
+                }
 
+                // Validar que las horas sean exactas "en punto"
+                if (horaDesde.Minutes != 0 || horaHasta.Minutes != 0)
+                {
+                    lblErrorEditarTurno.Text = "Las horas deben ser exactas en punto (ej: 08:00).";
+                    lblErrorEditarTurno.Visible = true;
+                    AbrirModalConError();
+                    return;
+                }
+
+                // Validar rango permitido 08:00 a 22:00
+                if (horaDesde.Hours < 8 || horaDesde.Hours > 22 ||
+                    horaHasta.Hours < 8 || horaHasta.Hours > 22)
+                {
+                    lblErrorEditarTurno.Text = "Las horas deben estar entre 08:00 y 22:00.";
+                    lblErrorEditarTurno.Visible = true;
+                    AbrirModalConError();
+                    return;
+                }
+
+                // Validar que horaDesde sea menor que horaHasta
+                if (horaDesde > horaHasta)
+                {
+                    lblErrorEditarTurno.Text = "La 'Hora Desde' debe ser menor o igual que la 'Hora hasta'.";
+                    lblErrorEditarTurno.Visible = true;
+                    AbrirModalConError();
+                    return;
+                }
+
+                // Validar CAPACIDAD que sea número
+                int capacidad;
+                if (!int.TryParse(txtCapacidad.Text, out capacidad))
+                {
+                    lblErrorEditarTurno.Text = "La capacidad debe ser un número.";
+                    lblErrorEditarTurno.Visible = true;
+                    AbrirModalConError();
+                    return;
+                }
+
+                // Ejecutar cambio
                 TurnoNegocio negocio = new TurnoNegocio();
                 negocio.ActualizarTurnosPorRango(fechaDesde, fechaHasta, horaDesde, horaHasta, capacidad);
 
@@ -162,8 +212,17 @@ namespace presentacionWebForm
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al guardar cambios: " + ex.Message);
+                lblErrorEditarTurno.Text = "Error al guardar cambios: " + ex.Message;
+                lblErrorEditarTurno.Visible = true;
+                AbrirModalConError();
             }
+        }
+
+        // Método para abrir el modal sin limpiar campos al haber error
+        private void AbrirModalConError()
+        {
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ShowModalEditarTurno",
+                "var modal = new bootstrap.Modal(document.getElementById('modalEditarTurno')); modal.show();", true);
         }
     }
 }
