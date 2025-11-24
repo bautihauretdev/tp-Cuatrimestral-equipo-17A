@@ -123,6 +123,7 @@ namespace presentacionWebForm
             int idTurno = int.Parse(btn.CommandArgument);
         }
 
+
         protected void btnSemanaAnterior_Click(object sender, EventArgs e)
         {
             DateTime lunes = (DateTime)ViewState["lunesActual"];
@@ -131,12 +132,38 @@ namespace presentacionWebForm
             CargarCalendario();
         }
 
+
         protected void btnSemanaSiguiente_Click(object sender, EventArgs e)
         {
             DateTime lunes = (DateTime)ViewState["lunesActual"];
             lunes = lunes.AddDays(7);
             ViewState["lunesActual"] = lunes;
             CargarCalendario();
+        }
+
+
+        protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime fechaDesde = DateTime.Parse(txtFechaDesde.Text);
+                DateTime fechaHasta = DateTime.Parse(txtFechaHasta.Text);
+
+                TimeSpan horaDesde = TimeSpan.Parse(txtHoraDesde.Text);
+                TimeSpan horaHasta = TimeSpan.Parse(txtHoraHasta.Text);
+
+                int capacidad = int.Parse(txtCapacidad.Text);
+
+                TurnoNegocio negocio = new TurnoNegocio();
+                negocio.ActualizarTurnosPorRango(fechaDesde, fechaHasta, horaDesde, horaHasta, capacidad);
+
+                // Recargar el calendario para que refleje los cambios
+                CargarCalendario();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al guardar cambios: " + ex.Message);
+            }
         }
     }
 }

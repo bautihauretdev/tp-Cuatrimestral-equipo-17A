@@ -209,5 +209,38 @@ namespace negocio
             return ultimoTurno.Fecha.AddDays(-dif).Date;
         }
 
+        public void ActualizarTurnosPorRango(DateTime fechaDesde, DateTime fechaHasta, TimeSpan horaDesde, TimeSpan horaHasta, int nuevaCapacidad)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "UPDATE TURNOS " +
+                    "SET CapacidadMaxima = @Cap " +
+                    "WHERE Fecha >= @Desde AND Fecha <= @Hasta " +
+                    "AND CAST(Fecha AS time) >= @HoraDesde AND CAST(Fecha AS time) <= @HoraHasta"
+                );
+
+                datos.setearParametro("@Cap", nuevaCapacidad);
+                datos.setearParametro("@Desde", fechaDesde);
+                datos.setearParametro("@Hasta", fechaHasta.AddDays(1).AddSeconds(-1)); // Incluye TODO el día de "fecha hasta"
+                                                                                       // .AddDays(1).AddSeconds(-1) Es para sumarle 1 día y restarle 1 segundo
+                                                                                      //  y que quede la fecha que necesitamos a las 23:59:59
+                datos.setearParametro("@HoraDesde", horaDesde);
+                datos.setearParametro("@HoraHasta", horaHasta);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar turnos por rango: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

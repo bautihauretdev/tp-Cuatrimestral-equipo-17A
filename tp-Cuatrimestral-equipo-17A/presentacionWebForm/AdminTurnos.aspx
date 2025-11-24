@@ -158,12 +158,10 @@
 
                     <div class="modal-footer border-secondary">
                         <button type="button" class="boton-editar" data-bs-dismiss="modal">Cancelar</button>
-                        <asp:Button ID="btnGuardarCambios" runat="server" CssClass="boton-principal" Text="Guardar cambios" />
+                        <asp:Button ID="btnGuardarCambios" runat="server" CssClass="boton-principal" Text="Guardar cambios" OnClick="btnGuardarCambios_Click" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </asp:Content>
-
-
