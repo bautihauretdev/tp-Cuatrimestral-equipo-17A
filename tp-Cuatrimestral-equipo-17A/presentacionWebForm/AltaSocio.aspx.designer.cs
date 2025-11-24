@@ -15,6 +15,24 @@ namespace presentacionWebForm
     {
 
         /// <summary>
+        /// tituloEditar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloEditar;
+
+        /// <summary>
+        /// tituloAlta control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAlta;
+
+        /// <summary>
         /// lblMensajeAltaSocio control.
         /// </summary>
         /// <remarks>

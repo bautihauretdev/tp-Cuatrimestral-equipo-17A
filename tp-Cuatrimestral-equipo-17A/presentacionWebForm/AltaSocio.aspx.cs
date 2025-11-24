@@ -19,30 +19,53 @@ namespace presentacionWebForm
         {
             if (!IsPostBack)
             {
-                CargarPlanes();
-                // Primero: se comprueba si hay edicion por Session 
-                object sessionId = Session[SESSION_KEY_EDIT_ID];
-                if (sessionId != null)
+                if (!IsPostBack)
                 {
-                    int idSesion;
-                    if (int.TryParse(sessionId.ToString(), out idSesion))
+                    CargarPlanes();
+
+                    // Si etramos desde el botón "Agregar nuevo socio", la Session se borra antes.
+                    // Pero si NO hay Session ni QueryString, se asegura de limpiar los campos:
+                    if (Session["EditarSocioId"] == null && Request.QueryString["id"] == null)
                     {
-                        CargarParaEdicion(idSesion);
-                        return;
+                        Session.Remove("EditarSocioId");
                     }
-                }
-                // Fallback: compatibilidad con query string
-                string idStr = Request.QueryString["id"];
-                if (!string.IsNullOrEmpty(idStr))
-                {
-                    int id;
-                    if (int.TryParse(idStr, out id))
+
+                    // Primer intento por Session
+                    object sessionId = Session["EditarSocioId"];
+                    if (sessionId != null)
                     {
-                        CargarParaEdicion(id);
+                        if (int.TryParse(sessionId.ToString(), out int idSesion))
+                        {
+                            CargarParaEdicion(idSesion);
+                            return;
+                        }
+                    }
+
+                    // Segundo intento por QueryString
+                    string idStr = Request.QueryString["id"];
+                    if (!string.IsNullOrEmpty(idStr))
+                    {
+                        if (int.TryParse(idStr, out int id))
+                        {
+                            CargarParaEdicion(id);
+                        }
                     }
                 }
             }
         }
+
+        private void ActivarModoAlta ()
+        {
+            tituloAlta.Visible = true;
+            tituloEditar.Visible = false;
+
+            btnGuardarAltaSocio.Visible = true;
+            btnGuardarCambios.Visible = false;
+
+            txtDniAltaSocio.ReadOnly = false;
+            hfIdEditar.Value = "";
+        }
+
         private void CargarPlanes() 
         {
             try
@@ -68,24 +91,34 @@ namespace presentacionWebForm
                 Socio socio = sn.ObtenerPorId(idSocio);
                 if (socio == null) return;
 
-                //RELLENA LOS CAMPOS
+                // RELLENA LOS CAMPOS
                 hfIdEditar.Value = socio.IdSocio.ToString();
                 txtNombreAltaSocio.Text = socio.Nombre;
                 txtApellidoAltaSocio.Text = socio.Apellido;
                 txtDniAltaSocio.Text = socio.Dni;
-                txtFechaNacAltaSocio.Text = socio.FechaNacimiento != DateTime.MinValue ? socio.FechaNacimiento.ToString("yyyy-MM-dd") : "";
+                txtFechaNacAltaSocio.Text =
+                    socio.FechaNacimiento != DateTime.MinValue
+                    ? socio.FechaNacimiento.ToString("yyyy-MM-dd")
+                    : "";
+
                 txtTelefonoAltaSocio.Text = socio.Telefono;
                 txtEmailAltaSocio.Text = socio.Email;
-                // AGREGADO: Selecciona el plan actual en el dropdown
-                if (ddlPlanSocio.Items.FindByValue(socio.IdPlan.ToString()) != null) 
+
+                // Selecciona plan
+                if (ddlPlanSocio.Items.FindByValue(socio.IdPlan.ToString()) != null)
                     ddlPlanSocio.SelectedValue = socio.IdPlan.ToString();
 
-                //AJUSTES EN MODO EDICION
-                txtDniAltaSocio.ReadOnly = true; //DNI no editable
-                btnGuardarAltaSocio.Visible = false; //oculta boton alta
-                btnGuardarCambios.Visible = true;  //muestra guardar cambios
-                lblMensajeAltaSocio.Text = "Editando socio existente";
-                lblMensajeAltaSocio.Visible = true;
+                //AJUSTES VISUALES EN MODO EDICION 
+                txtDniAltaSocio.ReadOnly = true;  // DNI no editable
+                btnGuardarAltaSocio.Visible = false;  // botón de alta oculto
+                btnGuardarCambios.Visible = true;     // botón de edición visible
+
+                // Cambiar titulos
+                tituloAlta.Visible = false;
+                tituloEditar.Visible = true;
+
+                // Oculta mensajes de alta
+                lblMensajeAltaSocio.Visible = false;
                 lblErrorAltaSocio.Visible = false;
             }
             catch (Exception ex)
@@ -94,6 +127,7 @@ namespace presentacionWebForm
                 lblErrorAltaSocio.Visible = true;
             }
         }
+
 
         protected void btnGuardarAltaSocio_Click(object sender, EventArgs e)
         {

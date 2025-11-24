@@ -6,7 +6,12 @@
        <div class="main-container">
         <div class="content-wrapper">
             <div class="card" style="max-width:480px; margin:auto;">
-                <h2 class="panel-title" style="text-align:center; margin-bottom:2rem;">
+                <h2 id="tituloEditar" runat="server" class="panel-title"
+                    style="text-align:center; margin-bottom:2rem;" visible="false">
+                    Editar Socio
+                </h2>
+               <h2 id="tituloAlta" runat="server" class="panel-title"
+                    style="text-align:center; margin-bottom:2rem;" visible="true">
                     Alta de nuevo socio
                 </h2>
                 <asp:Label ID="lblMensajeAltaSocio" runat="server" CssClass="text-success" Visible="false" />

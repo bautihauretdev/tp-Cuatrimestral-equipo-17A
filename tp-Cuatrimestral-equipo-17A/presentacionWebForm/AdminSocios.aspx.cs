@@ -102,6 +102,7 @@ namespace presentacionWebForm
 
         protected void btnAgregarSocio_Click(object sender, EventArgs e)
         {
+            Session.Remove("EditarSocioId");
             Response.Redirect("AltaSocio.aspx");
         }
 
