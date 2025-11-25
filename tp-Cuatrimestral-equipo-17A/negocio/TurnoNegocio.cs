@@ -241,5 +241,23 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        // Se usa desde SocioTurnos
+        public void ActualizarOcupados(int idTurno, int nuevosOcupados)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE TURNOS SET Ocupados = @Ocupados WHERE IdTurno = @Id");
+                datos.setearParametro("@Ocupados", nuevosOcupados);
+                datos.setearParametro("@Id", idTurno);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

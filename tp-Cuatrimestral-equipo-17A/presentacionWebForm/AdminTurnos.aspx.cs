@@ -91,7 +91,12 @@ namespace presentacionWebForm
                 {
                     DateTime fechaBuscada = lunes.AddDays(d).Date.AddHours(h);
 
-                    Turno turno = lista.FirstOrDefault(x => x.Fecha == fechaBuscada);
+                    Turno turno = lista.FirstOrDefault(x =>
+                        x.Fecha.Year == fechaBuscada.Year &&
+                        x.Fecha.Month == fechaBuscada.Month &&
+                        x.Fecha.Day == fechaBuscada.Day &&
+                        x.Fecha.Hour == fechaBuscada.Hour
+                    );
 
                     if (turno != null)
                     {

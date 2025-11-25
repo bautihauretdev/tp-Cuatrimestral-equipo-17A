@@ -59,6 +59,10 @@ namespace negocio
             {
                 throw ex;
             }
+            finally
+            {
+                cerrarConexion();
+            }
         }
 
         public object ejecutarScalar()
@@ -71,6 +75,10 @@ namespace negocio
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                cerrarConexion();
             }
         }
 

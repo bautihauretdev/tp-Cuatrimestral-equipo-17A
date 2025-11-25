@@ -26,7 +26,5 @@ namespace dominio
             }
             return false; // No se pudo agregar
         }
-
-
     }
 }

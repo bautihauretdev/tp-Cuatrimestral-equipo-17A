@@ -65,7 +65,12 @@ namespace presentacionWebForm
                 {
                     DateTime fechaBuscada = lunes.AddDays(d).Date.AddHours(h);
 
-                    Turno turno = lista.FirstOrDefault(x => x.Fecha == fechaBuscada);
+                    Turno turno = lista.FirstOrDefault(x =>
+                        x.Fecha.Year == fechaBuscada.Year &&
+                        x.Fecha.Month == fechaBuscada.Month &&
+                        x.Fecha.Day == fechaBuscada.Day &&
+                        x.Fecha.Hour == fechaBuscada.Hour
+                    );
 
                     if (turno != null)
                     {
@@ -125,7 +130,75 @@ namespace presentacionWebForm
 
         protected void btnConfirmarTurno_Click(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(hiddenTurno.Value))
+            {
+                int idTurno = int.Parse(hiddenTurno.Value);
+                TurnoNegocio negocio = new TurnoNegocio();
 
+                // Traer turno desde BD
+                Turno turno = negocio.ObtenerTodosTurnos().FirstOrDefault(t => t.IdTurno == idTurno);
+
+                if (turno != null)
+                {
+                    // Traer el usuario logueado de la sesión
+                    Usuario usuarioLogueado = Session["usuario"] as Usuario;
+
+                    if (usuarioLogueado != null && usuarioLogueado.Socio != null)
+                    {
+                        Socio socio = usuarioLogueado.Socio;
+
+                        // Verificar si el turno ya tiene cupo
+                        if (turno.Ocupados < turno.CapacidadMaxima)
+                        {
+                            // Registrar en la tabla TurnosSocios
+                            AccesoDatos datos = new AccesoDatos();
+                            try
+                            {
+                                datos.setearConsulta("INSERT INTO TURNOS_SOCIOS (IdTurno, IdSocio) VALUES (@IdTurno, @IdSocio)");
+                                datos.setearParametro("@IdTurno", turno.IdTurno);
+                                datos.setearParametro("@IdSocio", socio.IdSocio);
+                                datos.ejecutarAccion();
+                            }
+                            finally
+                            {
+                                datos.cerrarConexion();
+                            }
+
+                            // Actualizar Ocupados contando la tabla TurnosSocios
+                            datos = new AccesoDatos();
+                            try
+                            {
+                                datos.setearConsulta("SELECT COUNT(*) FROM TURNOS_SOCIOS WHERE IdTurno = @IdTurno");
+                                datos.setearParametro("@IdTurno", turno.IdTurno);
+                                int ocupados = Convert.ToInt32(datos.ejecutarScalar());
+                                turno.Ocupados = ocupados;
+
+                                // Actualizar la columna Ocupados en TURNOS
+                                negocio.ActualizarOcupados(turno.IdTurno, ocupados);
+                            }
+                            finally
+                            {
+                                datos.cerrarConexion();
+                            }
+
+                            // Recargar calendario
+                            CargarCalendario();
+                        }
+                        else
+                        {
+                            // Turno completo
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "TurnoCompleto",
+                                "alert('No se puede agregar. Turno completo.');", true);
+                        }
+                    }
+                    else
+                    {
+                        // No hay usuario logueado
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "NoUsuario",
+                            "alert('Debe iniciar sesión para reservar un turno.');", true);
+                    }
+                }
+            }
         }
     }
 }
