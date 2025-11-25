@@ -141,7 +141,7 @@ namespace negocio
 
             return lista;
         }
-        public Socio BuscarSocioPorDni(string dni)
+        public Socio BuscarSocioPorDniONombre(string criterio)
         {
             Socio socio = null;
             AccesoDatos acceso = new AccesoDatos();
@@ -149,13 +149,14 @@ namespace negocio
             try
             {
                 acceso.setearConsulta(@"
-            SELECT s.IdSocio, s.Nombre, s.Apellido, s.Dni, s.IdPlan,
-                   p.Nombre AS NombrePlan, p.PrecioMensual
-            FROM SOCIOS s
-            INNER JOIN PLANES p ON s.IdPlan = p.IdPlan
-            WHERE s.Activo = 1 AND s.Dni = @dni");
+                    SELECT s.IdSocio, s.Nombre, s.Apellido, s.Dni, s.IdPlan,
+                           p.Nombre AS NombrePlan, p.PrecioMensual
+                    FROM SOCIOS s
+                    INNER JOIN PLANES p ON s.IdPlan = p.IdPlan
+                    WHERE s.Activo = 1 
+                      AND (s.Dni = @criterio OR s.Nombre LIKE @criterio + '%')");
 
-                acceso.setearParametro("@dni", dni);
+                acceso.setearParametro("@criterio", criterio);
 
                 var dr = acceso.ejecutarLectura();
                 if (dr.Read())
@@ -183,7 +184,6 @@ namespace negocio
 
             return socio;
         }
-
         public void GuardarCobro(int idSocio, decimal monto, decimal recargo, string formaPago)
         {
             AccesoDatos acceso = new AccesoDatos();
@@ -220,6 +220,45 @@ namespace negocio
             {
                 acceso.cerrarConexion();
             }
+        }
+        public List<Cuota> ObtenerCuotasPorSocio(int idSocio)
+        {
+            var lista = new List<Cuota>();
+            AccesoDatos acceso = new AccesoDatos();
+
+            try
+            {
+                acceso.setearConsulta(@"
+            SELECT c.IdCuota, c.Anio, c.Mes, c.Monto, c.Recargo, c.Estado, c.FechaPago, c.FormaPago
+            FROM CUOTAS c
+            WHERE c.IdSocio = @idSocio
+            ORDER BY c.Anio DESC, c.Mes DESC");
+
+                acceso.setearParametro("@idSocio", idSocio);
+
+                var dr = acceso.ejecutarLectura();
+                while (dr.Read())
+                {
+                    Cuota cuota = new Cuota
+                    {
+                        IdCuota = (int)dr["IdCuota"],
+                        Anio = (int)dr["Anio"],
+                        Mes = (int)dr["Mes"],
+                        Monto = (decimal)dr["Monto"],
+                        Recargo = (decimal)dr["Recargo"],
+                        Estado = dr["Estado"].ToString(),
+                        FechaPago = dr["FechaPago"] != DBNull.Value ? (DateTime?)dr["FechaPago"] : null,
+                        FormaPago = dr["FormaPago"].ToString()
+                    };
+                    lista.Add(cuota);
+                }
+            }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+
+            return lista;
         }
     }
 }
