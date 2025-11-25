@@ -58,7 +58,7 @@
                                     <asp:Repeater ID="rptTurnosDia" runat="server" DataSource='<%# Eval("Turnos") %>'>
                                         <ItemTemplate>
                                             <button type="button"
-                                                class="calendario-turno"
+                                                class='calendario-turno <%# (bool)Eval("ReservadoPorSocio") ? "reservado-socio" : "" %>'
                                                 onclick="abrirModalPedirTurno('<%# Eval("IdTurno") %>', '<%# Eval("FechaHoraTexto") %>')">
                                                 <%# Eval("EstadoTexto") %>
                                             </button>

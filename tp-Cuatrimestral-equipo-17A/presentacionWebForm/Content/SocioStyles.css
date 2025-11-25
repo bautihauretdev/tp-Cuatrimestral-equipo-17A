@@ -231,6 +231,15 @@
         color: #121518;
     }
 
+/* Este es cómo se ve el botón una vez que el socio lo seleccionó */
+
+.reservado-socio {
+    background-color: #8feab3; /* Verde un poco más claro que el hover */
+    color: #010402 !important;
+    font-weight: 600;
+    border: 0px solid;
+}
+
 /* == BOTONES AGREGAR/MODIFICAR TURNO CALENDARIO ==*/
 
 .footer-calendario {

@@ -21,6 +21,7 @@ public class TurnoCalendario
     public int IdTurno { get; set; }
     public string EstadoTexto { get; set; }
     public string FechaHoraTexto { get; set; }
+    public bool ReservadoPorSocio { get; set; }
 }
 // (!) LEER ARRIBA COMENTARIO DE NATI
 

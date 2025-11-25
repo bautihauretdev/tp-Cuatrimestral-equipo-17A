@@ -50,6 +50,30 @@ namespace presentacionWebForm
             // Traemos los turnos desde negocio
             List<Turno> lista = negocio.ObtenerTurnosSemana(lunes);
 
+            // Traemos todos los turnos del socio logueado
+            List<int> turnosDelSocio = new List<int>();
+            Usuario usuarioLogueado = Session["usuario"] as Usuario;
+
+            if (usuarioLogueado != null && usuarioLogueado.Socio != null)
+            {
+                AccesoDatos datos = new AccesoDatos();
+                try
+                {
+                    datos.setearConsulta("SELECT IdTurno FROM TURNOS_SOCIOS WHERE IdSocio = @IdSocio");
+                    datos.setearParametro("@IdSocio", usuarioLogueado.Socio.IdSocio);
+                    datos.ejecutarLectura();
+
+                    while (datos.Lector.Read())
+                    {
+                        turnosDelSocio.Add((int)datos.Lector["IdTurno"]);
+                    }
+                }
+                finally
+                {
+                    datos.cerrarConexion();
+                }
+            }
+
             // Estructura para el Repeater (08:00 a 22:00)
             List<HoraCalendario> horas = new List<HoraCalendario>();
 
@@ -89,7 +113,8 @@ namespace presentacionWebForm
                             {
                                 IdTurno = turno.IdTurno,
                                 EstadoTexto = turno.Ocupados + "/" + turno.CapacidadMaxima,
-                                FechaHoraTexto = turno.Fecha.ToString("dd/MM HH:mm") // Formatea la fecha y hora
+                                FechaHoraTexto = turno.Fecha.ToString("dd/MM HH:mm"),
+                                ReservadoPorSocio = turnosDelSocio.Contains(turno.IdTurno)
                             });
                         }
                     }
