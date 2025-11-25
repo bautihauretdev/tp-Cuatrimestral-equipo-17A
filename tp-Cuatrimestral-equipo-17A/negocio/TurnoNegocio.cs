@@ -241,6 +241,5 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
     }
 }

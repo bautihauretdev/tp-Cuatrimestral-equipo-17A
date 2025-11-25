@@ -39,7 +39,6 @@ namespace presentacionWebForm
 
             if (!IsPostBack)
             {
-
                 ViewState["lunesActual"] = ObtenerLunes(DateTime.Today);
                 CargarCalendario();
             }
@@ -135,7 +134,6 @@ namespace presentacionWebForm
 
             btnSemanaAnterior.Enabled = ((DateTime)ViewState["lunesActual"]) > primerLunes;
             btnSemanaSiguiente.Enabled = ((DateTime)ViewState["lunesActual"]) < ultimoLunes;
-
         }
 
 
