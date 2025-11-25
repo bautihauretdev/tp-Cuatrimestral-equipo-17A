@@ -2,6 +2,7 @@
 using negocio;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -63,6 +64,15 @@ namespace presentacionWebForm
             // Mostramos "fecha lunes / domingo de la semana" arriba del calendario
             lblCalendarioRango.Text = lunes.ToString("dd MMM") + " - " + lunes.AddDays(6).ToString("dd MMM");
 
+            // Actualizar los labels de los días con "Nombre + número"
+            lblLunes.Text = "Lunes " + lunes.Day;
+            lblMartes.Text = "Martes " + lunes.AddDays(1).Day;
+            lblMiercoles.Text = "Miércoles " + lunes.AddDays(2).Day;
+            lblJueves.Text = "Jueves " + lunes.AddDays(3).Day;
+            lblViernes.Text = "Viernes " + lunes.AddDays(4).Day;
+            lblSabado.Text = "Sábado " + lunes.AddDays(5).Day;
+            lblDomingo.Text = "Domingo " + lunes.AddDays(6).Day;
+
             // Traemos los turnos desde negocio
             List<Turno> lista = negocio.ObtenerTurnosSemana(lunes);
 
@@ -85,11 +95,23 @@ namespace presentacionWebForm
 
                     if (turno != null)
                     {
-                        hora.Turnos.Add(new TurnoCalendario
+                        // Una vez creado el turno, el admin lo pone en 0 para "cerrar" el Gym
+                        if (turno.CapacidadMaxima == 0)
                         {
-                            IdTurno = turno.IdTurno,
-                            EstadoTexto = turno.Ocupados.ToString() + "/" + turno.CapacidadMaxima.ToString()
-                        });
+                            hora.Turnos.Add(new TurnoCalendario
+                            {
+                                IdTurno = turno.IdTurno,
+                                EstadoTexto = "No disponible"
+                            });
+                        }
+                        else
+                        {
+                            hora.Turnos.Add(new TurnoCalendario
+                            {
+                                IdTurno = turno.IdTurno,
+                                EstadoTexto = turno.Ocupados.ToString() + "/" + turno.CapacidadMaxima.ToString()
+                            });
+                        }
                     }
                     else
                     {
@@ -155,6 +177,18 @@ namespace presentacionWebForm
 
                 TimeSpan horaDesde = TimeSpan.Parse(txtHoraDesde.Text);
                 TimeSpan horaHasta = TimeSpan.Parse(txtHoraHasta.Text);
+
+                // Valida que todos los campos tienen que tener valor
+                if (string.IsNullOrWhiteSpace(txtFechaDesde.Text) ||
+                    string.IsNullOrWhiteSpace(txtFechaHasta.Text) ||
+                    string.IsNullOrWhiteSpace(txtHoraDesde.Text) ||
+                    string.IsNullOrWhiteSpace(txtHoraHasta.Text) ||
+                    string.IsNullOrWhiteSpace(txtCapacidad.Text))
+                {
+                    lblErrorEditarTurno.Text = "Todos los campos son obligatorios.";
+                    lblErrorEditarTurno.Visible = true;
+                    return; // Evita seguir y NO entra en el try
+                }
 
                 // Validar que fechaDesde sea menor o igual que fechaHasta
                 if (fechaDesde > fechaHasta)

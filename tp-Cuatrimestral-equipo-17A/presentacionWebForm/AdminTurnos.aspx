@@ -170,6 +170,7 @@
         </div>
     </div>
 
+    <!-- Para el modal "Editar turno" -->
     <script>
         var limpiarCamposEditar = false; // Variable global para controlar si limpiar campos
 
