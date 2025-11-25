@@ -114,6 +114,24 @@ namespace presentacionWebForm
         protected global::System.Web.UI.WebControls.Repeater rptHoras;
 
         /// <summary>
+        /// hiddenTurno control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenTurno;
+
+        /// <summary>
+        /// btnConfirmarTurno control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfirmarTurno;
+
+        /// <summary>
         /// txtFechaDesde control.
         /// </summary>
         /// <remarks>

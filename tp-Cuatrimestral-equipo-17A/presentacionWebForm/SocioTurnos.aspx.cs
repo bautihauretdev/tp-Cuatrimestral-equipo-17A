@@ -83,7 +83,8 @@ namespace presentacionWebForm
                             hora.Turnos.Add(new TurnoCalendario
                             {
                                 IdTurno = turno.IdTurno,
-                                EstadoTexto = turno.Ocupados.ToString() + "/" + turno.CapacidadMaxima.ToString()
+                                EstadoTexto = turno.Ocupados + "/" + turno.CapacidadMaxima,
+                                FechaHoraTexto = turno.Fecha.ToString("dd/MM HH:mm") // Formatea la fecha y hora
                             });
                         }
                     }
@@ -109,6 +110,22 @@ namespace presentacionWebForm
 
             btnSemanaAnterior.Enabled = ((DateTime)ViewState["lunesActual"]) > primerLunes;
             btnSemanaSiguiente.Enabled = ((DateTime)ViewState["lunesActual"]) < ultimoLunes;
+        }
+
+        protected void btnTurno_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int idTurno = int.Parse(btn.CommandArgument);
+            ViewState["TurnoSeleccionado"] = idTurno;
+
+            // Registrar JS para abrir modal
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "AbrirModalTurno",
+                "var myModal = new bootstrap.Modal(document.getElementById('modalPedirTurno')); myModal.show();", true);
+        }
+
+        protected void btnConfirmarTurno_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

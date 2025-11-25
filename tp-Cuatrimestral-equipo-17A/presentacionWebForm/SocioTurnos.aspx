@@ -54,15 +54,14 @@
                                     </asp:Label>
 
                                     <!-- TURNOS (uno por cada día de la semana) -->
+                                    <!-- BOTÓN TURNO -->
                                     <asp:Repeater ID="rptTurnosDia" runat="server" DataSource='<%# Eval("Turnos") %>'>
                                         <ItemTemplate>
-                                            <!-- BOTÓN DEL TURNO -->
-                                            <asp:Button
-                                                ID="btnTurno"
-                                                runat="server"
-                                                CssClass="calendario-turno"
-                                                Text='<%# Eval("EstadoTexto") %>'
-                                                CommandArgument='<%# Eval("IdTurno") %>'/>
+                                            <button type="button"
+                                                class="calendario-turno"
+                                                onclick="abrirModalPedirTurno('<%# Eval("IdTurno") %>', '<%# Eval("FechaHoraTexto") %>')">
+                                                <%# Eval("EstadoTexto") %>
+                                            </button>
                                         </ItemTemplate>
                                     </asp:Repeater>
                                 </ItemTemplate>
@@ -81,6 +80,27 @@
                 </div>
             </div>
         </div>
+
+        <!-- MODAL PEDIR TURNO -->
+        <div class="modal fade" id="modalPedirTurno" tabindex="-1" aria-labelledby="modalPedirTurnoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header border-secondary">
+                        <h5 class="modal-title" id="modalPedirTurnoLabel">Confirmar turno</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Desea pedir el turno <span id="spanTurnoSeleccionado"></span>?</p>
+                        <asp:HiddenField ID="hiddenTurno" runat="server" />
+                    </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="boton-editar" data-bs-dismiss="modal">Cancelar</button>
+                        <asp:Button ID="btnConfirmarTurno" runat="server" CssClass="boton-principal" Text="Aceptar" OnClick="btnConfirmarTurno_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- VENTANA FLOTANTE SELECCIONAR TURNO FIJO -->
         <div class="modal fade" id="modalEditarTurno" tabindex="-1" aria-labelledby="modalEditarTurnoLabel" aria-hidden="true">
@@ -132,4 +152,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function abrirModalPedirTurno(idTurno, fechaHora) {
+            // Guardar ID en HiddenField
+            document.getElementById('<%= hiddenTurno.ClientID %>').value = idTurno;
+
+            // Mostrar fecha y hora en el span
+            document.getElementById('spanTurnoSeleccionado').innerText = fechaHora;
+
+            // Abrir modal
+            var myModal = new bootstrap.Modal(document.getElementById('modalPedirTurno'));
+            myModal.show();
+        }
+    </script>
+
 </asp:Content>
