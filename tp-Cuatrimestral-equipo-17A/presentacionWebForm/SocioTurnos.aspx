@@ -92,6 +92,7 @@
                     <div class="modal-body">
                         <p>Desea pedir el turno <span id="spanTurnoSeleccionado"></span>?</p>
                         <asp:HiddenField ID="hiddenTurno" runat="server" />
+                        <asp:Label ID="lblErrorPedirTurno" runat="server" CssClass="text-danger" Visible="false" />
                     </div>
                     <div class="modal-footer border-secondary">
                         <button type="button" class="boton-editar" data-bs-dismiss="modal">Cancelar</button>
@@ -165,6 +166,23 @@
             var myModal = new bootstrap.Modal(document.getElementById('modalPedirTurno'));
             myModal.show();
         }
+
+        var abrirPorError = false;
+
+        document.getElementById('modalPedirTurno').addEventListener('show.bs.modal', function () {
+
+            // Si el modal se abre por el error del servidor no limpia la lbl de error
+            if (abrirPorError) {
+                abrirPorError = false;
+                document.getElementById('<%= lblErrorPedirTurno.ClientID %>').style.display = "block";
+                return;
+            }
+
+            // Si lo abre el usuario manualmente si limpia
+            document.getElementById('<%= lblErrorPedirTurno.ClientID %>').style.display = "none";
+            document.getElementById('<%= lblErrorPedirTurno.ClientID %>').innerText = "";
+        });
+
     </script>
 
 </asp:Content>

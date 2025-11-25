@@ -159,6 +159,39 @@ namespace presentacionWebForm
                                 datos.setearParametro("@IdSocio", socio.IdSocio);
                                 datos.ejecutarAccion();
                             }
+                            catch (System.Data.SqlClient.SqlException ex)
+                            {
+                                // Error por clave duplicada: El socio ya tiene este turno
+                                if (ex.Number == 2627 || ex.Number == 2601)
+                                {
+                                    lblErrorPedirTurno.Visible = true;
+                                    lblErrorPedirTurno.Text = "Ya tenés este turno reservado.";
+
+                                    lblErrorPedirTurno.Visible = true;
+                                    lblErrorPedirTurno.Text = "Ya tenés este turno reservado.";
+
+                                    // Para poder ver la label
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorFlag", "abrirPorError = true;", true);
+
+                                    ScriptManager.RegisterStartupScript(
+                                        this, this.GetType(),
+                                        "MostrarErrorTurnoDuplicado",
+                                        @"
+                                        setTimeout(function() {
+                                            var modalEl = document.getElementById('modalPedirTurno');
+                                            var instance = bootstrap.Modal.getInstance(modalEl);
+                                            if (instance) instance.dispose();
+                                            new bootstrap.Modal(modalEl).show();
+                                        }, 200);
+                                        ",
+                                        true
+                                    );
+
+                                    return; // No seguir con el proceso
+                                }
+
+                                throw; // Otros errores se relanzan
+                            }
                             finally
                             {
                                 datos.cerrarConexion();
