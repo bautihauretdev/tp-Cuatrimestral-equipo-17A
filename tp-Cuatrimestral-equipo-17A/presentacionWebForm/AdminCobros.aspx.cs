@@ -17,6 +17,7 @@ namespace presentacionWebForm
                 txtMes.Text = DateTime.Now.ToString("MM/yyyy");
                 CargarHistorialCobros();
             }
+
         }
 
         protected void btnBuscarSocio_Click(object sender, EventArgs e)
@@ -24,7 +25,7 @@ namespace presentacionWebForm
             string criterio = txtSearchSocio.Text?.Trim();
             if (string.IsNullOrEmpty(criterio))
             {
-                lblSocioSeleccionado.Text = "Ingrese DNI o nombre para buscar.";
+                lblSocioSeleccionado.Text = "Ingrese DNI para buscar.";
                 hfIdSocioSeleccionado.Value = "";
                 LimpiarCamposCuota();
                 return;
@@ -45,7 +46,7 @@ namespace presentacionWebForm
                 txtPlan.Text = socioEncontrado.Plan.Nombre;
                 txtMonto.Text = socioEncontrado.Plan.PrecioMensual.ToString("C");
 
-                // caclculo de recargo automático del 5% si ya pasó el día 5
+
                 decimal recargo = 0;
                 if (DateTime.Now.Day > 5)
                 {
@@ -65,7 +66,42 @@ namespace presentacionWebForm
                 LimpiarCamposCuota();
             }
         }
+        protected void btnGuardarCobro_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(hfIdSocioSeleccionado.Value))
+                return;
 
+            int socioId = int.Parse(hfIdSocioSeleccionado.Value);
+            decimal monto = 0;
+            decimal recargo = 0;
+
+            decimal.TryParse(txtMonto.Text.Replace("$", ""), out monto);
+
+            // Validación automática de recargo (5% si ya pasó el día 5)
+            if (DateTime.Now.Day > 5)
+            {
+                recargo = monto * 0.05m;
+            }
+
+
+            string formaPago = rbEfectivo.Checked ? "Efectivo" : "Transferencia";
+
+            CuotaNegocio negocio = new CuotaNegocio();
+            negocio.GuardarCobro(socioId, monto, recargo, formaPago);
+
+            hfIdSocioSeleccionado.Value = "";
+            txtSearchSocio.Text = "";
+            lblSocioSeleccionado.Text = "";
+            txtPlan.Text = "";
+            txtRecargo.Text = "$0.00";
+            txtMonto.Text = "$0.00";
+            txtMes.Text = DateTime.Now.ToString("MM/yyyy");
+            txtFecha.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            rbEfectivo.Checked = true;
+            rbTransferencia.Checked = false;
+
+            CargarHistorialCobros();
+        }
         private void LimpiarCamposCuota()
         {
             txtPlan.Text = "";
