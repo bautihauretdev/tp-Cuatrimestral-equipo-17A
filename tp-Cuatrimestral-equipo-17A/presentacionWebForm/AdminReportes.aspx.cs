@@ -1,4 +1,5 @@
-﻿using System;
+﻿using negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,19 +14,34 @@ namespace presentacionWebForm
         {
             if (!IsPostBack)
             {
-                var topActivos = new List<dynamic>
-                {
-                    new { Nombre = "Juan Pérez", Asistencias = 1 },
-                    new { Nombre = "Sofía Castro", Asistencias = 0 },
-                    new { Nombre = "Diego Luna", Asistencias = 0 },
-                    new { Nombre = "Valeria Gil", Asistencias = 0 },
-                    new { Nombre = "Esteban Quito", Asistencias = 0 }
-                };
-
-                rptActivos.DataSource = topActivos;
-                rptActivos.DataBind();
+                CargarReportes();
             }
+        }
+        private void CargarReportes()
+        {
+            ReportesNegocio reportesNegocio = new ReportesNegocio();
 
+            // MÉTRICAS
+            lblSociosActivos.Text = reportesNegocio.ObtenerTotalSociosActivos().ToString();
+            lblIngresosMes.Text = "$" + reportesNegocio.ObtenerIngresosMes().ToString("N0");
+            lblMorosos.Text = reportesNegocio.ObtenerSociosMorosos().ToString();
+            lblOcupacionProm.Text = reportesNegocio.OcupacionPromedio().ToString("N2") + "%";
+
+            lblDiaMasConcurrencia.Text = reportesNegocio.DiaMayorConcurrencia();
+            lblDiaMenosConcurrencia.Text = reportesNegocio.DiaMenorConcurrencia();
+
+            lblFranjaMasConcurrencia.Text = reportesNegocio.FranjaMayorConcurrencia();
+            lblFranjaMenosConcurrencia.Text = reportesNegocio.FranjaMenorConcurrencia();
+
+            // LISTADOS
+            rptActivos.DataSource = reportesNegocio.TopSociosReservas();
+            rptActivos.DataBind();
+
+            rptMorosos.DataSource = reportesNegocio.TopMorosos();
+            rptMorosos.DataBind();
+
+            rptPorVencer.DataSource = reportesNegocio.ProximosVencimientos();
+            rptPorVencer.DataBind();
         }
     }
 }

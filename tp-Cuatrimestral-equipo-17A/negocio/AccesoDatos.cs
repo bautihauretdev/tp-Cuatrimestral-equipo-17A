@@ -81,6 +81,12 @@ namespace negocio
                 cerrarConexion();
             }
         }
+        public void setearProcedimiento(string nombreSP)
+        {
+            comando.Parameters.Clear();
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = nombreSP;
+        }
 
         public void cerrarConexion()
         {

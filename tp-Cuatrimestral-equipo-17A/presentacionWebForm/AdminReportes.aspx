@@ -42,56 +42,59 @@
             </div>
         </section>
 
-        <!-- LISTADOS DE INTERÉS -->
-        <section class="listas">
-            <h2>Listados de interés</h2>
-            <div class="listas-grid">
-                <!-- Morosos -->
-                <div class="lista-card">
-                    <h3>Socios morosos</h3>
-                    <asp:Repeater ID="rptMorosos" runat="server">
-                        <ItemTemplate>
-                            <div class="lista-item">
-                                <div>
-                                    <p class="lista-nombre"><%# Eval("Nombre") %></p>
-                                    <p class="lista-detalle"><%# Eval("DiasVencido") %> días vencido</p>
-                                </div>
-                                <span class="lista-monto negativo">-<%# Eval("MontoAdeudado") %></span>
-                            </div>
-                        </ItemTemplate>
-                    </asp:Repeater>
-                </div>
+      <!-- LISTADOS DE INTERÉS -->
+<section class="listas">
+    <h2>Listados de interés</h2>
+    <div class="listas-grid">
 
-                <!-- Próximos pagos -->
-                <div class="lista-card">
-                    <h3>Próximos pagos por vencer</h3>
-                    <asp:Repeater ID="rptPorVencer" runat="server">
-                        <ItemTemplate>
-                            <div class="lista-item">
-                                <div>
-                                    <p class="lista-nombre"><%# Eval("Nombre") %></p>
-                                    <p class="lista-detalle">Vence en <%# Eval("DiasRestantes") %> días</p>
-                                </div>
-                                <span class="lista-monto aviso">$<%# Eval("Monto") %></span>
-                            </div>
-                        </ItemTemplate>
-                    </asp:Repeater>
-                </div>
+        <!-- Morosos -->
+        <div class="lista-card">
+            <h3>Socios morosos</h3>
+            <asp:Repeater ID="rptMorosos" runat="server">
+                <ItemTemplate>
+                    <div class="lista-item">
+                        <div>
+                            <p class="lista-nombre"><%# Eval("Nombre") %></p>  
+                        </div>
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
 
-                <!-- Top activos -->
-                <div class="lista-card">
-                    <h3>Top 5 socios más activos</h3>
-                    <asp:Repeater ID="rptActivos" runat="server">
-                        <ItemTemplate>
-                            <div class="lista-item top">
-                                <span class="lista-nombre"><%# Container.ItemIndex + 1 %>. <%# Eval("Nombre") %></span>
-                                <span class="lista-detalle"><%# Eval("Asistencias") %> asistencias</span>
-                            </div>
-                        </ItemTemplate>
-                    </asp:Repeater>
-                </div>
-            </div>
-        </section>
+        <!-- Próximos pagos -->
+        <div class="lista-card">
+            <h3>Próximos pagos por vencer</h3>
+            <asp:Repeater ID="rptPorVencer" runat="server">
+                <ItemTemplate>
+                    <div class="lista-item">
+                        <div>
+                            <p class="lista-nombre"><%# Eval("Nombre") %></p>
+                            <p class="lista-detalle">Vence en <%# Eval("DiasRestantes") %> días</p>
+                        </div>
+                        <span class="lista-monto aviso">$<%# Eval("Monto") %></span>
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
+
+        <!-- Top activos -->
+        <div class="lista-card">
+            <h3>Top 5 socios más activos</h3>
+            <asp:Repeater ID="rptActivos" runat="server">
+                <ItemTemplate>
+                    <div class="lista-item top">
+                        <span class="lista-nombre">
+                            <%# Container.ItemIndex + 1 %>. <%# Eval("Nombre") %> <%# Eval("Apellido") %>
+                        </span>
+                        <span class="lista-detalle"><%# Eval("Reservas") %> reservas</span>
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
+
+    </div>
+</section>
+
     </main>
 
 </asp:Content>
