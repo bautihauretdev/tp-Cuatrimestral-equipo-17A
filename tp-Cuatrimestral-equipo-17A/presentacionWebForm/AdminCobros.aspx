@@ -44,17 +44,19 @@
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Fecha de Cobro</label>
-                        <asp:TextBox ID="txtFecha" runat="server" CssClass="form-input readonly" ReadOnly="true" TextMode="Date"></asp:TextBox>
-                    </div>
-                    <div class="form-group">
-                        <label>Cuota</label>
-                        <asp:TextBox ID="txtMes" runat="server" CssClass="form-input readonly" ReadOnly="true" placeholder="Mes / Año"></asp:TextBox>
-                    </div>
-                </div>
+                <!-- Fecha de Cobro -->
+             <div class="form-group">
+             <label>Fecha de Cobro</label>
+            <asp:TextBox ID="txtFecha" runat="server" CssClass="form-input readonly" ReadOnly="true" TextMode="Date"></asp:TextBox>
+             </div>
 
+                <!-- Cuotas pendientes debajo -->
+             <div class="form-group">
+              <label>Cuotas pendientes</label>
+                <asp:DropDownList ID="ddlCuotasPendientes" runat="server" CssClass="form-input">
+                </asp:DropDownList>
+             </div>
+           
                 <div class="form-group">
                     <label>Forma de Pago</label>
                     <div class="radio-group">
