@@ -147,7 +147,86 @@ namespace presentacionWebForm
         protected void btnTurno_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
+
+            // Puede venir 0 cuando es "No disponible"
+            if (string.IsNullOrEmpty(btn.CommandArgument) || btn.CommandArgument == "0")
+                return;
+
             int idTurno = int.Parse(btn.CommandArgument);
+
+            CargarDetalleTurno(idTurno);
+
+            // Abrir modal de detalle de socios
+            ScriptManager.RegisterStartupScript(
+                this,
+                this.GetType(),
+                "ShowDetalleTurno",
+                "var m = new bootstrap.Modal(document.getElementById('modalDetalleTurno')); m.show();",
+                true
+            );
+        }
+
+        private void CargarDetalleTurno(int idTurno)
+        {
+            // Título del modal con fecha/hora del turno
+            TurnoNegocio negocio = new TurnoNegocio();
+            Turno turno = negocio.ObtenerTodosTurnos().FirstOrDefault(t => t.IdTurno == idTurno);
+
+            if (turno != null)
+            {
+                lblDetalleTurnoTitulo.Text = "Socios del turno " + turno.Fecha.ToString("dd/MM/yyyy HH:mm");
+            }
+            else
+            {
+                lblDetalleTurnoTitulo.Text = "Socios del turno";
+            }
+
+            // Traer los socios anotados a ese turno
+            List<Socio> socios = new List<Socio>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+                    SELECT S.IdSocio, S.Nombre, S.Apellido, S.Dni, S.Email
+                    FROM TURNOS_SOCIOS TS
+                    INNER JOIN SOCIOS S ON S.IdSocio = TS.IdSocio
+                    WHERE TS.IdTurno = @IdTurno
+                    ORDER BY S.Apellido, S.Nombre
+                ");
+
+                datos.setearParametro("@IdTurno", idTurno);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    socios.Add(new Socio
+                    {
+                        IdSocio = (int)datos.Lector["IdSocio"],
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Apellido = datos.Lector["Apellido"].ToString(),
+                        Dni = datos.Lector["Dni"].ToString(),
+                        Email = datos.Lector["Email"].ToString()
+                    });
+                }
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            if (socios.Count > 0)
+            {
+                rptSociosTurno.DataSource = socios;
+                rptSociosTurno.DataBind();
+                lblSinSociosTurno.Visible = false;
+            }
+            else
+            {
+                rptSociosTurno.DataSource = null;
+                rptSociosTurno.DataBind();
+                lblSinSociosTurno.Visible = true;
+            }
         }
 
 

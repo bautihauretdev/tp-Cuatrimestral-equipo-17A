@@ -168,6 +168,53 @@
                 </div>
             </div>
         </div>
+
+        <!-- VENTANA FLOTANTE DETALLE SOCIOS DEL TURNO -->
+        <div class="modal fade" id="modalDetalleTurno" tabindex="-1" aria-labelledby="modalDetalleTurnoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header border-secondary">
+                        <h5 class="modal-title" id="modalDetalleTurnoLabel">
+                            <asp:Label ID="lblDetalleTurnoTitulo" runat="server" Text="Socios del turno"></asp:Label>
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <!-- Lista de socios del turno -->
+                        <asp:Repeater ID="rptSociosTurno" runat="server">
+                            <HeaderTemplate>
+                                <ul class="list-group list-group-flush">
+                            </HeaderTemplate>
+
+                            <ItemTemplate>
+                                <li class="list-group-item bg-dark text-light border-secondary d-flex flex-column">
+                                    <span><strong><%# Eval("Apellido") %>, <%# Eval("Nombre") %></strong></span>
+                                    <small class="text-secondary">DNI: <%# Eval("Dni") %> - Email: <%# Eval("Email") %>
+                                    </small>
+                                </li>
+                            </ItemTemplate>
+
+                            <FooterTemplate>
+                                </ul>
+                            </FooterTemplate>
+                        </asp:Repeater>
+
+                        <!-- Mensaje si no hay socios -->
+                        <asp:Label ID="lblSinSociosTurno" runat="server"
+                            CssClass="text-secondary"
+                            Visible="false"
+                            Text="No hay socios anotados en este turno.">
+                        </asp:Label>
+                    </div>
+
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Para el modal "Editar turno" -->
@@ -189,7 +236,7 @@
             } else {
                 // Cuando hay error, no limpiar campos ni ocultar label
                 limpiarCamposEditar = true; // resetea para la próxima vez
-                }
+            }
         });
     </script>
 
