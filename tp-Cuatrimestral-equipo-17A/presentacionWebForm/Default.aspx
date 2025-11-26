@@ -18,9 +18,9 @@
                 <asp:TextBox ID="txtBoxEmail" runat="server" CssClass="input-field" placeholder="Introduce tu email"></asp:TextBox>
                 <asp:TextBox ID="txtBoxPassword" runat="server" TextMode="Password" CssClass="input-field" placeholder="Introduce tu contraseña"></asp:TextBox>
 
-                <div class="forgot">
+                <!-- <div class="forgot">
                     <a href="#">¿Olvidaste tu contraseña?</a>
-                </div>
+                </div> -->
 
                 <asp:Button ID="btnLogin" runat="server" Text="Acceder" CssClass="btn-login" OnClick="btnLogin_Click" />
                 <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-2 d-block" Visible="false"></asp:Label>
