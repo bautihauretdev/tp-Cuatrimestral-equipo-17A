@@ -209,38 +209,185 @@ namespace negocio
             return ultimoTurno.Fecha.AddDays(-dif).Date;
         }
 
-        public void ActualizarTurnosPorRango(DateTime fechaDesde, DateTime fechaHasta, TimeSpan horaDesde, TimeSpan horaHasta, int nuevaCapacidad)
+        //public void ActualizarTurnosPorRango(DateTime fechaDesde, DateTime fechaHasta, TimeSpan horaDesde, TimeSpan horaHasta, int nuevaCapacidad)
+        //{
+        //    AccesoDatos datos = new AccesoDatos();
+
+        //    try
+        //    {
+        //        datos.setearConsulta(
+        //            "UPDATE TURNOS " +
+        //            "SET CapacidadMaxima = @Cap " +
+        //            "WHERE Fecha >= @Desde AND Fecha <= @Hasta " +
+        //            "AND CAST(Fecha AS time) >= @HoraDesde AND CAST(Fecha AS time) <= @HoraHasta"
+        //        );
+
+        //        datos.setearParametro("@Cap", nuevaCapacidad);
+        //        datos.setearParametro("@Desde", fechaDesde);
+        //        datos.setearParametro("@Hasta", fechaHasta.AddDays(1).AddSeconds(-1)); // Incluye TODO el día de "fecha hasta"
+        //                                                                               // .AddDays(1).AddSeconds(-1) Es para sumarle 1 día y restarle 1 segundo
+        //                                                                              //  y que quede la fecha que necesitamos a las 23:59:59
+        //        datos.setearParametro("@HoraDesde", horaDesde);
+        //        datos.setearParametro("@HoraHasta", horaHasta);
+
+        //        datos.ejecutarAccion();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error al actualizar turnos por rango: " + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        datos.cerrarConexion();
+        //    }
+        //}
+
+        public void ActualizarTurnosPorRango(
+            DateTime fechaDesde,
+            DateTime fechaHasta,
+            TimeSpan horaDesde,
+            TimeSpan horaHasta,
+            int nuevaCapacidad)
         {
-            AccesoDatos datos = new AccesoDatos();
+            // Traer todos los turnos afectados
+            List<Turno> turnosAfectados = new List<Turno>();
+            AccesoDatos datosTurnos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta(
-                    "UPDATE TURNOS " +
-                    "SET CapacidadMaxima = @Cap " +
-                    "WHERE Fecha >= @Desde AND Fecha <= @Hasta " +
-                    "AND CAST(Fecha AS time) >= @HoraDesde AND CAST(Fecha AS time) <= @HoraHasta"
-                );
+                datosTurnos.setearConsulta(@"
+                SELECT IdTurno, Fecha, CapacidadMaxima, Ocupados
+                FROM TURNOS
+                WHERE Fecha >= @Desde AND Fecha <= @Hasta
+                  AND CAST(Fecha AS time) >= @HoraDesde
+                  AND CAST(Fecha AS time) <= @HoraHasta
+                ");
 
-                datos.setearParametro("@Cap", nuevaCapacidad);
-                datos.setearParametro("@Desde", fechaDesde);
-                datos.setearParametro("@Hasta", fechaHasta.AddDays(1).AddSeconds(-1)); // Incluye TODO el día de "fecha hasta"
-                                                                                       // .AddDays(1).AddSeconds(-1) Es para sumarle 1 día y restarle 1 segundo
-                                                                                      //  y que quede la fecha que necesitamos a las 23:59:59
-                datos.setearParametro("@HoraDesde", horaDesde);
-                datos.setearParametro("@HoraHasta", horaHasta);
+                datosTurnos.setearParametro("@Desde", fechaDesde);
+                datosTurnos.setearParametro("@Hasta", fechaHasta.AddDays(1).AddSeconds(-1));// Incluye TODO el día de "fecha hasta"
+                                                                                            // .AddDays(1).AddSeconds(-1) Es para sumarle 1 día y restarle 1 segundo
+                                                                                            //  y que quede la fecha que necesitamos a las 23:59:59
+                datosTurnos.setearParametro("@HoraDesde", horaDesde);
+                datosTurnos.setearParametro("@HoraHasta", horaHasta);
 
-                datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al actualizar turnos por rango: " + ex.Message);
+                datosTurnos.ejecutarLectura();
+
+                while (datosTurnos.Lector.Read())
+                {
+                    Turno t = new Turno();
+                    t.IdTurno = (int)datosTurnos.Lector["IdTurno"];
+                    t.Fecha = (DateTime)datosTurnos.Lector["Fecha"];
+                    t.CapacidadMaxima = (int)datosTurnos.Lector["CapacidadMaxima"];
+                    t.Ocupados = (int)datosTurnos.Lector["Ocupados"];
+                    turnosAfectados.Add(t);
+                }
             }
             finally
             {
-                datos.cerrarConexion();
+                datosTurnos.cerrarConexion();
+            }
+
+            // Procesar cada turno
+            foreach (Turno turno in turnosAfectados)
+            {
+                int capFinal = nuevaCapacidad < 0 ? 0 : nuevaCapacidad;
+
+                // Obtener socios anotados en ese turno (del último al primero)
+                List<int> sociosOrdenadosDesc = new List<int>();
+                AccesoDatos datosSocios = new AccesoDatos();
+
+                try
+                {
+                    // Ordenamos de forma descendiente según la fecha que se registraron los socios
+                    datosSocios.setearConsulta(@"
+                        SELECT IdSocio
+                        FROM TURNOS_SOCIOS
+                        WHERE IdTurno = @IdTurno
+                        ORDER BY FechaRegistro DESC 
+                    ");
+
+                    datosSocios.setearParametro("@IdTurno", turno.IdTurno);
+                    datosSocios.ejecutarLectura();
+
+                    while (datosSocios.Lector.Read())
+                    {
+                        sociosOrdenadosDesc.Add((int)datosSocios.Lector["IdSocio"]);
+                    }
+                }
+                finally
+                {
+                    datosSocios.cerrarConexion();
+                }
+
+                int cantidadSocios = sociosOrdenadosDesc.Count;
+
+                // Calcula excedentes si la capacidad nueva es menor
+                int excedentes = 0;
+                if (capFinal < cantidadSocios)
+                    excedentes = cantidadSocios - capFinal;
+
+                // Si sobran socios, eliminar del último al primero y notificar
+                if (excedentes > 0)
+                {
+                    for (int i = 0; i < excedentes && i < sociosOrdenadosDesc.Count; i++)
+                    {
+                        int idSocioAEliminar = sociosOrdenadosDesc[i];
+
+                        // Borrar relación turno-socio
+                        AccesoDatos datosDelete = new AccesoDatos();
+                        try
+                        {
+                            datosDelete.setearConsulta(@"
+                                DELETE FROM TURNOS_SOCIOS
+                                WHERE IdTurno = @IdTurno AND IdSocio = @IdSocio
+                            ");
+                            datosDelete.setearParametro("@IdTurno", turno.IdTurno);
+                            datosDelete.setearParametro("@IdSocio", idSocioAEliminar);
+                            datosDelete.ejecutarAccion();
+                        }
+                        finally
+                        {
+                            datosDelete.cerrarConexion();
+                        }
+
+                        // Notificar cancelación a ese socio
+                        EnviarNotificacionCancelacion(idSocioAEliminar, turno);
+                    }
+                }
+
+                // Recalcular Ocupados = socios que quedaron (no excedentes)
+                int nuevoOcupados = Math.Max(0, Math.Min(cantidadSocios - excedentes, capFinal));
+
+                // Actualizar turno en la tabla TURNOS
+                AccesoDatos datosUpdate = new AccesoDatos();
+                try
+                {
+                    datosUpdate.setearConsulta(@"
+                        UPDATE TURNOS
+                        SET CapacidadMaxima = @CapacidadMaxima,
+                            Ocupados = @Ocupados
+                        WHERE IdTurno = @IdTurno
+                            ");
+
+                    datosUpdate.setearParametro("@CapacidadMaxima", capFinal);
+                    datosUpdate.setearParametro("@Ocupados", nuevoOcupados);
+                    datosUpdate.setearParametro("@IdTurno", turno.IdTurno);
+
+                    datosUpdate.ejecutarAccion();
+                }
+                finally
+                {
+                    datosUpdate.cerrarConexion();
+                }
             }
         }
+
+        private void EnviarNotificacionCancelacion(int idSocio, Turno turno)
+        {
+            // Implementar mail al socio
+            // Ver: EmailService.cs
+        }
+
 
         // Se usa desde SocioTurnos
         public void ActualizarOcupados(int idTurno, int nuevosOcupados)
