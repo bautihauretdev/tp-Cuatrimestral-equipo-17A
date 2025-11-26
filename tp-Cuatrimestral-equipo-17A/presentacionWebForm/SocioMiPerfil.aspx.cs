@@ -42,7 +42,7 @@ namespace presentacionWebForm
                 }
 
                 SocioNegocio socioNegocio = new SocioNegocio();
-                Socio socio = socioNegocio.ObtenerPorId(usuario.Socio.IdSocio);
+                Socio socio = socioNegocio.ObtenerSocioYPlanPorId(usuario.Socio.IdSocio);
 
                 if (socio == null)
                 {
@@ -65,7 +65,7 @@ namespace presentacionWebForm
                 txtEmail.Text = socio.Email ?? "";
 
                 // La contraseña no se muestra (se deja enmascarada).
-                txtboxPlan.Text = socio.Plan != null ? socio.Plan.ToString() : ""; // FALTA IMPLEMENTAR PLAN
+                txtboxPlan.Text = socio.Plan != null ? socio.Plan.Nombre : "Sin plan asignado";
 
                 lblMensaje.Visible = false;
             }
