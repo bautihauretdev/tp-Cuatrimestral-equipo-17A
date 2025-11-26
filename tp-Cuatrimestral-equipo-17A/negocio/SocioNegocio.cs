@@ -370,5 +370,31 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        //ACTUALIZA DATOS SELECTOS DE MIPERFIL SOCIO
+        public void ActualizarPerfil(int idSocio, string nombre, string apellido, string email)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta(@"UPDATE SOCIOS 
+                               SET Nombre = @Nombre,
+                                   Apellido = @Apellido,
+                                   Email = @Email
+                               WHERE IdSocio = @IdSocio");
+
+                datos.setearParametro("@Nombre", nombre);
+                datos.setearParametro("@Apellido", apellido);
+                datos.setearParametro("@Email", email);
+                datos.setearParametro("@IdSocio", idSocio);
+
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

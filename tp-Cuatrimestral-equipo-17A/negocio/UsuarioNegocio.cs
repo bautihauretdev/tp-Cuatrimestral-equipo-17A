@@ -102,5 +102,22 @@ namespace negocio
             }
         }
 
+        //ACTUALIZA SOLO CONTRASEÑA
+        public void ActualizarPassword(int idSocio, string nuevaPassword)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE USUARIOS SET PasswordHash = @Password WHERE IdSocio = @IdSocio");
+                datos.setearParametro("@Password", nuevaPassword);
+                datos.setearParametro("@IdSocio", idSocio);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

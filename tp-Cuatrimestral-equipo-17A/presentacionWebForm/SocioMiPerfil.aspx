@@ -19,7 +19,7 @@
                 </div>
                 <div class="perfil-campo">
                     <label for="txtApellido">Apellido</label>
-                    <asp:TextBox ID="txtApellido" runat="server" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
+                    <asp:TextBox ID="txtApellido" runat="server" ReadOnly="true" CssClass="perfil-input perfil-readonly"  />
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
             <div class="perfil-grid">
                 <div class="perfil-campo">
                     <label for="txtboxpsswrd">Contraseña</label>
-                   <asp:TextBox ID="txtboxpsswrd" runat="server" Text="********" ReadOnly="true" CssClass="perfil-input perfil-readonly" />
+                   <asp:TextBox ID="txtboxpsswrd" runat="server"  ReadOnly="true" CssClass="perfil-input perfil-readonly" />
                 </div>
 
                 <div class="perfil-campo">
