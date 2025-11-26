@@ -11,7 +11,6 @@
                     <i class="bi bi-people-fill metricas-icono fs-4"></i>
                     <h3>Socios activos</h3>
                 </div>
-                <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
                 <asp:Label ID="lblSociosActivosNum" runat="server" CssClass="metricas-numero" Text="174"></asp:Label>
             </div>
 
@@ -20,7 +19,6 @@
                     <i class="bi bi-person-check-fill metricas-icono fs-4"></i>
                     <h3>Socios que vienen hoy</h3>
                 </div>
-                <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
                 <asp:Label ID="lblSociosHoyNum" runat="server" CssClass="metricas-numero" Text="51"></asp:Label>
             </div>
 
@@ -29,7 +27,6 @@
                     <i class="bi bi-clock-fill metricas-icono fs-4"></i>
                     <h3>Horarios completos</h3>
                 </div>
-                <%-- (!) VER: En el siguiente Label, el Text hay que ponerlo "-" y se irá modificando con el back --%>
                 <asp:Label ID="lblHorariosCompletosNum" runat="server" CssClass="metricas-numero" Text="5"></asp:Label>
 
             </div>

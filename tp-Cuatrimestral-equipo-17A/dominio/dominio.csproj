@@ -45,7 +45,6 @@
     <Compile Include="Asistencia.cs" />
     <Compile Include="Cuota.cs" />
     <Compile Include="EstadoCuota.cs" />
-    <Compile Include="NombrePlan.cs" />
     <Compile Include="Notificacion.cs" />
     <Compile Include="Pago.cs" />
     <Compile Include="Plan.cs" />

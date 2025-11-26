@@ -44,6 +44,75 @@ namespace presentacionWebForm
                 ViewState["lunesActual"] = ObtenerLunes(DateTime.Today);
                 CargarCalendario();
             }
+
+            CargarMetricas();
+        }
+
+
+        private void CargarMetricas()
+        {
+            // SOCIOS ACTIVOS
+            AccesoDatos datosActivos = new AccesoDatos();
+            int sociosActivos = 0;
+
+            try
+            {
+                datosActivos.setearConsulta(@"
+                    SELECT COUNT(IdSocio)
+                    FROM SOCIOS
+                    WHERE Activo = 1
+                ");
+                sociosActivos = Convert.ToInt32(datosActivos.ejecutarScalar());
+            }
+            finally
+            {
+                datosActivos.cerrarConexion();
+            }
+
+            lblSociosActivosNum.Text = sociosActivos.ToString();
+
+            // SOCIOS QUE VIENEN HOY
+            AccesoDatos datosHoy = new AccesoDatos();
+            int sociosHoy = 0;
+
+            try
+            {
+                datosHoy.setearConsulta(@"
+                    SELECT COUNT(DISTINCT TS.IdSocio)
+                    FROM TURNOS_SOCIOS TS
+                    INNER JOIN TURNOS T ON T.IdTurno = TS.IdTurno
+                    WHERE CONVERT(date, T.Fecha) = CONVERT(date, GETDATE())
+                ");
+                sociosHoy = Convert.ToInt32(datosHoy.ejecutarScalar());
+            }
+            finally
+            {
+                datosHoy.cerrarConexion();
+            }
+
+            lblSociosHoyNum.Text = sociosHoy.ToString();
+
+
+            // HORARIOS COMPLETOS
+            AccesoDatos datosCompletos = new AccesoDatos();
+            int horariosCompletos = 0;
+
+            try
+            {
+                datosCompletos.setearConsulta(@"
+                    SELECT COUNT(IdTurno)
+                    FROM TURNOS
+                    WHERE CapacidadMaxima > 0
+                      AND Ocupados >= CapacidadMaxima
+                ");
+                horariosCompletos = Convert.ToInt32(datosCompletos.ejecutarScalar());
+            }
+            finally
+            {
+                datosCompletos.cerrarConexion();
+            }
+
+            lblHorariosCompletosNum.Text = horariosCompletos.ToString();
         }
 
 
@@ -166,6 +235,7 @@ namespace presentacionWebForm
             );
         }
 
+        // Acá mostramos los socios que pidieron el turno
         private void CargarDetalleTurno(int idTurno)
         {
             // Título del modal con fecha/hora del turno
@@ -247,7 +317,7 @@ namespace presentacionWebForm
             CargarCalendario();
         }
 
-
+        // Cuando queremos guardar los cambios dentro de Editar Turno
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
             // Oculta la label del error 
