@@ -267,6 +267,47 @@ namespace presentacionWebForm
                 return;
 
             int planId = int.Parse(ddlPlan.SelectedValue);
+
+            // Verificar si hay socios con este plan
+            int cantidadSocios = 0;
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+                    SELECT COUNT(*) 
+                    FROM SOCIOS 
+                    WHERE IdPlan = @IdPlan
+                    AND Activo = 1
+                ");
+                datos.setearParametro("@IdPlan", planId);
+
+                cantidadSocios = Convert.ToInt32(datos.ejecutarScalar());
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            if (cantidadSocios > 0)
+            {
+                // Si NO se puede eliminar: mostrar mensaje de error en el modal
+                lblErrorEliminarPlan.Text = $"No se puede eliminar el plan porque hay {cantidadSocios} socio(s) que lo tienen asignado.";
+                lblErrorEliminarPlan.Visible = true;
+
+                // Volver a abrir el modal para que se vea el mensaje
+                ScriptManager.RegisterStartupScript(
+                    Page,
+                    Page.GetType(),
+                    "ShowModalEliminarDenegado",
+                    "var modal = new bootstrap.Modal(document.getElementById('modalEliminarPlan')); modal.show();",
+                    true
+                );
+
+                return;
+            }
+
+            // Si no hay socios con ese plan, se puede eliminar
             PlanNegocio negocio = new PlanNegocio();
             negocio.BajaLogica(planId);
 

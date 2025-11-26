@@ -168,16 +168,27 @@
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header border-secondary">
                     <h5 class="modal-title" id="modalEliminarPlanLabel">Eliminar plan</h5>
-                    <%--                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>--%>
+                    <%-- <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button> --%>
                 </div>
 
                 <div class="modal-body">
-                    <p>¿Está seguro que desea eliminar el plan <strong><span id="planNombreEliminar"></span></strong>?</p>
+                    <p>
+                        ¿Está seguro que desea eliminar el plan
+                    <strong><span id="planNombreEliminar"></span></strong>?
+                    </p>
+
+                    <!-- Mensaje de error al intentar eliminar -->
+                    <asp:Label ID="lblErrorEliminarPlan" runat="server"
+                        CssClass="text-danger mt-2 d-block"
+                        Visible="false" />
                 </div>
 
                 <div class="modal-footer border-secondary">
                     <button type="button" class="boton-editar" data-bs-dismiss="modal">Cancelar</button>
-                    <asp:Button ID="btnConfirmarEliminar" runat="server" CssClass="boton-principal" Text="Sí, eliminar" OnClick="btnConfirmarEliminar_Click" />
+                    <asp:Button ID="btnConfirmarEliminar" runat="server"
+                        CssClass="boton-principal"
+                        Text="Sí, eliminar"
+                        OnClick="btnConfirmarEliminar_Click" />
                 </div>
             </div>
         </div>
