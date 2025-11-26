@@ -59,7 +59,7 @@
                                         <ItemTemplate>
                                             <button type="button"
                                                 class='calendario-turno <%# (bool)Eval("ReservadoPorSocio") ? "reservado-socio" : "" %>'
-                                                onclick="abrirModalPedirTurno('<%# Eval("IdTurno") %>', '<%# Eval("FechaHoraTexto") %>')">
+                                                onclick="abrirModalPedirTurno('<%# Eval("IdTurno") %>', '<%# Eval("FechaHoraTexto") %>', <%# ((bool)Eval("ReservadoPorSocio")).ToString().ToLower() %>)">
                                                 <%# Eval("EstadoTexto") %>
                                             </button>
                                         </ItemTemplate>
@@ -90,8 +90,10 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Desea pedir el turno <span id="spanTurnoSeleccionado"></span>?</p>
+                        <p>Desea <span id="spanAccionTurno">pedir</span> el turno <span id="spanTurnoSeleccionado"></span>?</p>
                         <asp:HiddenField ID="hiddenTurno" runat="server" />
+                        <asp:HiddenField ID="hiddenEsCancelacion" runat="server" />
+                        <!-- Es para saber si es cancelación desde el server -->
                         <asp:Label ID="lblErrorPedirTurno" runat="server" CssClass="text-danger" Visible="false" />
                     </div>
                     <div class="modal-footer border-secondary">
@@ -155,9 +157,15 @@
     </div>
 
     <script>
-        function abrirModalPedirTurno(idTurno, fechaHora) {
+        function abrirModalPedirTurno(idTurno, fechaHora, reservado) {
             // Guardar ID en HiddenField
             document.getElementById('<%= hiddenTurno.ClientID %>').value = idTurno;
+
+            // Guardar si es cancelación (true/false)
+            document.getElementById('<%= hiddenEsCancelacion.ClientID %>').value = reservado ? "true" : "false";
+
+            // Texto de acción
+            document.getElementById('spanAccionTurno').innerText = reservado ? "cancelar" : "pedir";
 
             // Mostrar fecha y hora en el span
             document.getElementById('spanTurnoSeleccionado').innerText = fechaHora;

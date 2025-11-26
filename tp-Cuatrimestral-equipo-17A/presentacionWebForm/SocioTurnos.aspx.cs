@@ -172,10 +172,50 @@ namespace presentacionWebForm
                     {
                         Socio socio = usuarioLogueado.Socio;
 
-                        // Verificar si el turno ya tiene cupo
+                        // Por si el socio está queriendo dar de baja
+                        bool esCancelacion = hiddenEsCancelacion.Value == "true";
+
+                        if (esCancelacion)
+                        {
+                            // El socio ya tenía el turno entonces lo elimina
+                            AccesoDatos datos = new AccesoDatos();
+                            try
+                            {
+                                datos.setearConsulta("DELETE FROM TURNOS_SOCIOS WHERE IdTurno = @IdTurno AND IdSocio = @IdSocio");
+                                datos.setearParametro("@IdTurno", turno.IdTurno);
+                                datos.setearParametro("@IdSocio", socio.IdSocio);
+                                datos.ejecutarAccion();
+                            }
+                            finally
+                            {
+                                datos.cerrarConexion();
+                            }
+
+                            // Recalcular Ocupados
+                            datos = new AccesoDatos();
+                            try
+                            {
+                                datos.setearConsulta("SELECT COUNT(*) FROM TURNOS_SOCIOS WHERE IdTurno = @IdTurno");
+                                datos.setearParametro("@IdTurno", turno.IdTurno);
+                                int ocupados = Convert.ToInt32(datos.ejecutarScalar());
+                                turno.Ocupados = ocupados;
+
+                                // Actualizar la columna Ocupados en TURNOS
+                                negocio.ActualizarOcupados(turno.IdTurno, ocupados);
+                            }
+                            finally
+                            {
+                                datos.cerrarConexion();
+                            }
+
+                            // Recargar calendario y salir
+                            CargarCalendario();
+                            return;
+                        }
+
+                        // Verificar si el turno tiene cupo
                         if (turno.Ocupados < turno.CapacidadMaxima)
                         {
-                            // Registrar en la tabla TurnosSocios
                             AccesoDatos datos = new AccesoDatos();
                             try
                             {
@@ -189,9 +229,6 @@ namespace presentacionWebForm
                                 // Error por clave duplicada: El socio ya tiene este turno
                                 if (ex.Number == 2627 || ex.Number == 2601)
                                 {
-                                    lblErrorPedirTurno.Visible = true;
-                                    lblErrorPedirTurno.Text = "Ya tenés este turno reservado.";
-
                                     lblErrorPedirTurno.Visible = true;
                                     lblErrorPedirTurno.Text = "Ya tenés este turno reservado.";
 
