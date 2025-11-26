@@ -103,7 +103,7 @@ namespace presentacionWebForm
                         {
                             hora.Turnos.Add(new TurnoCalendario
                             {
-                                IdTurno = turno.IdTurno,
+                                IdTurno = 0,
                                 EstadoTexto = "No disponible"
                             });
                         }
@@ -172,12 +172,59 @@ namespace presentacionWebForm
                     {
                         Socio socio = usuarioLogueado.Socio;
 
-                        // Por si el socio está queriendo dar de baja
                         bool esCancelacion = hiddenEsCancelacion.Value == "true";
 
+                        // VALIDACIÓN TURNO NO DISPONIBLE (CapacidadMaxima = 0)
+                        if (turno.CapacidadMaxima == 0)
+                        {
+                            lblErrorPedirTurno.Visible = true;
+                            lblErrorPedirTurno.Text = "Este turno no está disponible.";
+
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorFlag", "abrirPorError = true;", true);
+                            ScriptManager.RegisterStartupScript(
+                                this, this.GetType(),
+                                "MostrarErrorNoDisponible",
+                                @"
+                                setTimeout(function() {
+                                    var modalEl = document.getElementById('modalPedirTurno');
+                                    var instance = bootstrap.Modal.getInstance(modalEl);
+                                    if (instance) instance.dispose();
+                                    new bootstrap.Modal(modalEl).show();
+                                }, 200);
+                                ",
+                                true
+                            );
+
+                            return;
+                        }
+
+                        // VALIDACIÓN NO PEDIR NI ELIMINAR TURNO DE FECHA/HORA PASADA
+                        if (turno.Fecha <= DateTime.Now)
+                        {
+                            lblErrorPedirTurno.Visible = true;
+                            lblErrorPedirTurno.Text = "No podés modificar un turno en una fecha/hora pasada.";
+
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorFlag", "abrirPorError = true;", true);
+                            ScriptManager.RegisterStartupScript(
+                                this, this.GetType(),
+                                "MostrarErrorFechaPasada",
+                                @"
+                                setTimeout(function() {
+                                    var modalEl = document.getElementById('modalPedirTurno');
+                                    var instance = bootstrap.Modal.getInstance(modalEl);
+                                    if (instance) instance.dispose();
+                                    new bootstrap.Modal(modalEl).show();
+                                }, 200);
+                                ",
+                                true
+                            );
+
+                            return;
+                        }
+
+                        // Si es cancelar el turno: solo borrar y salir (ya pasamos validación de fecha)
                         if (esCancelacion)
                         {
-                            // El socio ya tenía el turno entonces lo elimina
                             AccesoDatos datos = new AccesoDatos();
                             try
                             {
@@ -213,7 +260,108 @@ namespace presentacionWebForm
                             return;
                         }
 
-                        // Verificar si el turno tiene cupo
+                        // A partir de acá es ALTA de turno (no cancelación)
+                        // VALIDACIÓN MÁXIMO 3 TURNOS POR DÍA PARA EL MISMO SOCIO
+                        int turnosDia = 0;
+                        AccesoDatos datosDia = new AccesoDatos();
+                        try
+                        {
+                            datosDia.setearConsulta(@"
+                                SELECT COUNT(*) 
+                                FROM TURNOS_SOCIOS TS
+                                INNER JOIN TURNOS T ON T.IdTurno = TS.IdTurno
+                                WHERE TS.IdSocio = @IdSocio
+                                  AND CAST(T.Fecha AS DATE) = @FechaDia
+                            ");
+
+                            datosDia.setearParametro("@IdSocio", socio.IdSocio);
+                            datosDia.setearParametro("@FechaDia", turno.Fecha.Date);
+
+                            turnosDia = Convert.ToInt32(datosDia.ejecutarScalar());
+                        }
+                        finally
+                        {
+                            datosDia.cerrarConexion();
+                        }
+
+                        if (turnosDia >= 3)
+                        {
+                            lblErrorPedirTurno.Visible = true;
+                            lblErrorPedirTurno.Text = "Solo podés elegir hasta 3 turnos por día.";
+
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorFlag", "abrirPorError = true;", true);
+                            ScriptManager.RegisterStartupScript(
+                                this, this.GetType(),
+                                "MostrarErrorMaxDia",
+                                @"
+                                setTimeout(function() {
+                                    var modalEl = document.getElementById('modalPedirTurno');
+                                    var instance = bootstrap.Modal.getInstance(modalEl);
+                                    if (instance) instance.dispose();
+                                    new bootstrap.Modal(modalEl).show();
+                                }, 200);
+                                ",
+                                true
+                            );
+
+                            return;
+                        }
+
+                        // VALIDACIÓN MÁXIMO SEMANA SEGÚN EL PLAN (Plan.MaxHorasSemana)
+                        // Encontrar lunes/domingo de la semana del turno
+                        DateTime lunesSemana = ObtenerLunes(turno.Fecha.Date);
+                        DateTime domingoSemana = lunesSemana.AddDays(6);
+
+                        int turnosSemana = 0;
+                        AccesoDatos datosSemana = new AccesoDatos();
+                        try
+                        {
+                            datosSemana.setearConsulta(@"
+                                SELECT COUNT(*) 
+                                FROM TURNOS_SOCIOS TS
+                                INNER JOIN TURNOS T ON T.IdTurno = TS.IdTurno
+                                WHERE TS.IdSocio = @IdSocio
+                                  AND T.Fecha BETWEEN @Lunes AND @Domingo
+                            ");
+
+                            datosSemana.setearParametro("@IdSocio", socio.IdSocio);
+                            datosSemana.setearParametro("@Lunes", lunesSemana);
+                            datosSemana.setearParametro("@Domingo", domingoSemana);
+
+                            turnosSemana = Convert.ToInt32(datosSemana.ejecutarScalar());
+                        }
+                        finally
+                        {
+                            datosSemana.cerrarConexion();
+                        }
+
+                        int maxSemanal = (socio.Plan != null) ? socio.Plan.MaxHorasSemana : int.MaxValue;
+
+                        if (turnosSemana >= maxSemanal)
+                        {
+                            lblErrorPedirTurno.Visible = true;
+                            lblErrorPedirTurno.Text = "Alcanzaste el máximo de turnos semanales de tu plan.";
+
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorFlag", "abrirPorError = true;", true);
+                            ScriptManager.RegisterStartupScript(
+                                this, this.GetType(),
+                                "MostrarErrorMaxSemana",
+                                @"
+                                setTimeout(function() {
+                                    var modalEl = document.getElementById('modalPedirTurno');
+                                    var instance = bootstrap.Modal.getInstance(modalEl);
+                                    if (instance) instance.dispose();
+                                    new bootstrap.Modal(modalEl).show();
+                                }, 200);
+                                ",
+                                true
+                            );
+
+                            return;
+                        }
+
+                        // Si pasó todas las validaciones se intenta reservar
+                        // VALIDACIÓN SI EL TURNO TIENE CUPO
                         if (turno.Ocupados < turno.CapacidadMaxima)
                         {
                             AccesoDatos datos = new AccesoDatos();
@@ -226,7 +374,7 @@ namespace presentacionWebForm
                             }
                             catch (System.Data.SqlClient.SqlException ex)
                             {
-                                // Error por clave duplicada: El socio ya tiene este turno
+                                // Error por clave duplicada (sql): El socio ya tiene este turno
                                 if (ex.Number == 2627 || ex.Number == 2601)
                                 {
                                     lblErrorPedirTurno.Visible = true;
@@ -295,5 +443,7 @@ namespace presentacionWebForm
                 }
             }
         }
+
+
     }
 }

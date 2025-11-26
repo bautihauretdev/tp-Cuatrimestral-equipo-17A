@@ -158,16 +158,22 @@
 
     <script>
         function abrirModalPedirTurno(idTurno, fechaHora, reservado) {
+
+            // Vaidar que si no hay turno, no hacer nada
+            if (!idTurno || idTurno === "0") {
+                return;
+            }
+
             // Guardar ID en HiddenField
             document.getElementById('<%= hiddenTurno.ClientID %>').value = idTurno;
 
-            // Guardar si es cancelación (true/false)
+            // Guardar si es cancelación
             document.getElementById('<%= hiddenEsCancelacion.ClientID %>').value = reservado ? "true" : "false";
 
-            // Texto de acción
+            // Texto de acción según si está pidiendo o cancelando el turno
             document.getElementById('spanAccionTurno').innerText = reservado ? "cancelar" : "pedir";
 
-            // Mostrar fecha y hora en el span
+            // Mostrar fecha y hora del turno en el span
             document.getElementById('spanTurnoSeleccionado').innerText = fechaHora;
 
             // Abrir modal
