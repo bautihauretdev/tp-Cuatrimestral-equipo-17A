@@ -17,29 +17,47 @@ namespace presentacionWebForm
                 txtMes.Text = DateTime.Now.ToString("MM/yyyy");
                 CargarHistorialCobros();
             }
+
         }
+
         protected void btnBuscarSocio_Click(object sender, EventArgs e)
         {
             string criterio = txtSearchSocio.Text?.Trim();
             if (string.IsNullOrEmpty(criterio))
             {
-                lblSocioSeleccionado.Text = "Ingrese DNI o nombre para buscar.";
+                lblSocioSeleccionado.Text = "Ingrese DNI para buscar.";
                 hfIdSocioSeleccionado.Value = "";
                 LimpiarCamposCuota();
                 return;
             }
 
-            var cuotaNegocio = new CuotaNegocio();
-            Socio socioEncontrado = cuotaNegocio.BuscarSocioPorDniONombre(criterio);
+            CuotaNegocio negocio = new CuotaNegocio();
+            Socio socioEncontrado = negocio.BuscarSocioPorDniONombre(criterio);
 
             if (socioEncontrado != null && socioEncontrado.Plan != null)
             {
+                
                 hfIdSocioSeleccionado.Value = socioEncontrado.IdSocio.ToString();
+
+                
                 lblSocioSeleccionado.Text = socioEncontrado.Nombre + " " + socioEncontrado.Apellido;
 
+               
                 txtPlan.Text = socioEncontrado.Plan.Nombre;
                 txtMonto.Text = socioEncontrado.Plan.PrecioMensual.ToString("C");
-                txtRecargo.Text = "$0.00"; 
+
+
+                decimal recargo = 0;
+                if (DateTime.Now.Day > 5)
+                {
+                    recargo = socioEncontrado.Plan.PrecioMensual * 0.05m;
+                }
+
+                txtRecargo.Text = recargo.ToString("C");
+
+                
+                txtFecha.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                txtMes.Text = DateTime.Now.ToString("MM/yyyy");
             }
             else
             {
@@ -48,33 +66,42 @@ namespace presentacionWebForm
                 LimpiarCamposCuota();
             }
         }
-
         protected void btnGuardarCobro_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(hfIdSocioSeleccionado.Value))
                 return;
 
             int socioId = int.Parse(hfIdSocioSeleccionado.Value);
-            CuotaNegocio negocio = new CuotaNegocio();
-            Cuota cuota = negocio.ObtenerCuotaActual(socioId);
+            decimal monto = 0;
+            decimal recargo = 0;
 
-            if (cuota != null)
+            decimal.TryParse(txtMonto.Text.Replace("$", ""), out monto);
+
+            // Validación automática de recargo (5% si ya pasó el día 5)
+            if (DateTime.Now.Day > 5)
             {
-                negocio.ActualizarEstadoCuota(cuota.IdCuota, "Pagado");
+                recargo = monto * 0.05m;
             }
+
+
+            string formaPago = rbEfectivo.Checked ? "Efectivo" : "Transferencia";
+
+            CuotaNegocio negocio = new CuotaNegocio();
+            negocio.GuardarCobro(socioId, monto, recargo, formaPago);
 
             hfIdSocioSeleccionado.Value = "";
             txtSearchSocio.Text = "";
             lblSocioSeleccionado.Text = "";
             txtPlan.Text = "";
-            txtRecargo.Text = "";
-            txtMonto.Text = "";
+            txtRecargo.Text = "$0.00";
+            txtMonto.Text = "$0.00";
             txtMes.Text = DateTime.Now.ToString("MM/yyyy");
             txtFecha.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            rbEfectivo.Checked = true;
+            rbTransferencia.Checked = false;
 
             CargarHistorialCobros();
         }
-
         private void LimpiarCamposCuota()
         {
             txtPlan.Text = "";
@@ -92,7 +119,7 @@ namespace presentacionWebForm
                 FechaCobro = c.FechaPago.HasValue ? c.FechaPago.Value.ToString("dd/MM/yyyy") : "Sin fecha",
                 Periodo = $"{c.Mes:D2}/{c.Anio}",
                 Monto = c.Monto + c.Recargo,
-                FormaPago = "N/A"
+                FormaPago = string.IsNullOrEmpty(c.FormaPago) ? "No registrado" : c.FormaPago
             }).ToList();
 
             gvHistorialCobros.DataSource = datos;

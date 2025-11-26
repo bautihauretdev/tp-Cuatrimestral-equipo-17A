@@ -104,12 +104,12 @@ namespace negocio
             try
             {
                 acceso.setearConsulta(@"
-                    SELECT c.IdCuota, c.Anio, c.Mes, c.Monto, c.Recargo, c.Estado,
-                           s.IdSocio, s.Nombre, s.Apellido
-                    FROM CUOTAS c
-                    INNER JOIN SOCIOS s ON c.IdSocio = s.IdSocio
-                    WHERE c.Estado = 'Pagado'
-                    ORDER BY c.Anio DESC, c.Mes DESC");
+    SELECT c.IdCuota, c.Anio, c.Mes, c.Monto, c.Recargo, c.Estado, c.FechaPago, c.FormaPago,
+           s.IdSocio, s.Nombre, s.Apellido
+    FROM CUOTAS c
+    INNER JOIN SOCIOS s ON c.IdSocio = s.IdSocio
+    WHERE c.Estado = 'Pagado'
+    ORDER BY c.Anio DESC, c.Mes DESC");
 
                 var dr = acceso.ejecutarLectura();
                 while (dr.Read())
@@ -122,6 +122,8 @@ namespace negocio
                         Monto = (decimal)dr["Monto"],
                         Recargo = (decimal)dr["Recargo"],
                         Estado = dr["Estado"].ToString(),
+                        FechaPago = dr["FechaPago"] != DBNull.Value ? (DateTime?)dr["FechaPago"] : null,
+                        FormaPago = dr["FormaPago"].ToString(),
                         Socio = new Socio
                         {
                             IdSocio = (int)dr["IdSocio"],
@@ -181,6 +183,82 @@ namespace negocio
             }
 
             return socio;
+        }
+        public void GuardarCobro(int idSocio, decimal monto, decimal recargo, string formaPago)
+        {
+            AccesoDatos acceso = new AccesoDatos();
+
+            try
+            {
+                acceso.setearConsulta(@"
+            IF EXISTS (SELECT 1 FROM CUOTAS WHERE IdSocio = @idSocio AND Mes = @mes AND Anio = @anio)
+            BEGIN
+                UPDATE CUOTAS
+                SET Estado = 'Pagado',
+                    Monto = @monto,
+                    Recargo = @recargo,
+                    FechaPago = GETDATE(),
+                    FormaPago = @formaPago
+                WHERE IdSocio = @idSocio AND Mes = @mes AND Anio = @anio
+            END
+            ELSE
+            BEGIN
+                INSERT INTO CUOTAS (IdSocio, Anio, Mes, Monto, Recargo, Estado, FechaPago, FormaPago)
+                VALUES (@idSocio, @anio, @mes, @monto, @recargo, 'Pagado', GETDATE(), @formaPago)
+            END");
+
+                acceso.setearParametro("@idSocio", idSocio);
+                acceso.setearParametro("@mes", DateTime.Now.Month);
+                acceso.setearParametro("@anio", DateTime.Now.Year);
+                acceso.setearParametro("@monto", monto);
+                acceso.setearParametro("@recargo", recargo);
+                acceso.setearParametro("@formaPago", formaPago);
+
+                acceso.ejecutarAccion();
+            }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+        }
+        public List<Cuota> ObtenerCuotasPorSocio(int idSocio)
+        {
+            var lista = new List<Cuota>();
+            AccesoDatos acceso = new AccesoDatos();
+
+            try
+            {
+                acceso.setearConsulta(@"
+            SELECT c.IdCuota, c.Anio, c.Mes, c.Monto, c.Recargo, c.Estado, c.FechaPago, c.FormaPago
+            FROM CUOTAS c
+            WHERE c.IdSocio = @idSocio
+            ORDER BY c.Anio DESC, c.Mes DESC");
+
+                acceso.setearParametro("@idSocio", idSocio);
+
+                var dr = acceso.ejecutarLectura();
+                while (dr.Read())
+                {
+                    Cuota cuota = new Cuota
+                    {
+                        IdCuota = (int)dr["IdCuota"],
+                        Anio = (int)dr["Anio"],
+                        Mes = (int)dr["Mes"],
+                        Monto = (decimal)dr["Monto"],
+                        Recargo = (decimal)dr["Recargo"],
+                        Estado = dr["Estado"].ToString(),
+                        FechaPago = dr["FechaPago"] != DBNull.Value ? (DateTime?)dr["FechaPago"] : null,
+                        FormaPago = dr["FormaPago"].ToString()
+                    };
+                    lista.Add(cuota);
+                }
+            }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+
+            return lista;
         }
     }
 }

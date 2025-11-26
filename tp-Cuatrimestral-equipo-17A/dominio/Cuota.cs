@@ -17,5 +17,6 @@ namespace dominio
         public decimal Recargo { get; set; } // recargo en caso que corresponda
         public string Estado { get; set; }  // "Pagado", "ConRecargo" o "Deudor"
         public DateTime? FechaPago { get; set; } // NULL SI NO PAGADA
+        public string FormaPago { get; set; } 
     }
 }
