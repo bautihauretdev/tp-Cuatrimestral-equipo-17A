@@ -188,16 +188,6 @@
                                         <asp:Label ID="lblPlanActual" runat="server" CssClass="info-value" />
                                     </div>
 
-                                    <div class="info-item">
-                                        <p class="info-label">Fecha de Inscripción</p>
-                                        <asp:Label ID="lblFechaInicio" runat="server" CssClass="info-value" />
-                                    </div>
-
-                                    <div class="info-item">
-                                        <p class="info-label">Próxima Renovación</p>
-                                        <asp:Label ID="lblProximaRenovacion" runat="server" CssClass="info-value" />
-                                    </div>
-
                                 </div>
                             </div>
 
