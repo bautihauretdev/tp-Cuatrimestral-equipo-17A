@@ -384,8 +384,10 @@ namespace negocio
 
         private void EnviarNotificacionCancelacion(int idSocio, Turno turno)
         {
-            // Implementar mail al socio
-            // Ver: EmailService.cs
+            string mensaje = $"Tu turno del {turno.Fecha:dd/MM HH:mm} fue cancelado por cambio de capacidad.";
+
+            NotificacionNegocio notifNegocio = new NotificacionNegocio();
+            notifNegocio.AgregarNotificacion(idSocio, mensaje);
         }
 
 
