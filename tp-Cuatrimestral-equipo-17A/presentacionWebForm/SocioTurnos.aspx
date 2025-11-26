@@ -70,12 +70,12 @@
                         </div>
                     </div>
 
-                    <!-- BOTON PEDIR TURNO FIJO -->
-                    <div class="footer-calendario">
+                        <!-- BOTON PEDIR TURNO FIJO -->
+<%--                    <div class="footer-calendario">
                         <button type="button" class="boton-editar" data-bs-toggle="modal" data-bs-target="#modalEditarTurno">
                             Pedir turno fijo
                         </button>
-                    </div>
+                    </div>--%>
 
                 </div>
             </div>
