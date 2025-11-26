@@ -33,11 +33,13 @@ namespace presentacionWebForm
         protected void Page_Load(object sender, EventArgs e)
         {
             // Todos los lunes controla que la semana actual y las tres siguientes estén creados los turnos
-            if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
-            {
-                TurnoNegocio negocio = new TurnoNegocio();
-                negocio.AsegurarSemanas();
-            }
+            //if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+            //{
+            //    TurnoNegocio negocio = new TurnoNegocio();
+            //    negocio.AsegurarSemanas();
+            //}
+            TurnoNegocio negocio = new TurnoNegocio();
+            negocio.AsegurarSemanas();
 
             if (!IsPostBack)
             {

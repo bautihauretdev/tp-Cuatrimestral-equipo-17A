@@ -260,6 +260,132 @@ namespace presentacionWebForm
                             return;
                         }
 
+                        // VALIDACIÓN DE CUOTA SI ESTAMOS DESPUÉS DEL DÍA 10
+                        // No podemos pedir turnos nuevos y si teníamos turno, lo elimina.
+                        if (DateTime.Now.Day > 10)
+                        {
+                            bool cuotaPaga = false;
+
+                            // VERIFICAR SI LA CUOTA DEL MES ESTÁ PAGADA
+                            AccesoDatos datosCuota = new AccesoDatos();
+                            try
+                            {
+                                datosCuota.setearConsulta(@"
+                                    SELECT COUNT(IdCuota)
+                                    FROM CUOTAS
+                                    WHERE IdSocio = @IdSocio
+                                      AND Anio = YEAR(GETDATE())
+                                      AND Mes = MONTH(GETDATE())
+                                      AND Estado = 'Pagado'
+                                ");
+
+                                datosCuota.setearParametro("@IdSocio", socio.IdSocio);
+
+                                cuotaPaga = Convert.ToInt32(datosCuota.ejecutarScalar()) > 0;
+                            }
+                            finally
+                            {
+                                datosCuota.cerrarConexion();
+                            }
+
+                            // SI NO TIENE LA CUOTA PAGA: BORRAR TURNOS + BLOQUEAR POSIBILIDAD DE PEDIR NUEVO
+                            if (!cuotaPaga)
+                            {
+                                // Obtenemos los turnos futuros del socio
+                                List<int> turnosFuturos = new List<int>();
+                                AccesoDatos datosTurnos = new AccesoDatos();
+
+                                try
+                                {
+                                    datosTurnos.setearConsulta(@"
+                                        SELECT TS.IdTurno
+                                        FROM TURNOS_SOCIOS TS
+                                        INNER JOIN TURNOS T ON T.IdTurno = TS.IdTurno
+                                        WHERE TS.IdSocio = @IdSocio
+                                          AND T.Fecha > GETDATE()
+                                    ");
+
+                                    datosTurnos.setearParametro("@IdSocio", socio.IdSocio);
+                                    datosTurnos.ejecutarLectura();
+
+                                    while (datosTurnos.Lector.Read())
+                                        turnosFuturos.Add((int)datosTurnos.Lector["IdTurno"]);
+                                }
+                                finally
+                                {
+                                    datosTurnos.cerrarConexion();
+                                }
+
+                                // Elimina las reservas de esos turnos
+                                AccesoDatos datosDelete = new AccesoDatos();
+                                try
+                                {
+                                    datosDelete.setearConsulta(@"
+                                        DELETE TS
+                                        FROM TURNOS_SOCIOS TS
+                                        INNER JOIN TURNOS T ON T.IdTurno = TS.IdTurno
+                                        WHERE TS.IdSocio = @IdSocio
+                                          AND T.Fecha > GETDATE()
+                                    ");
+
+                                    datosDelete.setearParametro("@IdSocio", socio.IdSocio);
+                                    datosDelete.ejecutarAccion();
+                                }
+                                finally
+                                {
+                                    datosDelete.cerrarConexion();
+                                }
+
+                                // Actualiza el 'ocupado' de esos turnos que eliminamos
+                                TurnoNegocio neg = new TurnoNegocio();
+
+                                foreach (int idT in turnosFuturos)
+                                {
+                                    AccesoDatos datosOcup = new AccesoDatos();
+                                    try
+                                    {
+                                        datosOcup.setearConsulta(@"
+                                            SELECT COUNT(IdSocio)
+                                            FROM TURNOS_SOCIOS
+                                            WHERE IdTurno = @IdTurno
+                                        ");
+                                        datosOcup.setearParametro("@IdTurno", idT);
+
+                                        int ocup = Convert.ToInt32(datosOcup.ejecutarScalar());
+
+                                        neg.ActualizarOcupados(idT, ocup);
+                                    }
+                                    finally
+                                    {
+                                        datosOcup.cerrarConexion();
+                                    }
+                                }
+
+                                // Mostramos mensaje
+                                lblErrorPedirTurno.Visible = true;
+                                lblErrorPedirTurno.Text = "No podés reservar turnos porque no tenés la cuota del mes paga.";
+
+                                ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorFlag", "abrirPorError = true;", true);
+
+                                ScriptManager.RegisterStartupScript(
+                                    this, this.GetType(),
+                                    "MostrarErrorCuota",
+                                    @"
+                                    setTimeout(function() {
+                                        var modalEl = document.getElementById('modalPedirTurno');
+                                        var instance = bootstrap.Modal.getInstance(modalEl);
+                                        if (instance) instance.dispose();
+                                        new bootstrap.Modal(modalEl).show();
+                                    }, 200);
+                                    ",
+                                    true
+                                );
+
+                                CargarCalendario();
+                                return;
+                            }
+                        }
+
                         // A partir de acá es ALTA de turno (no cancelación)
                         // VALIDACIÓN MÁXIMO 3 TURNOS POR DÍA PARA EL MISMO SOCIO
                         int turnosDia = 0;
