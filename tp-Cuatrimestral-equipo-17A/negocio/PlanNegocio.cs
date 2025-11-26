@@ -121,6 +121,57 @@ namespace negocio
             }
         }
 
+       
+
+        public List<Socio> ListarSociosPorPlan(int idPlan)
+        {
+            List<Socio> lista = new List<Socio>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+                    SELECT S.IdSocio, S.Nombre, S.Apellido, S.Dni, S.FechaNacimiento,
+                           S.Email, S.Telefono, S.Activo,
+                           P.Nombre AS PlanNombre, P.IdPlan AS PlanId
+                    FROM SOCIOS S
+                    INNER JOIN PLANES P ON P.IdPlan = S.IdPlan
+                    WHERE S.IdPlan = @IdPlan AND S.Activo = 1
+                    ORDER BY S.Apellido, S.Nombre
+                ");
+
+                datos.setearParametro("@IdPlan", idPlan);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    lista.Add(new Socio
+                    {
+                        IdSocio = (int)datos.Lector["IdSocio"],
+                        Nombre = datos.Lector["Nombre"]?.ToString(),
+                        Apellido = datos.Lector["Apellido"]?.ToString(),
+                        Dni = datos.Lector["Dni"]?.ToString(),
+                        Email = datos.Lector["Email"]?.ToString(),
+                        Telefono = datos.Lector["Telefono"]?.ToString(),
+                        FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value
+                            ? (DateTime)datos.Lector["FechaNacimiento"]
+                            : DateTime.MinValue,
+                        Activo = datos.Lector["Activo"] != DBNull.Value && (bool)datos.Lector["Activo"],
+                        Plan = new Plan
+                        {
+                            IdPlan = (int)datos.Lector["PlanId"],
+                            Nombre = datos.Lector["PlanNombre"]?.ToString()
+                        }
+                    });
+                }
+
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         public void BajaLogica(int idPlan)
         {
             AccesoDatos datosPlan = new AccesoDatos();

@@ -162,6 +162,21 @@ namespace presentacionWebForm
                 txtHorasSemana.Text = "";
                 txtMonto.Text = "$0.00";
             }
+
+            var socios = negocio.ListarSociosPorPlan(planId);
+            // crear columna NombreCompleto
+            var listaConNombre = socios.Select(s => new
+            {
+                NombreCompleto = $"{s.Nombre} {s.Apellido}",
+                s.Dni,
+                s.Email,
+                FechaNacimiento = s.FechaNacimiento
+            }).ToList();
+
+            gvSociosPlan.DataSource = listaConNombre;
+            gvSociosPlan.DataBind();
+
+            cantidadSociosPlan.Text = "#" + socios.Count;
         }
 
         protected void btnEditarPlan_Click(object sender, EventArgs e)

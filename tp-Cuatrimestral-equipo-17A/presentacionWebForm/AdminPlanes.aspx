@@ -55,22 +55,21 @@
             </div>
 
             <!-- SECCIÓN DERECHA: SOCIOS EN EL PLAN -->
-            <%--            <div class="planes-panel">
-                <div class="planes-socios-header">
-                    <h2>Socios en el plan</h2>
-                    <asp:Label ID="cantidadSociosPlan" runat="server" CssClass="cantidad-socios-plan" Text="#15" />
-                </div>
+            <div class="planes-panel">
+            <div class="planes-socios-header">
+                <h2>Socios en el plan</h2>
+                <asp:Label ID="cantidadSociosPlan" runat="server" CssClass="cantidad-socios-plan" Text="#0" />
+            </div>
 
-                <asp:GridView ID="GridView1" runat="server" CssClass="tabla-cobros" AutoGenerateColumns="False">
-                    <Columns>
-                        <asp:BoundField DataField="Socio" HeaderText="Miembro" />
-                        <asp:BoundField DataField="FechaCobro" HeaderText="Fecha Cobro" />
-                        <asp:BoundField DataField="Periodo" HeaderText="Mes/Año" />
-                        <asp:BoundField DataField="Monto" HeaderText="Monto" DataFormatString="{0:C}" />
-                        <asp:BoundField DataField="FormaPago" HeaderText="Forma Pago" />
-                    </Columns>
-                </asp:GridView>
-            </div>--%>
+            <asp:GridView ID="gvSociosPlan" runat="server" CssClass="tabla-cobros" AutoGenerateColumns="False">
+                <Columns>
+                    <asp:BoundField DataField="NombreCompleto" HeaderText="Nombre completo" />
+                    <asp:BoundField DataField="Dni" HeaderText="DNI" />
+                    <asp:BoundField DataField="Email" HeaderText="Email" />
+                    <asp:BoundField DataField="FechaNacimiento" HeaderText="Nacimiento" DataFormatString="{0:dd/MM/yyyy}" />
+                </Columns>
+            </asp:GridView>
+         </div>
         </div>
     </main>
 
